@@ -1,0 +1,1 @@
+﻿src/screens/ProfileScreen/ProfileScreen.tsx(23,27): error TS2554: Expected 1 arguments, but got 2.
