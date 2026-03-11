@@ -36,7 +36,7 @@ export default function PersonalAdsScreen() {
             const vol = parseFloat(editVolume);
             const r = parseFloat(editRate);
             if (!isNaN(vol) && !isNaN(r)) {
-                adsApi.calculateFee(vol, r).then(setFeeResult).catch(console.error);
+                adsApi.calculateFee(vol, r).then(setFeeResult);
             }
         } else {
             setFeeResult(null);
@@ -51,7 +51,6 @@ export default function PersonalAdsScreen() {
                 : await adsApi.getAllPersonalSellAds();
             setAds(adsData || []);
         } catch (e) {
-            console.error('Failed to fetch personal ads', e);
             Alert.alert('Error', 'Could not retrieve your ads.');
         } finally {
             setLoading(false);

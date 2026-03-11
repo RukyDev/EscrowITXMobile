@@ -108,7 +108,7 @@ export default function EscrowDetailScreen() {
                 {/* Escrow Rule alert */}
                 <View style={s.note}>
                     <Icon name="lock-closed" size={16} color={colors.success} />
-                    <Text style={s.noteTxt}>The GBP is locked in EscrowITX until both parties confirm.</Text>
+                    <Text style={s.noteTxt}>The NGN is locked in EscrowITX until both parties confirm.</Text>
                 </View>
 
             </ScrollView>

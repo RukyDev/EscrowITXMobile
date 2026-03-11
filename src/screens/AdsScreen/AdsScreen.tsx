@@ -28,7 +28,6 @@ export default function AdsScreen() {
       const adsData = await adsApi.getAllAds();
       setAds(adsData || []);
     } catch (e) {
-      console.error('Failed to fetch ads', e);
     } finally {
       setLoading(false);
       setRefreshing(false);

@@ -39,7 +39,6 @@ export default function CreateSellAdScreen() {
                 setExternalRates(ratesData || []);
                 if (currData?.length > 0) setSelectedCurrency(currData[0].id);
             } catch (e) {
-                console.error('Failed to load ad data', e);
             } finally {
                 setLoading(false);
             }
@@ -52,7 +51,7 @@ export default function CreateSellAdScreen() {
             const vol = parseFloat(volume);
             const r = parseFloat(rate);
             if (!isNaN(vol) && !isNaN(r)) {
-                adsApi.calculateFee(vol, r).then(setFeeResult).catch(console.error);
+                adsApi.calculateFee(vol, r).then(setFeeResult);
             }
         } else {
             setFeeResult(null);

@@ -12,6 +12,7 @@ import { useAuthStore } from '../../store/auth.store';
 import { useWalletStore } from '../../store/wallet.store';
 import { colors } from '../../theme/colors';
 import { HomeStackParamList } from '../../navigation/types';
+import KYCModal from '../../components/KYCModal';
 
 type Nav = NativeStackNavigationProp<HomeStackParamList, 'Dashboard'>;
 
@@ -50,9 +51,20 @@ export default function DashboardScreen() {
   const chartData = dashboard?.exchangeVolume || [];
   const maxVol = Math.max(...chartData.flatMap(d => [d.buyVolume, d.sellVolume]), 1);
   const ngnWallet = balance.find(w => w.currency === 'NGN');
+  const [showKYC, setShowKYC] = React.useState(false);
+
+  useEffect(() => {
+    if (user && !user.isDocumentVerified && !user.isDocumentUploaded) {
+      setShowKYC(true);
+    }
+  }, [user]);
 
   return (
     <SafeAreaView style={s.root}>
+      <KYCModal visible={showKYC} onComplete={() => {
+        setShowKYC(false);
+        fetchDashboard();
+      }} />
       {/* Gradient Header */}
       <LinearGradient colors={['#0D1B40', '#1A3FD8']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={s.header}>
         <View style={s.topRow}>
@@ -137,7 +149,7 @@ export default function DashboardScreen() {
             <Text style={s.sectionTitle}>Monthly Volume</Text>
           </View>
           <View style={s.chartBars}>
-            {chartData.length > 0 ? chartData.map((d, i) => {
+            {chartData.length > 0 && chartData.some(d => d.buyVolume > 0 || d.sellVolume > 0) ? chartData.map((d, i) => {
               const maxValMonth = Math.max(d.buyVolume, d.sellVolume, 1);
               const buyPct = (d.buyVolume / maxVol) * 100;
               const sellPct = (d.sellVolume / maxVol) * 100;
@@ -157,16 +169,10 @@ export default function DashboardScreen() {
                 </View>
               );
             }) : (
-              // Skeleton dual bars if no data
-              ['Oct', 'Nov', 'Dec', 'Jan', 'Feb'].map((m, i) => (
-                <View key={i} style={s.barWrap}>
-                  <View style={s.dualBarContainer}>
-                    <View style={[s.barStub, { height: `${[40, 60, 30, 80, 50][i]}%` as any, backgroundColor: colors.blue, marginRight: 2 }]} />
-                    <View style={[s.barStub, { height: `${[30, 80, 20, 60, 40][i]}%` as any, backgroundColor: colors.success }]} />
-                  </View>
-                  <Text style={s.barLabel}>{m}</Text>
-                </View>
-              ))
+              // Empty state instead of skeleton stubs
+              <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: 80 }}>
+                <Text style={{ color: colors.gray, fontSize: 12 }}>No transaction history available</Text>
+              </View>
             )}
           </View>
           <View style={s.chartLegend}>

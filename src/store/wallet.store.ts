@@ -23,7 +23,6 @@ export const useWalletStore = create<WalletState>((set) => ({
             const result = await walletApi.getBalance();
             set({ balance: Array.isArray(result) ? result : [], isLoading: false });
         } catch (error) {
-            console.error('Failed to fetch wallet balance', error);
             set({ balance: [], isLoading: false });
         }
     },
@@ -31,7 +30,6 @@ export const useWalletStore = create<WalletState>((set) => ({
     fetchBanks: async () => {
         try {
             const res = await walletApi.getBanks();
-            console.log('[Store] fetchBanks raw response:', JSON.stringify(res, null, 2));
 
             let banksList = [];
             if (Array.isArray(res)) {
@@ -49,10 +47,8 @@ export const useWalletStore = create<WalletState>((set) => ({
                 }
             }
 
-            console.log('[Store] Parsed banks count:', banksList.length);
             set({ banks: banksList });
         } catch (error) {
-            console.error('[Store] Failed to fetch banks:', error);
         }
     },
 
@@ -61,7 +57,6 @@ export const useWalletStore = create<WalletState>((set) => ({
             const activities = await walletApi.getActivityHistory();
             set({ activities: Array.isArray(activities) ? activities : [] });
         } catch (error) {
-            console.error('Failed to fetch activities', error);
         }
     },
 }));

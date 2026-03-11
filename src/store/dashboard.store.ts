@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { getDashboard } from '../core/api/dashboard.api';
-import { DashboardResponse  } from '../core/types/dashboard.types';
+import { DashboardResponse } from '../core/types/dashboard.types';
 
 interface DashboardState {
   dashboard: DashboardResponse | null;
@@ -14,9 +14,8 @@ export const useDashboardStore = create<DashboardState>((set) => ({
 
   fetchDashboard: async () => {
     try {
-        set({ isLoading: true });
+      set({ isLoading: true });
       const response = await getDashboard();
-        console.log('Dashboard Data:', response);
       set({
         dashboard: response,
         isLoading: false,

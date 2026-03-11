@@ -71,5 +71,10 @@ export const SECURITY_ENDPOINTS = {
 export const USER_ENDPOINTS = {
   editInfo: `${API_APP_PATH}/User/EditInfo`,
   changePassword: `${API_APP_PATH}/User/ChangePassword`,
+  getKYCStatus: `${API_APP_PATH}/User/GetDocumentUploadStatus`,
+};
+
+export const DOCUMENT_ENDPOINTS = {
+  uploadKYC: `${API_APP_PATH}/DocumentService/UploadDocuments`,
 };
 

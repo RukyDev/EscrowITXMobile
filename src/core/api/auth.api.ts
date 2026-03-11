@@ -28,6 +28,8 @@ export interface SessionUser {
   occupation?: number;
   residentialAddress?: string;
   isVerified?: boolean;
+  isDocumentVerified?: boolean;
+  isDocumentUploaded?: boolean;
 }
 
 export interface RegisterRequest {

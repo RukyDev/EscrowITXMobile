@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, TextInput, ActivityIndicator, Alert, Platform, StatusBar } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { pick, types, isErrorWithCode, errorCodes } from '@react-native-documents/picker';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { colors } from '../../theme/colors';
@@ -16,14 +17,24 @@ export default function DisputeScreen() {
 
     const [reason, setReason] = useState('');
     const [loading, setLoading] = useState(false);
-    const [selectedDoc, setSelectedDoc] = useState<{ uri: string, name: string } | null>(null);
+    const [selectedDoc, setSelectedDoc] = useState<{ uri: string, name: string, type: string } | null>(null);
 
-    const handleAttach = () => {
-        // In a real app we would use react-native-document-picker or similar here.
-        // For now we mock selection.
-        Alert.alert('Mock Attach', 'Selected an image evidence.', [{
-            text: 'OK', onPress: () => setSelectedDoc({ uri: 'content://mock/img.jpg', name: 'evidence.jpg' })
-        }]);
+    const handleAttach = async () => {
+        try {
+            const [res] = await pick({
+                type: [types.images, types.pdf],
+                mode: 'open',
+            });
+            if (res) {
+                setSelectedDoc({ uri: res.uri, name: res.name || 'document', type: res.type || 'image/jpeg' });
+            }
+        } catch (err: any) {
+            if (isErrorWithCode(err) && err.code === errorCodes.OPERATION_CANCELED) {
+                // User cancelled - ignore
+            } else {
+                Alert.alert('Error', 'Failed to pick document');
+            }
+        }
     };
 
     const handleSubmit = async () => {
@@ -40,7 +51,7 @@ export default function DisputeScreen() {
 
             // 2. Upload doc if selected
             if (selectedDoc && disputeId) {
-                await escrowApi.uploadDisputeDoc(disputeId, selectedDoc.uri, selectedDoc.name, 'image/jpeg');
+                await escrowApi.uploadDisputeDoc(disputeId, selectedDoc.uri, selectedDoc.name, selectedDoc.type);
             }
 
             navigation.navigate('DisputeSubmitted');

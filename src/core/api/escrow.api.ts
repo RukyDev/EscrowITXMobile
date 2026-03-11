@@ -112,13 +112,13 @@ export const escrowApi = {
         const formData = new FormData();
         // ABP usually expects a specifically named field for files, common is 'file' or 'files'
         // Given the curl: -H 'Content-Type: multipart/form-data'
-        formData.append('File', {
+        formData.append('disputeFIle', {
             uri: Platform.OS === 'android' ? fileUri : fileUri.replace('file://', ''),
             type: fileType || 'image/jpeg',
             name: fileName || 'evidence.jpg',
         } as any);
 
-        return await apiClient.post(`${DISPUTE_ENDPOINTS.upload}?DisputeID=${disputeId}`, formData, {
+        return await apiClient.post(`${DISPUTE_ENDPOINTS.upload}?disputID=${disputeId}`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },

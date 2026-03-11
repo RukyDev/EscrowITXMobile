@@ -15,7 +15,6 @@ export default function DepositScreen() {
             .then(res => setData(res))
             .catch(e => {
                 Alert.alert('Error', 'Failed to load deposit details');
-                console.error(e);
             })
             .finally(() => setLoading(false));
     }, []);

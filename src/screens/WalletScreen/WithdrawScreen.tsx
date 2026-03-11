@@ -29,15 +29,11 @@ export default function WithdrawScreen() {
         if (acct.length === 10 && bankUuid) {
             setLoadingName(true);
             const valAmt = parseFloat(amt) || 10;
-            console.log('[Withdraw] Resolving account name for:', { bankUuid, acct, valAmt });
             try {
                 const res = await walletApi.validateAccount(bankUuid, acct, valAmt);
-                console.log('[Withdraw] validateAccount res:', JSON.stringify(res, null, 2));
                 const name = (res as any)?.payload?.accountName || (res as any)?.accountName || (typeof res === 'string' ? res : '');
-                console.log('[Withdraw] Extracted name:', name);
                 if (name) setAcctName(name);
             } catch (e) {
-                console.error('[Withdraw] Resolution failed:', e);
                 // We DON'T reset acctName here so user can type it if API fails
                 // Alert.alert('Notice', 'Could not auto-verify name. Please enter it manually.');
             } finally {

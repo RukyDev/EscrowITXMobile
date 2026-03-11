@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, ActivityIndicator, Modal, TextInput, Alert } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Platform, StatusBar } from 'react-native';
@@ -9,6 +9,7 @@ import { colors } from '../../theme/colors';
 import { WalletStackParamList } from '../../navigation/types';
 import { useAuthStore } from '../../store/auth.store';
 import { useWalletStore } from '../../store/wallet.store';
+import { walletApi } from '../../core/api/wallet.api';
 
 type Nav = NativeStackNavigationProp<WalletStackParamList, 'WalletMain'>;
 
@@ -21,6 +22,30 @@ export default function WalletScreen() {
         fetchBalance();
         fetchActivities();
     }, []);
+
+    const [showAddPounds, setShowAddPounds] = useState(false);
+    const [isAdding, setIsAdding] = useState(false);
+    const [poundsForm, setPoundsForm] = useState({
+        accountName: '',
+        accountNumber: '',
+        bankName: '',
+        sortCode: '',
+        iban: '',
+    });
+
+    const handleAddPounds = async () => {
+        setIsAdding(true);
+        try {
+            await walletApi.addBeneficiary(poundsForm);
+            Alert.alert('Success', 'Pounds wallet added successfully!');
+            setShowAddPounds(false);
+            fetchBalance();
+        } catch (e: any) {
+            Alert.alert('Error', e.message || 'Failed to add wallet');
+        } finally {
+            setIsAdding(false);
+        }
+    };
 
     const ngnWallet = balance.find(w => w.currency === 'NGN');
 
@@ -70,9 +95,49 @@ export default function WalletScreen() {
                             <Icon name="arrow-up" size={20} color={colors.white} />
                             <Text style={s.balBtnTxt}>Withdraw</Text>
                         </TouchableOpacity>
+                        <TouchableOpacity style={s.addWalletBtn} onPress={() => setShowAddPounds(true)}>
+                            <Icon name="plus" size={20} color={colors.white} />
+                        </TouchableOpacity>
                     </View>
                 </View>
             </LinearGradient>
+
+            <Modal visible={showAddPounds} animationType="slide" transparent>
+                <View style={s.mOverlay}>
+                    <View style={s.mContainer}>
+                        <View style={s.mHeader}>
+                            <Text style={s.mTitle}>Add Pounds Wallet</Text>
+                            <TouchableOpacity onPress={() => setShowAddPounds(false)}>
+                                <Icon name="close" size={24} color={colors.text} />
+                            </TouchableOpacity>
+                        </View>
+                        <ScrollView style={{ flex: 1 }}>
+                            <Text style={s.mLabel}>Account Name *</Text>
+                            <TextInput style={s.mInput} value={poundsForm.accountName} onChangeText={t => setPoundsForm({ ...poundsForm, accountName: t })} placeholder="e.g. John Doe" />
+
+                            <Text style={s.mLabel}>Account Number *</Text>
+                            <TextInput style={s.mInput} value={poundsForm.accountNumber} onChangeText={t => setPoundsForm({ ...poundsForm, accountNumber: t })} placeholder="Enter Account Number" keyboardType="numeric" />
+
+                            <Text style={s.mLabel}>Bank Name *</Text>
+                            <TextInput style={s.mInput} value={poundsForm.bankName} onChangeText={t => setPoundsForm({ ...poundsForm, bankName: t })} placeholder="e.g. Barclays Bank" />
+
+                            <Text style={s.mLabel}>Sort Code *</Text>
+                            <TextInput style={s.mInput} value={poundsForm.sortCode} onChangeText={t => setPoundsForm({ ...poundsForm, sortCode: t })} placeholder="e.g. 12-34-56" />
+
+                            <Text style={s.mLabel}>IBAN (Optional)</Text>
+                            <TextInput style={s.mInput} value={poundsForm.iban} onChangeText={t => setPoundsForm({ ...poundsForm, iban: t })} placeholder="GB..." />
+
+                            <TouchableOpacity
+                                style={[s.mBtn, (!poundsForm.accountName || !poundsForm.accountNumber || !poundsForm.bankName || !poundsForm.sortCode) && { opacity: 0.5 }]}
+                                disabled={isAdding || !poundsForm.accountName || !poundsForm.accountNumber || !poundsForm.bankName || !poundsForm.sortCode}
+                                onPress={handleAddPounds}
+                            >
+                                {isAdding ? <ActivityIndicator color="#fff" /> : <Text style={s.mBtnTxt}>Create Wallet</Text>}
+                            </TouchableOpacity>
+                        </ScrollView>
+                    </View>
+                </View>
+            </Modal>
 
             <ScrollView style={s.body} showsVerticalScrollIndicator={false}>
                 <Text style={[s.sectionTitle, { marginTop: 12 }]}>Recent Activity</Text>
@@ -135,5 +200,14 @@ const s = StyleSheet.create({
     actInfo: { flex: 1 },
     actTitle: { fontSize: 14, fontWeight: '600', color: colors.text, marginBottom: 2 },
     actTime: { fontSize: 11, color: colors.gray },
-    actAmnt: { fontSize: 14, fontWeight: '700', color: colors.text }
+    actAmnt: { fontSize: 14, fontWeight: '700', color: colors.text },
+    addWalletBtn: { width: 44, height: 44, borderRadius: 12, backgroundColor: 'rgba(255,255,255,0.2)', alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: 'rgba(255,255,255,0.3)' },
+    mOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'flex-end' },
+    mContainer: { backgroundColor: '#fff', borderTopLeftRadius: 25, borderTopRightRadius: 25, padding: 24, height: '70%' },
+    mHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 },
+    mTitle: { fontSize: 20, fontWeight: '800', color: colors.text },
+    mLabel: { fontSize: 13, fontWeight: '700', color: colors.text2, marginTop: 16, marginBottom: 8 },
+    mInput: { backgroundColor: '#F9FAFB', borderWidth: 1, borderColor: '#eee', borderRadius: 12, padding: 14, fontSize: 15, color: colors.text },
+    mBtn: { backgroundColor: colors.blue, paddingVertical: 16, borderRadius: 12, alignItems: 'center', marginTop: 30, elevation: 2 },
+    mBtnTxt: { color: '#fff', fontSize: 16, fontWeight: '700' },
 });

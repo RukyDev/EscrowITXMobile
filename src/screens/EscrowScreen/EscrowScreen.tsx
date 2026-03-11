@@ -27,7 +27,6 @@ export default function EscrowScreen() {
       const resp = await escrowApi.getHistory();
       setEscrows(resp || []);
     } catch (e) {
-      console.error('Failed to fetch escrows', e);
     } finally {
       setLoading(false);
       setRefreshing(false);

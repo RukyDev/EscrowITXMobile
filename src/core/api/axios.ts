@@ -14,7 +14,6 @@ export const apiClient = axios.create({
   },
 });
 
-console.log('API_BASE_URL initialized as:', API_BASE_URL);
 // If API_BASE_URL is undefined in standalone, this helps find out
 if (!API_BASE_URL && __DEV__ === false) {
   Alert.alert('Configuration Error', 'API_BASE_URL is not defined in this build.');
@@ -34,7 +33,6 @@ apiClient.interceptors.response.use(
   (response) => {
     const data = response.data;
     const url = response.config.url;
-    console.log(`[API ${response.config.method?.toUpperCase()}] ${url}:`, data);
 
     if (data && data.success === false) {
       throw new Error(data.error?.message || 'Request failed');
@@ -42,10 +40,10 @@ apiClient.interceptors.response.use(
 
     const result = data?.result !== undefined ? data.result : data;
 
-    // Handle nested collections: if result is { code, message, data: [] }
-    if (result && typeof result === 'object' && result.data !== undefined) {
-      console.log(`[Interceptor] Found nested data in ${url}:`, result.data);
-      return result.data;
+    // Handle nested collections or payloads
+    if (result && typeof result === 'object') {
+      if (result.payload !== undefined) return result.payload;
+      if (result.data !== undefined) return result.data;
     }
 
     return result;
@@ -55,7 +53,6 @@ apiClient.interceptors.response.use(
 
     // 🔴 TOKEN EXPIRED / UNAUTHORIZED
     if (status === 401) {
-      console.log('Unauthorized error detected, clearing token and logging out');
       await tokenService.clear();
 
       const logout = useAuthStore.getState().logout;

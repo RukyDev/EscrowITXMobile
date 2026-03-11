@@ -33,22 +33,16 @@ export const useAuthStore = create<AuthState>((set) => ({
         rememberClient: true,
       });
 
-      console.log('Login success reached');
-      console.log('Login response:', loginResult);
       await tokenService.save(loginResult.accessToken);
 
       const session: any = await authApi.getSession();
-      console.log('Session response:', session);
 
-      console.log('[AuthStore] Raw session res:', JSON.stringify(session, null, 2));
       let userData = null;
       try {
-        userData = session?.user || session?.userDetails || session?.result?.user || session?.data?.result?.user || session?.result || session;
+        userData = session?.userDetails || session?.user || session?.result?.user || session?.data?.result?.user || session?.result || session;
         if (userData && userData.result) userData = userData.result;
         if (userData && userData.user) userData = userData.user;
       } catch (e) { }
-
-      console.log('[AuthStore] Mapped user data:', JSON.stringify(userData, null, 2));
 
       set({
         user: userData,
@@ -56,7 +50,6 @@ export const useAuthStore = create<AuthState>((set) => ({
         isAuthenticated: true,
       });
     } catch (error: any) {
-      console.error('Login store error:', error);
       throw error;
     } finally {
       set({ isLoading: false });
@@ -84,17 +77,13 @@ export const useAuthStore = create<AuthState>((set) => ({
       }
 
       const session: any = await authApi.getSession();
-      console.log('Bootstrap session:', session);
 
-      console.log('[AuthStore] Bootstrap session res:', JSON.stringify(session, null, 2));
       let userData = null;
       try {
-        userData = session?.user || session?.userDetails || session?.result?.user || session?.data?.result?.user || session?.result || session;
+        userData = session?.userDetails || session?.user || session?.result?.user || session?.data?.result?.user || session?.result || session;
         if (userData && userData.result) userData = userData.result;
         if (userData && userData.user) userData = userData.user;
       } catch (e) { }
-
-      console.log('[AuthStore] Bootstrap mapped user data:', JSON.stringify(userData, null, 2));
 
       set({
         user: userData,

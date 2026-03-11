@@ -24,7 +24,6 @@ export default function SecurityScreen() {
             const res = await securityApi.hasPin();
             setHasPin(res);
         } catch (e) {
-            console.error('Failed to check PIN status', e);
         } finally {
             setLoading(false);
         }

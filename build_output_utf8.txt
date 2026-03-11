@@ -1,0 +1,1000 @@
+﻿[36m[1minfo[22m[39m [0mA dev server is already running for this project on port 8082.[0m
+[36m[1minfo[22m[39m [0mInstalling the app...[0m
+> Task :gradle-plugin:settings-plugin:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :gradle-plugin:shared:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :gradle-plugin:shared:compileKotlin UP-TO-DATE
+> Task :gradle-plugin:shared:compileJava NO-SOURCE
+> Task :gradle-plugin:shared:processResources NO-SOURCE
+> Task :gradle-plugin:shared:classes UP-TO-DATE
+> Task :gradle-plugin:shared:jar UP-TO-DATE
+> Task :gradle-plugin:settings-plugin:compileKotlin UP-TO-DATE
+> Task :gradle-plugin:settings-plugin:compileJava NO-SOURCE
+> Task :gradle-plugin:settings-plugin:pluginDescriptors UP-TO-DATE
+> Task :gradle-plugin:settings-plugin:processResources UP-TO-DATE
+> Task :gradle-plugin:settings-plugin:classes UP-TO-DATE
+> Task :gradle-plugin:settings-plugin:jar UP-TO-DATE
+> Task :gradle-plugin:react-native-gradle-plugin:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :gradle-plugin:react-native-gradle-plugin:compileKotlin UP-TO-DATE
+> Task :gradle-plugin:react-native-gradle-plugin:compileJava NO-SOURCE
+> Task :gradle-plugin:react-native-gradle-plugin:pluginDescriptors UP-TO-DATE
+> Task :gradle-plugin:react-native-gradle-plugin:processResources UP-TO-DATE
+> Task :gradle-plugin:react-native-gradle-plugin:classes UP-TO-DATE
+> Task :gradle-plugin:react-native-gradle-plugin:jar UP-TO-DATE
+> Task :app:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :app:generateAutolinkingNewArchitectureFiles UP-TO-DATE
+> Task :app:generateAutolinkingPackageList UP-TO-DATE
+> Task :app:generateCodegenSchemaFromJavaScript SKIPPED
+> Task :app:generateCodegenArtifactsFromSchema SKIPPED
+> Task :app:generateReactNativeEntryPoint UP-TO-DATE
+> Task :react-native-config:generateCodegenSchemaFromJavaScript UP-TO-DATE
+> Task :react-native-config:generateCodegenArtifactsFromSchema UP-TO-DATE
+> Task :react-native-config:preBuild UP-TO-DATE
+> Task :react-native-documents_picker:generateCodegenSchemaFromJavaScript UP-TO-DATE
+> Task :react-native-documents_picker:generateCodegenArtifactsFromSchema UP-TO-DATE
+> Task :react-native-documents_picker:preBuild UP-TO-DATE
+> Task :react-native-encrypted-storage:preBuild UP-TO-DATE
+> Task :react-native-gesture-handler:generateCodegenSchemaFromJavaScript UP-TO-DATE
+> Task :react-native-gesture-handler:generateCodegenArtifactsFromSchema UP-TO-DATE
+> Task :react-native-gesture-handler:preBuild UP-TO-DATE
+> Task :react-native-linear-gradient:preBuild UP-TO-DATE
+> Task :react-native-reanimated:assertMinimalReactNativeVersionTask
+> Task :react-native-reanimated:assertNewArchitectureEnabledTask SKIPPED
+> Task :react-native-reanimated:assertWorkletsVersionTask
+> Task :react-native-reanimated:generateCodegenSchemaFromJavaScript UP-TO-DATE
+> Task :react-native-reanimated:generateCodegenArtifactsFromSchema UP-TO-DATE
+> Task :react-native-reanimated:prepareReanimatedHeadersForPrefabs UP-TO-DATE
+> Task :react-native-reanimated:preBuild
+> Task :react-native-safe-area-context:generateCodegenSchemaFromJavaScript UP-TO-DATE
+> Task :react-native-safe-area-context:generateCodegenArtifactsFromSchema UP-TO-DATE
+> Task :react-native-safe-area-context:preBuild UP-TO-DATE
+> Task :react-native-screens:generateCodegenSchemaFromJavaScript UP-TO-DATE
+> Task :react-native-screens:generateCodegenArtifactsFromSchema UP-TO-DATE
+> Task :react-native-screens:preBuild UP-TO-DATE
+> Task :react-native-svg:generateCodegenSchemaFromJavaScript UP-TO-DATE
+> Task :react-native-svg:generateCodegenArtifactsFromSchema UP-TO-DATE
+> Task :react-native-svg:preBuild UP-TO-DATE
+> Task :react-native-vector-icons:generateCodegenSchemaFromJavaScript UP-TO-DATE
+> Task :react-native-vector-icons:generateCodegenArtifactsFromSchema UP-TO-DATE
+> Task :react-native-vector-icons:preBuild UP-TO-DATE
+> Task :react-native-worklets:assertMinimalReactNativeVersionTask
+> Task :react-native-worklets:assertNewArchitectureEnabledTask SKIPPED
+> Task :react-native-worklets:generateCodegenSchemaFromJavaScript UP-TO-DATE
+> Task :react-native-worklets:generateCodegenArtifactsFromSchema UP-TO-DATE
+> Task :react-native-worklets:prepareWorkletsHeadersForPrefabs UP-TO-DATE
+> Task :react-native-worklets:preBuild
+> Task :react-native-worklets-core:prepareHeaders UP-TO-DATE
+> Task :react-native-worklets-core:preBuild UP-TO-DATE
+> Task :app:preBuild
+> Task :app:preDebugBuild
+> Task :app:generateDebugBuildConfig UP-TO-DATE
+> Task :react-native-config:preDebugBuild UP-TO-DATE
+> Task :react-native-config:writeDebugAarMetadata UP-TO-DATE
+> Task :react-native-documents_picker:preDebugBuild UP-TO-DATE
+> Task :react-native-documents_picker:writeDebugAarMetadata UP-TO-DATE
+> Task :react-native-encrypted-storage:preDebugBuild UP-TO-DATE
+> Task :react-native-encrypted-storage:writeDebugAarMetadata UP-TO-DATE
+> Task :react-native-gesture-handler:preDebugBuild UP-TO-DATE
+> Task :react-native-gesture-handler:writeDebugAarMetadata UP-TO-DATE
+> Task :react-native-linear-gradient:preDebugBuild UP-TO-DATE
+> Task :react-native-linear-gradient:writeDebugAarMetadata UP-TO-DATE
+> Task :react-native-reanimated:preDebugBuild
+> Task :react-native-reanimated:writeDebugAarMetadata UP-TO-DATE
+> Task :react-native-safe-area-context:preDebugBuild UP-TO-DATE
+> Task :react-native-safe-area-context:writeDebugAarMetadata UP-TO-DATE
+> Task :react-native-screens:preDebugBuild UP-TO-DATE
+> Task :react-native-screens:writeDebugAarMetadata UP-TO-DATE
+> Task :react-native-svg:preDebugBuild UP-TO-DATE
+> Task :react-native-svg:writeDebugAarMetadata UP-TO-DATE
+> Task :react-native-vector-icons:preDebugBuild UP-TO-DATE
+> Task :react-native-vector-icons:writeDebugAarMetadata UP-TO-DATE
+> Task :react-native-worklets:preDebugBuild
+> Task :react-native-worklets:writeDebugAarMetadata UP-TO-DATE
+> Task :react-native-worklets-core:preDebugBuild UP-TO-DATE
+> Task :react-native-worklets-core:writeDebugAarMetadata UP-TO-DATE
+> Task :app:checkDebugAarMetadata UP-TO-DATE
+> Task :app:generateDebugResValues UP-TO-DATE
+> Task :react-native-config:generateDebugResValues UP-TO-DATE
+> Task :react-native-config:generateDebugResources UP-TO-DATE
+> Task :react-native-config:packageDebugResources UP-TO-DATE
+> Task :react-native-documents_picker:generateDebugResValues UP-TO-DATE
+> Task :react-native-documents_picker:generateDebugResources UP-TO-DATE
+> Task :react-native-documents_picker:packageDebugResources UP-TO-DATE
+> Task :react-native-encrypted-storage:generateDebugResValues UP-TO-DATE
+> Task :react-native-encrypted-storage:generateDebugResources UP-TO-DATE
+> Task :react-native-encrypted-storage:packageDebugResources UP-TO-DATE
+> Task :react-native-gesture-handler:generateDebugResValues UP-TO-DATE
+> Task :react-native-gesture-handler:generateDebugResources UP-TO-DATE
+> Task :react-native-gesture-handler:packageDebugResources UP-TO-DATE
+> Task :react-native-linear-gradient:generateDebugResValues UP-TO-DATE
+> Task :react-native-linear-gradient:generateDebugResources UP-TO-DATE
+> Task :react-native-linear-gradient:packageDebugResources UP-TO-DATE
+> Task :react-native-reanimated:generateDebugResValues UP-TO-DATE
+> Task :react-native-reanimated:generateDebugResources UP-TO-DATE
+> Task :react-native-reanimated:packageDebugResources UP-TO-DATE
+> Task :react-native-safe-area-context:generateDebugResValues UP-TO-DATE
+> Task :react-native-safe-area-context:generateDebugResources UP-TO-DATE
+> Task :react-native-safe-area-context:packageDebugResources UP-TO-DATE
+> Task :react-native-screens:generateDebugResValues UP-TO-DATE
+> Task :react-native-screens:generateDebugResources UP-TO-DATE
+> Task :react-native-screens:packageDebugResources UP-TO-DATE
+> Task :react-native-svg:generateDebugResValues UP-TO-DATE
+> Task :react-native-svg:generateDebugResources UP-TO-DATE
+> Task :react-native-svg:packageDebugResources UP-TO-DATE
+> Task :react-native-vector-icons:generateDebugResValues UP-TO-DATE
+> Task :react-native-vector-icons:generateDebugResources UP-TO-DATE
+> Task :react-native-vector-icons:packageDebugResources UP-TO-DATE
+> Task :react-native-worklets:generateDebugResValues UP-TO-DATE
+> Task :react-native-worklets:generateDebugResources UP-TO-DATE
+> Task :react-native-worklets:packageDebugResources UP-TO-DATE
+> Task :react-native-worklets-core:generateDebugResValues UP-TO-DATE
+> Task :react-native-worklets-core:generateDebugResources UP-TO-DATE
+> Task :react-native-worklets-core:packageDebugResources UP-TO-DATE
+> Task :app:mapDebugSourceSetPaths UP-TO-DATE
+> Task :app:generateDebugResources UP-TO-DATE
+> Task :app:mergeDebugResources UP-TO-DATE
+> Task :app:packageDebugResources UP-TO-DATE
+> Task :app:parseDebugLocalResources UP-TO-DATE
+> Task :app:createDebugCompatibleScreenManifests UP-TO-DATE
+> Task :app:extractDeepLinksDebug UP-TO-DATE
+> Task :react-native-config:extractDeepLinksDebug UP-TO-DATE
+> Task :react-native-config:processDebugManifest UP-TO-DATE
+> Task :react-native-documents_picker:extractDeepLinksDebug UP-TO-DATE
+> Task :react-native-documents_picker:processDebugManifest UP-TO-DATE
+> Task :react-native-encrypted-storage:extractDeepLinksDebug UP-TO-DATE
+> Task :react-native-encrypted-storage:processDebugManifest UP-TO-DATE
+> Task :react-native-gesture-handler:extractDeepLinksDebug UP-TO-DATE
+> Task :react-native-gesture-handler:processDebugManifest UP-TO-DATE
+> Task :react-native-linear-gradient:extractDeepLinksDebug UP-TO-DATE
+> Task :react-native-linear-gradient:processDebugManifest UP-TO-DATE
+> Task :react-native-reanimated:extractDeepLinksDebug UP-TO-DATE
+> Task :react-native-reanimated:processDebugManifest UP-TO-DATE
+> Task :react-native-safe-area-context:extractDeepLinksDebug UP-TO-DATE
+> Task :react-native-safe-area-context:processDebugManifest UP-TO-DATE
+> Task :react-native-screens:extractDeepLinksDebug UP-TO-DATE
+> Task :react-native-screens:processDebugManifest UP-TO-DATE
+> Task :react-native-svg:extractDeepLinksDebug UP-TO-DATE
+> Task :react-native-svg:processDebugManifest UP-TO-DATE
+> Task :react-native-vector-icons:extractDeepLinksDebug UP-TO-DATE
+> Task :react-native-vector-icons:processDebugManifest UP-TO-DATE
+> Task :react-native-worklets:extractDeepLinksDebug UP-TO-DATE
+> Task :react-native-worklets:processDebugManifest UP-TO-DATE
+> Task :react-native-worklets-core:extractDeepLinksDebug UP-TO-DATE
+> Task :react-native-worklets-core:processDebugManifest UP-TO-DATE
+> Task :app:processDebugMainManifest UP-TO-DATE
+> Task :app:processDebugManifest UP-TO-DATE
+> Task :app:processDebugManifestForPackage UP-TO-DATE
+> Task :react-native-config:compileDebugLibraryResources UP-TO-DATE
+> Task :react-native-config:parseDebugLocalResources UP-TO-DATE
+> Task :react-native-config:generateDebugRFile UP-TO-DATE
+> Task :react-native-documents_picker:compileDebugLibraryResources UP-TO-DATE
+> Task :react-native-documents_picker:parseDebugLocalResources UP-TO-DATE
+> Task :react-native-documents_picker:generateDebugRFile UP-TO-DATE
+> Task :react-native-encrypted-storage:compileDebugLibraryResources UP-TO-DATE
+> Task :react-native-encrypted-storage:parseDebugLocalResources UP-TO-DATE
+> Task :react-native-encrypted-storage:generateDebugRFile UP-TO-DATE
+> Task :react-native-gesture-handler:compileDebugLibraryResources UP-TO-DATE
+> Task :react-native-gesture-handler:parseDebugLocalResources UP-TO-DATE
+> Task :react-native-gesture-handler:generateDebugRFile UP-TO-DATE
+> Task :react-native-linear-gradient:compileDebugLibraryResources UP-TO-DATE
+> Task :react-native-linear-gradient:parseDebugLocalResources UP-TO-DATE
+> Task :react-native-linear-gradient:generateDebugRFile UP-TO-DATE
+> Task :react-native-reanimated:compileDebugLibraryResources UP-TO-DATE
+> Task :react-native-reanimated:parseDebugLocalResources UP-TO-DATE
+> Task :react-native-reanimated:generateDebugRFile UP-TO-DATE
+> Task :react-native-safe-area-context:compileDebugLibraryResources UP-TO-DATE
+> Task :react-native-safe-area-context:parseDebugLocalResources UP-TO-DATE
+> Task :react-native-safe-area-context:generateDebugRFile UP-TO-DATE
+> Task :react-native-screens:compileDebugLibraryResources UP-TO-DATE
+> Task :react-native-screens:parseDebugLocalResources UP-TO-DATE
+> Task :react-native-screens:generateDebugRFile UP-TO-DATE
+> Task :react-native-svg:compileDebugLibraryResources UP-TO-DATE
+> Task :react-native-svg:parseDebugLocalResources UP-TO-DATE
+> Task :react-native-svg:generateDebugRFile UP-TO-DATE
+> Task :react-native-vector-icons:compileDebugLibraryResources UP-TO-DATE
+> Task :react-native-vector-icons:parseDebugLocalResources UP-TO-DATE
+> Task :react-native-vector-icons:generateDebugRFile UP-TO-DATE
+> Task :react-native-worklets:compileDebugLibraryResources UP-TO-DATE
+> Task :react-native-worklets:parseDebugLocalResources UP-TO-DATE
+> Task :react-native-worklets:generateDebugRFile UP-TO-DATE
+> Task :react-native-worklets-core:compileDebugLibraryResources UP-TO-DATE
+> Task :react-native-worklets-core:parseDebugLocalResources UP-TO-DATE
+> Task :react-native-worklets-core:generateDebugRFile UP-TO-DATE
+> Task :app:processDebugResources UP-TO-DATE
+> Task :react-native-config:generateDebugBuildConfig UP-TO-DATE
+> Task :react-native-config:javaPreCompileDebug UP-TO-DATE
+> Task :react-native-config:compileDebugJavaWithJavac UP-TO-DATE
+> Task :react-native-config:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :react-native-documents_picker:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :react-native-documents_picker:generateDebugBuildConfig UP-TO-DATE
+> Task :react-native-documents_picker:compileDebugKotlin UP-TO-DATE
+> Task :react-native-documents_picker:javaPreCompileDebug UP-TO-DATE
+> Task :react-native-documents_picker:compileDebugJavaWithJavac UP-TO-DATE
+> Task :react-native-documents_picker:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :react-native-encrypted-storage:generateDebugBuildConfig UP-TO-DATE
+> Task :react-native-encrypted-storage:javaPreCompileDebug UP-TO-DATE
+> Task :react-native-encrypted-storage:compileDebugJavaWithJavac UP-TO-DATE
+> Task :react-native-encrypted-storage:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :react-native-gesture-handler:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :react-native-gesture-handler:generateDebugBuildConfig UP-TO-DATE
+> Task :react-native-reanimated:generateDebugBuildConfig UP-TO-DATE
+> Task :react-native-reanimated:javaPreCompileDebug UP-TO-DATE
+> Task :react-native-worklets:generateDebugBuildConfig UP-TO-DATE
+> Task :react-native-worklets:javaPreCompileDebug UP-TO-DATE
+> Task :react-native-worklets:compileDebugJavaWithJavac UP-TO-DATE
+> Task :react-native-worklets:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :react-native-reanimated:compileDebugJavaWithJavac UP-TO-DATE
+> Task :react-native-reanimated:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :react-native-svg:generateDebugBuildConfig UP-TO-DATE
+> Task :react-native-svg:javaPreCompileDebug UP-TO-DATE
+> Task :react-native-svg:compileDebugJavaWithJavac UP-TO-DATE
+> Task :react-native-svg:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :react-native-gesture-handler:compileDebugKotlin UP-TO-DATE
+> Task :react-native-gesture-handler:javaPreCompileDebug UP-TO-DATE
+> Task :react-native-gesture-handler:compileDebugJavaWithJavac UP-TO-DATE
+> Task :react-native-gesture-handler:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :react-native-linear-gradient:generateDebugBuildConfig UP-TO-DATE
+> Task :react-native-linear-gradient:javaPreCompileDebug UP-TO-DATE
+> Task :react-native-linear-gradient:compileDebugJavaWithJavac UP-TO-DATE
+> Task :react-native-linear-gradient:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :react-native-safe-area-context:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :react-native-safe-area-context:generateDebugBuildConfig UP-TO-DATE
+> Task :react-native-safe-area-context:compileDebugKotlin UP-TO-DATE
+> Task :react-native-safe-area-context:javaPreCompileDebug UP-TO-DATE
+> Task :react-native-safe-area-context:compileDebugJavaWithJavac UP-TO-DATE
+> Task :react-native-safe-area-context:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :react-native-screens:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :react-native-screens:generateDebugBuildConfig UP-TO-DATE
+> Task :react-native-screens:compileDebugKotlin UP-TO-DATE
+> Task :react-native-screens:javaPreCompileDebug UP-TO-DATE
+> Task :react-native-screens:compileDebugJavaWithJavac UP-TO-DATE
+> Task :react-native-screens:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :react-native-vector-icons:generateDebugBuildConfig UP-TO-DATE
+> Task :react-native-vector-icons:javaPreCompileDebug UP-TO-DATE
+> Task :react-native-vector-icons:compileDebugJavaWithJavac UP-TO-DATE
+> Task :react-native-vector-icons:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :react-native-worklets-core:generateDebugBuildConfig UP-TO-DATE
+> Task :react-native-worklets-core:javaPreCompileDebug UP-TO-DATE
+> Task :react-native-worklets-core:compileDebugJavaWithJavac UP-TO-DATE
+> Task :react-native-worklets-core:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :app:compileDebugKotlin UP-TO-DATE
+> Task :app:javaPreCompileDebug UP-TO-DATE
+> Task :app:compileDebugJavaWithJavac UP-TO-DATE
+> Task :app:mergeDebugShaders UP-TO-DATE
+> Task :app:compileDebugShaders NO-SOURCE
+> Task :app:copyReactNativeVectorIconFonts UP-TO-DATE
+> Task :app:generateDebugAssets UP-TO-DATE
+> Task :react-native-config:mergeDebugShaders UP-TO-DATE
+> Task :react-native-config:compileDebugShaders NO-SOURCE
+> Task :react-native-config:generateDebugAssets UP-TO-DATE
+> Task :react-native-config:mergeDebugAssets UP-TO-DATE
+> Task :react-native-documents_picker:mergeDebugShaders UP-TO-DATE
+> Task :react-native-documents_picker:compileDebugShaders NO-SOURCE
+> Task :react-native-documents_picker:generateDebugAssets UP-TO-DATE
+> Task :react-native-documents_picker:mergeDebugAssets UP-TO-DATE
+> Task :react-native-encrypted-storage:mergeDebugShaders UP-TO-DATE
+> Task :react-native-encrypted-storage:compileDebugShaders NO-SOURCE
+> Task :react-native-encrypted-storage:generateDebugAssets UP-TO-DATE
+> Task :react-native-encrypted-storage:mergeDebugAssets UP-TO-DATE
+> Task :react-native-gesture-handler:mergeDebugShaders UP-TO-DATE
+> Task :react-native-gesture-handler:compileDebugShaders NO-SOURCE
+> Task :react-native-gesture-handler:generateDebugAssets UP-TO-DATE
+> Task :react-native-gesture-handler:mergeDebugAssets UP-TO-DATE
+> Task :react-native-linear-gradient:mergeDebugShaders UP-TO-DATE
+> Task :react-native-linear-gradient:compileDebugShaders NO-SOURCE
+> Task :react-native-linear-gradient:generateDebugAssets UP-TO-DATE
+> Task :react-native-linear-gradient:mergeDebugAssets UP-TO-DATE
+> Task :react-native-reanimated:mergeDebugShaders UP-TO-DATE
+> Task :react-native-reanimated:compileDebugShaders NO-SOURCE
+> Task :react-native-reanimated:generateDebugAssets UP-TO-DATE
+> Task :react-native-reanimated:mergeDebugAssets UP-TO-DATE
+> Task :react-native-safe-area-context:mergeDebugShaders UP-TO-DATE
+> Task :react-native-safe-area-context:compileDebugShaders NO-SOURCE
+> Task :react-native-safe-area-context:generateDebugAssets UP-TO-DATE
+> Task :react-native-safe-area-context:mergeDebugAssets UP-TO-DATE
+> Task :react-native-screens:mergeDebugShaders UP-TO-DATE
+> Task :react-native-screens:compileDebugShaders NO-SOURCE
+> Task :react-native-screens:generateDebugAssets UP-TO-DATE
+> Task :react-native-screens:mergeDebugAssets UP-TO-DATE
+> Task :react-native-svg:mergeDebugShaders UP-TO-DATE
+> Task :react-native-svg:compileDebugShaders NO-SOURCE
+> Task :react-native-svg:generateDebugAssets UP-TO-DATE
+> Task :react-native-svg:mergeDebugAssets UP-TO-DATE
+> Task :react-native-vector-icons:mergeDebugShaders UP-TO-DATE
+> Task :react-native-vector-icons:compileDebugShaders NO-SOURCE
+> Task :react-native-vector-icons:generateDebugAssets UP-TO-DATE
+> Task :react-native-vector-icons:mergeDebugAssets UP-TO-DATE
+> Task :react-native-worklets:mergeDebugShaders UP-TO-DATE
+> Task :react-native-worklets:compileDebugShaders NO-SOURCE
+> Task :react-native-worklets:generateDebugAssets UP-TO-DATE
+> Task :react-native-worklets:mergeDebugAssets UP-TO-DATE
+> Task :react-native-worklets-core:mergeDebugShaders UP-TO-DATE
+> Task :react-native-worklets-core:compileDebugShaders NO-SOURCE
+> Task :react-native-worklets-core:generateDebugAssets UP-TO-DATE
+> Task :react-native-worklets-core:mergeDebugAssets UP-TO-DATE
+> Task :app:mergeDebugAssets UP-TO-DATE
+> Task :app:compressDebugAssets UP-TO-DATE
+> Task :react-native-documents_picker:bundleLibRuntimeToJarDebug UP-TO-DATE
+> Task :react-native-gesture-handler:bundleLibRuntimeToJarDebug UP-TO-DATE
+> Task :react-native-safe-area-context:bundleLibRuntimeToJarDebug UP-TO-DATE
+> Task :react-native-screens:bundleLibRuntimeToJarDebug UP-TO-DATE
+> Task :react-native-config:bundleLibRuntimeToJarDebug UP-TO-DATE
+> Task :react-native-encrypted-storage:bundleLibRuntimeToJarDebug UP-TO-DATE
+> Task :react-native-linear-gradient:bundleLibRuntimeToJarDebug UP-TO-DATE
+> Task :react-native-reanimated:bundleLibRuntimeToJarDebug UP-TO-DATE
+> Task :react-native-svg:bundleLibRuntimeToJarDebug UP-TO-DATE
+> Task :react-native-vector-icons:bundleLibRuntimeToJarDebug UP-TO-DATE
+> Task :react-native-worklets:bundleLibRuntimeToJarDebug UP-TO-DATE
+> Task :react-native-worklets-core:bundleLibRuntimeToJarDebug UP-TO-DATE
+> Task :app:desugarDebugFileDependencies UP-TO-DATE
+> Task :app:dexBuilderDebug UP-TO-DATE
+> Task :app:mergeDebugGlobalSynthetics UP-TO-DATE
+> Task :app:processDebugJavaRes UP-TO-DATE
+> Task :react-native-config:processDebugJavaRes NO-SOURCE
+> Task :react-native-documents_picker:processDebugJavaRes UP-TO-DATE
+> Task :react-native-encrypted-storage:processDebugJavaRes NO-SOURCE
+> Task :react-native-gesture-handler:processDebugJavaRes UP-TO-DATE
+> Task :react-native-linear-gradient:processDebugJavaRes NO-SOURCE
+> Task :react-native-reanimated:processDebugJavaRes NO-SOURCE
+> Task :react-native-safe-area-context:processDebugJavaRes UP-TO-DATE
+> Task :react-native-screens:processDebugJavaRes UP-TO-DATE
+> Task :react-native-svg:processDebugJavaRes NO-SOURCE
+> Task :react-native-vector-icons:processDebugJavaRes NO-SOURCE
+> Task :react-native-worklets:processDebugJavaRes NO-SOURCE
+> Task :react-native-worklets-core:processDebugJavaRes NO-SOURCE
+> Task :app:mergeDebugJavaResource UP-TO-DATE
+> Task :app:checkDebugDuplicateClasses UP-TO-DATE
+> Task :app:mergeExtDexDebug UP-TO-DATE
+> Task :react-native-documents_picker:bundleLibRuntimeToDirDebug UP-TO-DATE
+> Task :react-native-gesture-handler:bundleLibRuntimeToDirDebug UP-TO-DATE
+> Task :react-native-safe-area-context:bundleLibRuntimeToDirDebug UP-TO-DATE
+> Task :react-native-screens:bundleLibRuntimeToDirDebug UP-TO-DATE
+> Task :react-native-config:bundleLibRuntimeToDirDebug UP-TO-DATE
+> Task :react-native-encrypted-storage:bundleLibRuntimeToDirDebug UP-TO-DATE
+> Task :react-native-linear-gradient:bundleLibRuntimeToDirDebug UP-TO-DATE
+> Task :react-native-reanimated:bundleLibRuntimeToDirDebug UP-TO-DATE
+> Task :react-native-svg:bundleLibRuntimeToDirDebug UP-TO-DATE
+> Task :react-native-vector-icons:bundleLibRuntimeToDirDebug UP-TO-DATE
+> Task :react-native-worklets:bundleLibRuntimeToDirDebug UP-TO-DATE
+> Task :react-native-worklets-core:bundleLibRuntimeToDirDebug UP-TO-DATE
+> Task :app:mergeProjectDexDebug UP-TO-DATE
+> Task :react-native-worklets:configureCMakeDebug[arm64-v8a]
+> Task :app:mergeLibDexDebug UP-TO-DATE
+> Task :react-native-worklets:buildCMakeDebug[arm64-v8a][worklets]
+> Task :react-native-worklets:configureCMakeDebug[armeabi-v7a]
+> Task :react-native-worklets:buildCMakeDebug[armeabi-v7a][worklets]
+> Task :react-native-worklets:configureCMakeDebug[x86]
+> Task :react-native-worklets:buildCMakeDebug[x86][worklets]
+> Task :react-native-worklets:configureCMakeDebug[x86_64]
+> Task :react-native-worklets:buildCMakeDebug[x86_64][worklets]
+> Task :react-native-worklets:externalNativeBuildDebug
+> Task :react-native-worklets:generateJsonModelDebug
+> Task :react-native-worklets:prefabDebugConfigurePackage
+> Task :react-native-reanimated:configureCMakeDebug[arm64-v8a]
+> Task :react-native-reanimated:configureCMakeDebug[armeabi-v7a]
+> Task :react-native-reanimated:configureCMakeDebug[x86]
+> Task :react-native-reanimated:configureCMakeDebug[x86_64]
+> Task :react-native-reanimated:generateJsonModelDebug
+> Task :react-native-reanimated:prefabDebugConfigurePackage UP-TO-DATE
+> Task :react-native-worklets-core:configureCMakeDebug[arm64-v8a]
+> Task :react-native-worklets-core:buildCMakeDebug[arm64-v8a]
+> Task :react-native-worklets-core:configureCMakeDebug[armeabi-v7a]
+> Task :react-native-worklets-core:buildCMakeDebug[armeabi-v7a]
+> Task :react-native-worklets-core:configureCMakeDebug[x86]
+> Task :react-native-worklets-core:buildCMakeDebug[x86]
+> Task :react-native-worklets-core:configureCMakeDebug[x86_64]
+> Task :react-native-worklets-core:buildCMakeDebug[x86_64]
+> Task :react-native-worklets-core:externalNativeBuildDebug
+> Task :react-native-worklets-core:generateJsonModelDebug
+> Task :react-native-worklets-core:prefabDebugConfigurePackage
+
+> Task :app:configureCMakeDebug[arm64-v8a]
+C/C++: CMake Error at C:/EscrowITX/Solution/EscrowITXMob/EscrowITXMobile/android/app/build/generated/autolinking/src/main/jni/Android-autolinking.cmake:20 (add_subdirectory):
+C/C++:   add_subdirectory given source
+C/C++:   "C:/EscrowITX/Solution/EscrowITXMob/EscrowITXMobile/node_modules/react-native-worklets-core/android/build/generated/source/codegen/jni/"
+C/C++:   which is not an existing directory.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/EscrowITX/Solution/EscrowITXMob/EscrowITXMobile/node_modules/react-native/ReactAndroid/cmake-utils/ReactNative-application.cmake:94 (include)
+C/C++:   CMakeLists.txt:31 (include)
+C/C++: CMake Error at C:/EscrowITX/Solution/EscrowITXMob/EscrowITXMobile/node_modules/react-native/ReactAndroid/cmake-utils/ReactNative-application.cmake:97 (target_link_libraries):
+C/C++:   Cannot specify link libraries for target "react_codegen_RNWorkletsSpec"
+C/C++:   which is not built by this project.
+C/C++: Call Stack (most recent call first):
+C/C++:   CMakeLists.txt:31 (include)
+
+> Task :app:configureCMakeDebug[arm64-v8a] FAILED
+
+[Incubating] Problems report is available at: file:///C:/EscrowITX/Solution/EscrowITXMob/EscrowITXMobile/android/build/reports/problems/problems-report.html
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.13/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+305 actionable tasks: 28 executed, 277 up-to-date
+[0m[0m
+[36m[1minfo[22m[39m [0m[2m[2m≡ƒÆí Tip: Make sure that you have set up your development environment correctly, by running[22m[2m [0m[1mnpx react-native doctor[22m[2m[0m. [2mTo read more about doctor command visit: https://github.com/react-native-community/cli/blob/main/packages/cli-doctor/README.md#doctor 
+[22m[2m[22m[0m
+[0m
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:configureCMakeDebug[arm64-v8a]'.
+> [CXX1429] error when building with cmake using C:\EscrowITX\Solution\EscrowITXMob\EscrowITXMobile\node_modules\react-native\ReactAndroid\cmake-utils\default-app-setup\CMakeLists.txt: -- The C compiler identification is Clang 18.0.2
+  -- The CXX compiler identification is Clang 18.0.2
+  -- Detecting C compiler ABI info
+  -- Detecting C compiler ABI info - done
+  -- Check for working C compiler: C:/Users/anaka/AppData/Local/Android/Sdk/ndk/27.1.12297006/toolchains/llvm/prebuilt/windows-x86_64/bin/clang.exe - skipped
+  -- Detecting C compile features
+  -- Detecting C compile features - done
+  -- Detecting CXX compiler ABI info
+  -- Detecting CXX compiler ABI info - done
+  -- Check for working CXX compiler: C:/Users/anaka/AppData/Local/Android/Sdk/ndk/27.1.12297006/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe - skipped
+  -- Detecting CXX compile features
+  -- Detecting CXX compile features - done
+  -- Configuring incomplete, errors occurred!
+  See also "C:/EscrowITX/Solution/EscrowITXMob/EscrowITXMobile/android/app/.cxx/Debug/5r4y1s1n/arm64-v8a/CMakeFiles/CMakeOutput.log".
+  See also "C:/EscrowITX/Solution/EscrowITXMob/EscrowITXMobile/android/app/.cxx/Debug/5r4y1s1n/arm64-v8a/CMakeFiles/CMakeError.log".
+  
+  C++ build system [configure] failed while executing:
+      @echo off
+      "C:\\Users\\anaka\\AppData\\Local\\Android\\Sdk\\cmake\\3.22.1\\bin\\cmake.exe" ^
+        "-HC:\\EscrowITX\\Solution\\EscrowITXMob\\EscrowITXMobile\\node_modules\\react-native\\ReactAndroid\\cmake-utils\\default-app-setup" ^
+        "-DCMAKE_SYSTEM_NAME=Android" ^
+        "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON" ^
+        "-DCMAKE_SYSTEM_VERSION=24" ^
+        "-DANDROID_PLATFORM=android-24" ^
+        "-DANDROID_ABI=arm64-v8a" ^
+        "-DCMAKE_ANDROID_ARCH_ABI=arm64-v8a" ^
+        "-DANDROID_NDK=C:\\Users\\anaka\\AppData\\Local\\Android\\Sdk\\ndk\\27.1.12297006" ^
+        "-DCMAKE_ANDROID_NDK=C:\\Users\\anaka\\AppData\\Local\\Android\\Sdk\\ndk\\27.1.12297006" ^
+        "-DCMAKE_TOOLCHAIN_FILE=C:\\Users\\anaka\\AppData\\Local\\Android\\Sdk\\ndk\\27.1.12297006\\build\\cmake\\android.toolchain.cmake" ^
+        "-DCMAKE_MAKE_PROGRAM=C:\\Users\\anaka\\AppData\\Local\\Android\\Sdk\\cmake\\3.22.1\\bin\\ninja.exe" ^
+        "-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=C:\\EscrowITX\\Solution\\EscrowITXMob\\EscrowITXMobile\\android\\app\\build\\intermediates\\cxx\\Debug\\5r4y1s1n\\obj\\arm64-v8a" ^
+        "-DCMAKE_RUNTIME_OUTPUT_DIRECTORY=C:\\EscrowITX\\Solution\\EscrowITXMob\\EscrowITXMobile\\android\\app\\build\\intermediates\\cxx\\Debug\\5r4y1s1n\\obj\\arm64-v8a" ^
+        "-DCMAKE_BUILD_TYPE=Debug" ^
+        "-DCMAKE_FIND_ROOT_PATH=C:\\EscrowITX\\Solution\\EscrowITXMob\\EscrowITXMobile\\android\\app\\.cxx\\Debug\\5r4y1s1n\\prefab\\arm64-v8a\\prefab" ^
+        "-BC:\\EscrowITX\\Solution\\EscrowITXMob\\EscrowITXMobile\\android\\app\\.cxx\\Debug\\5r4y1s1n\\arm64-v8a" ^
+        -GNinja ^
+        "-DPROJECT_BUILD_DIR=C:\\EscrowITX\\Solution\\EscrowITXMob\\EscrowITXMobile\\android\\app\\build" ^
+        "-DPROJECT_ROOT_DIR=C:\\EscrowITX\\Solution\\EscrowITXMob\\EscrowITXMobile\\android" ^
+        "-DREACT_ANDROID_DIR=C:\\EscrowITX\\Solution\\EscrowITXMob\\EscrowITXMobile\\node_modules\\react-native\\ReactAndroid" ^
+        "-DANDROID_STL=c++_shared" ^
+        "-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON"
+    from C:\EscrowITX\Solution\EscrowITXMob\EscrowITXMobile\android\app
+  CMake Error at C:/EscrowITX/Solution/EscrowITXMob/EscrowITXMobile/android/app/build/generated/autolinking/src/main/jni/Android-autolinking.cmake:20 (add_subdirectory):
+    add_subdirectory given source
+    "C:/EscrowITX/Solution/EscrowITXMob/EscrowITXMobile/node_modules/react-native-worklets-core/android/build/generated/source/codegen/jni/"
+    which is not an existing directory.
+  Call Stack (most recent call first):
+    C:/EscrowITX/Solution/EscrowITXMob/EscrowITXMobile/node_modules/react-native/ReactAndroid/cmake-utils/ReactNative-application.cmake:94 (include)
+    CMakeLists.txt:31 (include)
+  
+  
+  CMake Error at C:/EscrowITX/Solution/EscrowITXMob/EscrowITXMobile/node_modules/react-native/ReactAndroid/cmake-utils/ReactNative-application.cmake:97 (target_link_libraries):
+    Cannot specify link libraries for target "react_codegen_RNWorkletsSpec"
+    which is not built by this project.
+  Call Stack (most recent call first):
+    CMakeLists.txt:31 (include) : com.android.ide.common.process.ProcessException: -- The C compiler identification is Clang 18.0.2
+  -- The CXX compiler identification is Clang 18.0.2
+  -- Detecting C compiler ABI info
+  -- Detecting C compiler ABI info - done
+  -- Check for working C compiler: C:/Users/anaka/AppData/Local/Android/Sdk/ndk/27.1.12297006/toolchains/llvm/prebuilt/windows-x86_64/bin/clang.exe - skipped
+  -- Detecting C compile features
+  -- Detecting C compile features - done
+  -- Detecting CXX compiler ABI info
+  -- Detecting CXX compiler ABI info - done
+  -- Check for working CXX compiler: C:/Users/anaka/AppData/Local/Android/Sdk/ndk/27.1.12297006/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe - skipped
+  -- Detecting CXX compile features
+  -- Detecting CXX compile features - done
+  -- Configuring incomplete, errors occurred!
+  See also "C:/EscrowITX/Solution/EscrowITXMob/EscrowITXMobile/android/app/.cxx/Debug/5r4y1s1n/arm64-v8a/CMakeFiles/CMakeOutput.log".
+  See also "C:/EscrowITX/Solution/EscrowITXMob/EscrowITXMobile/android/app/.cxx/Debug/5r4y1s1n/arm64-v8a/CMakeFiles/CMakeError.log".
+  
+  C++ build system [configure] failed while executing:
+      @echo off
+      "C:\\Users\\anaka\\AppData\\Local\\Android\\Sdk\\cmake\\3.22.1\\bin\\cmake.exe" ^
+        "-HC:\\EscrowITX\\Solution\\EscrowITXMob\\EscrowITXMobile\\node_modules\\react-native\\ReactAndroid\\cmake-utils\\default-app-setup" ^
+        "-DCMAKE_SYSTEM_NAME=Android" ^
+        "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON" ^
+        "-DCMAKE_SYSTEM_VERSION=24" ^
+        "-DANDROID_PLATFORM=android-24" ^
+        "-DANDROID_ABI=arm64-v8a" ^
+        "-DCMAKE_ANDROID_ARCH_ABI=arm64-v8a" ^
+        "-DANDROID_NDK=C:\\Users\\anaka\\AppData\\Local\\Android\\Sdk\\ndk\\27.1.12297006" ^
+        "-DCMAKE_ANDROID_NDK=C:\\Users\\anaka\\AppData\\Local\\Android\\Sdk\\ndk\\27.1.12297006" ^
+        "-DCMAKE_TOOLCHAIN_FILE=C:\\Users\\anaka\\AppData\\Local\\Android\\Sdk\\ndk\\27.1.12297006\\build\\cmake\\android.toolchain.cmake" ^
+        "-DCMAKE_MAKE_PROGRAM=C:\\Users\\anaka\\AppData\\Local\\Android\\Sdk\\cmake\\3.22.1\\bin\\ninja.exe" ^
+        "-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=C:\\EscrowITX\\Solution\\EscrowITXMob\\EscrowITXMobile\\android\\app\\build\\intermediates\\cxx\\Debug\\5r4y1s1n\\obj\\arm64-v8a" ^
+        "-DCMAKE_RUNTIME_OUTPUT_DIRECTORY=C:\\EscrowITX\\Solution\\EscrowITXMob\\EscrowITXMobile\\android\\app\\build\\intermediates\\cxx\\Debug\\5r4y1s1n\\obj\\arm64-v8a" ^
+        "-DCMAKE_BUILD_TYPE=Debug" ^
+        "-DCMAKE_FIND_ROOT_PATH=C:\\EscrowITX\\Solution\\EscrowITXMob\\EscrowITXMobile\\android\\app\\.cxx\\Debug\\5r4y1s1n\\prefab\\arm64-v8a\\prefab" ^
+        "-BC:\\EscrowITX\\Solution\\EscrowITXMob\\EscrowITXMobile\\android\\app\\.cxx\\Debug\\5r4y1s1n\\arm64-v8a" ^
+        -GNinja ^
+        "-DPROJECT_BUILD_DIR=C:\\EscrowITX\\Solution\\EscrowITXMob\\EscrowITXMobile\\android\\app\\build" ^
+        "-DPROJECT_ROOT_DIR=C:\\EscrowITX\\Solution\\EscrowITXMob\\EscrowITXMobile\\android" ^
+        "-DREACT_ANDROID_DIR=C:\\EscrowITX\\Solution\\EscrowITXMob\\EscrowITXMobile\\node_modules\\react-native\\ReactAndroid" ^
+        "-DANDROID_STL=c++_shared" ^
+        "-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON"
+    from C:\EscrowITX\Solution\EscrowITXMob\EscrowITXMobile\android\app
+  CMake Error at C:/EscrowITX/Solution/EscrowITXMob/EscrowITXMobile/android/app/build/generated/autolinking/src/main/jni/Android-autolinking.cmake:20 (add_subdirectory):
+    add_subdirectory given source
+    "C:/EscrowITX/Solution/EscrowITXMob/EscrowITXMobile/node_modules/react-native-worklets-core/android/build/generated/source/codegen/jni/"
+    which is not an existing directory.
+  Call Stack (most recent call first):
+    C:/EscrowITX/Solution/EscrowITXMob/EscrowITXMobile/node_modules/react-native/ReactAndroid/cmake-utils/ReactNative-application.cmake:94 (include)
+    CMakeLists.txt:31 (include)
+  
+  
+  CMake Error at C:/EscrowITX/Solution/EscrowITXMob/EscrowITXMobile/node_modules/react-native/ReactAndroid/cmake-utils/ReactNative-application.cmake:97 (target_link_libraries):
+    Cannot specify link libraries for target "react_codegen_RNWorkletsSpec"
+    which is not built by this project.
+  Call Stack (most recent call first):
+    CMakeLists.txt:31 (include)
+  	at com.android.build.gradle.internal.cxx.process.ExecuteProcessKt.execute(ExecuteProcess.kt:288)
+  	at com.android.build.gradle.internal.cxx.process.ExecuteProcessKt$executeProcess$1.invoke(ExecuteProcess.kt:108)
+  	at com.android.build.gradle.internal.cxx.process.ExecuteProcessKt$executeProcess$1.invoke(ExecuteProcess.kt:106)
+  	at com.android.build.gradle.internal.cxx.timing.TimingEnvironmentKt.time(TimingEnvironment.kt:32)
+  	at com.android.build.gradle.internal.cxx.process.ExecuteProcessKt.executeProcess(ExecuteProcess.kt:106)
+  	at com.android.build.gradle.internal.cxx.process.ExecuteProcessKt.executeProcess$default(ExecuteProcess.kt:85)
+  	at com.android.build.gradle.tasks.CmakeQueryMetadataGenerator.executeProcess(CmakeFileApiMetadataGenerator.kt:59)
+  	at com.android.build.gradle.tasks.ExternalNativeJsonGenerator$configureOneAbi$1$1$3.invoke(ExternalNativeJsonGenerator.kt:247)
+  	at com.android.build.gradle.tasks.ExternalNativeJsonGenerator$configureOneAbi$1$1$3.invoke(ExternalNativeJsonGenerator.kt:247)
+  	at com.android.build.gradle.internal.cxx.timing.TimingEnvironmentKt.time(TimingEnvironment.kt:32)
+  	at com.android.build.gradle.tasks.ExternalNativeJsonGenerator.configureOneAbi(ExternalNativeJsonGenerator.kt:247)
+  	at com.android.build.gradle.tasks.ExternalNativeJsonGenerator.configure(ExternalNativeJsonGenerator.kt:113)
+  	at com.android.build.gradle.tasks.ExternalNativeBuildJsonTask.doTaskAction(ExternalNativeBuildJsonTask.kt:89)
+  	at com.android.build.gradle.internal.tasks.UnsafeOutputsTask$taskAction$$inlined$recordTaskAction$1.invoke(BaseTask.kt:59)
+  	at com.android.build.gradle.internal.tasks.Blocks.recordSpan(Blocks.java:51)
+  	at com.android.build.gradle.internal.tasks.UnsafeOutputsTask.taskAction(UnsafeOutputsTask.kt:81)
+  	at jdk.internal.reflect.GeneratedMethodAccessor1395.invoke(Unknown Source)
+  	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+  	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+  	at org.gradle.internal.reflect.JavaMethod.invoke(JavaMethod.java:125)
+  	at org.gradle.api.internal.project.taskfactory.StandardTaskAction.doExecute(StandardTaskAction.java:58)
+  	at org.gradle.api.internal.project.taskfactory.StandardTaskAction.execute(StandardTaskAction.java:51)
+  	at org.gradle.api.internal.project.taskfactory.StandardTaskAction.execute(StandardTaskAction.java:29)
+  	at org.gradle.api.internal.tasks.execution.TaskExecution$3.run(TaskExecution.java:244)
+  	at org.gradle.internal.operations.DefaultBuildOperationRunner$1.execute(DefaultBuildOperationRunner.java:30)
+  	at org.gradle.internal.operations.DefaultBuildOperationRunner$1.execute(DefaultBuildOperationRunner.java:27)
+  	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:67)
+  	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:60)
+  	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:167)
+  	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:60)
+  	at org.gradle.internal.operations.DefaultBuildOperationRunner.run(DefaultBuildOperationRunner.java:48)
+  	at org.gradle.api.internal.tasks.execution.TaskExecution.executeAction(TaskExecution.java:229)
+  	at org.gradle.api.internal.tasks.execution.TaskExecution.executeActions(TaskExecution.java:212)
+  	at org.gradle.api.internal.tasks.execution.TaskExecution.executeWithPreviousOutputFiles(TaskExecution.java:195)
+  	at org.gradle.api.internal.tasks.execution.TaskExecution.execute(TaskExecution.java:162)
+  	at org.gradle.internal.execution.steps.ExecuteStep.executeInternal(ExecuteStep.java:105)
+  	at org.gradle.internal.execution.steps.ExecuteStep.access$000(ExecuteStep.java:44)
+  	at org.gradle.internal.execution.steps.ExecuteStep$1.call(ExecuteStep.java:59)
+  	at org.gradle.internal.execution.steps.ExecuteStep$1.call(ExecuteStep.java:56)
+  	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:210)
+  	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:205)
+  	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:67)
+  	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:60)
+  	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:167)
+  	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:60)
+  	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:54)
+  	at org.gradle.internal.execution.steps.ExecuteStep.execute(ExecuteStep.java:56)
+  	at org.gradle.internal.execution.steps.ExecuteStep.execute(ExecuteStep.java:44)
+  	at org.gradle.internal.execution.steps.CancelExecutionStep.execute(CancelExecutionStep.java:42)
+  	at org.gradle.internal.execution.steps.TimeoutStep.executeWithoutTimeout(TimeoutStep.java:75)
+  	at org.gradle.internal.execution.steps.TimeoutStep.execute(TimeoutStep.java:55)
+  	at org.gradle.internal.execution.steps.PreCreateOutputParentsStep.execute(PreCreateOutputParentsStep.java:50)
+  	at org.gradle.internal.execution.steps.PreCreateOutputParentsStep.execute(PreCreateOutputParentsStep.java:28)
+  	at org.gradle.internal.execution.steps.RemovePreviousOutputsStep.execute(RemovePreviousOutputsStep.java:67)
+  	at org.gradle.internal.execution.steps.RemovePreviousOutputsStep.execute(RemovePreviousOutputsStep.java:37)
+  	at org.gradle.internal.execution.steps.BroadcastChangingOutputsStep.execute(BroadcastChangingOutputsStep.java:61)
+  	at org.gradle.internal.execution.steps.BroadcastChangingOutputsStep.execute(BroadcastChangingOutputsStep.java:26)
+  	at org.gradle.internal.execution.steps.CaptureOutputsAfterExecutionStep.execute(CaptureOutputsAfterExecutionStep.java:69)
+  	at org.gradle.internal.execution.steps.CaptureOutputsAfterExecutionStep.execute(CaptureOutputsAfterExecutionStep.java:46)
+  	at org.gradle.internal.execution.steps.ResolveInputChangesStep.execute(ResolveInputChangesStep.java:40)
+  	at org.gradle.internal.execution.steps.ResolveInputChangesStep.execute(ResolveInputChangesStep.java:29)
+  	at org.gradle.internal.execution.steps.BuildCacheStep.executeWithoutCache(BuildCacheStep.java:189)
+  	at org.gradle.internal.execution.steps.BuildCacheStep.lambda$execute$1(BuildCacheStep.java:75)
+  	at org.gradle.internal.Either$Right.fold(Either.java:175)
+  	at org.gradle.internal.execution.caching.CachingState.fold(CachingState.java:62)
+  	at org.gradle.internal.execution.steps.BuildCacheStep.execute(BuildCacheStep.java:73)
+  	at org.gradle.internal.execution.steps.BuildCacheStep.execute(BuildCacheStep.java:48)
+  	at org.gradle.internal.execution.steps.StoreExecutionStateStep.execute(StoreExecutionStateStep.java:46)
+  	at org.gradle.internal.execution.steps.StoreExecutionStateStep.execute(StoreExecutionStateStep.java:35)
+  	at org.gradle.internal.execution.steps.SkipUpToDateStep.executeBecause(SkipUpToDateStep.java:75)
+  	at org.gradle.internal.execution.steps.SkipUpToDateStep.lambda$execute$2(SkipUpToDateStep.java:53)
+  	at java.base/java.util.Optional.orElseGet(Optional.java:364)
+  	at org.gradle.internal.execution.steps.SkipUpToDateStep.execute(SkipUpToDateStep.java:53)
+  	at org.gradle.internal.execution.steps.SkipUpToDateStep.execute(SkipUpToDateStep.java:35)
+  	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsFinishedStep.execute(MarkSnapshottingInputsFinishedStep.java:37)
+  	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsFinishedStep.execute(MarkSnapshottingInputsFinishedStep.java:27)
+  	at org.gradle.internal.execution.steps.ResolveIncrementalCachingStateStep.executeDelegate(ResolveIncrementalCachingStateStep.java:49)
+  	at org.gradle.internal.execution.steps.ResolveIncrementalCachingStateStep.executeDelegate(ResolveIncrementalCachingStateStep.java:27)
+  	at org.gradle.internal.execution.steps.AbstractResolveCachingStateStep.execute(AbstractResolveCachingStateStep.java:71)
+  	at org.gradle.internal.execution.steps.AbstractResolveCachingStateStep.execute(AbstractResolveCachingStateStep.java:39)
+  	at org.gradle.internal.execution.steps.ResolveChangesStep.execute(ResolveChangesStep.java:65)
+  	at org.gradle.internal.execution.steps.ResolveChangesStep.execute(ResolveChangesStep.java:36)
+  	at org.gradle.internal.execution.steps.ValidateStep.execute(ValidateStep.java:107)
+  	at org.gradle.internal.execution.steps.ValidateStep.execute(ValidateStep.java:56)
+  	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep.execute(AbstractCaptureStateBeforeExecutionStep.java:64)
+  	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep.execute(AbstractCaptureStateBeforeExecutionStep.java:43)
+  	at org.gradle.internal.execution.steps.AbstractSkipEmptyWorkStep.executeWithNonEmptySources(AbstractSkipEmptyWorkStep.java:125)
+  	at org.gradle.internal.execution.steps.AbstractSkipEmptyWorkStep.execute(AbstractSkipEmptyWorkStep.java:56)
+  	at org.gradle.internal.execution.steps.AbstractSkipEmptyWorkStep.execute(AbstractSkipEmptyWorkStep.java:36)
+  	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsStartedStep.execute(MarkSnapshottingInputsStartedStep.java:38)
+  	at org.gradle.internal.execution.steps.LoadPreviousExecutionStateStep.execute(LoadPreviousExecutionStateStep.java:36)
+  	at org.gradle.internal.execution.steps.LoadPreviousExecutionStateStep.execute(LoadPreviousExecutionStateStep.java:23)
+  	at org.gradle.internal.execution.steps.HandleStaleOutputsStep.execute(HandleStaleOutputsStep.java:75)
+  	at org.gradle.internal.execution.steps.HandleStaleOutputsStep.execute(HandleStaleOutputsStep.java:41)
+  	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.lambda$execute$0(AssignMutableWorkspaceStep.java:35)
+  	at org.gradle.api.internal.tasks.execution.TaskExecution$4.withWorkspace(TaskExecution.java:289)
+  	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.execute(AssignMutableWorkspaceStep.java:31)
+  	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.execute(AssignMutableWorkspaceStep.java:22)
+  	at org.gradle.internal.execution.steps.ChoosePipelineStep.execute(ChoosePipelineStep.java:40)
+  	at org.gradle.internal.execution.steps.ChoosePipelineStep.execute(ChoosePipelineStep.java:23)
+  	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.lambda$execute$2(ExecuteWorkBuildOperationFiringStep.java:67)
+  	at java.base/java.util.Optional.orElseGet(Optional.java:364)
+  	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.execute(ExecuteWorkBuildOperationFiringStep.java:67)
+  	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.execute(ExecuteWorkBuildOperationFiringStep.java:39)
+  	at org.gradle.internal.execution.steps.IdentityCacheStep.execute(IdentityCacheStep.java:46)
+  	at org.gradle.internal.execution.steps.IdentityCacheStep.execute(IdentityCacheStep.java:34)
+  	at org.gradle.internal.execution.steps.IdentifyStep.execute(IdentifyStep.java:48)
+  	at org.gradle.internal.execution.steps.IdentifyStep.execute(IdentifyStep.java:35)
+  	at org.gradle.internal.execution.impl.DefaultExecutionEngine$1.execute(DefaultExecutionEngine.java:61)
+  	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.executeIfValid(ExecuteActionsTaskExecuter.java:127)
+  	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.execute(ExecuteActionsTaskExecuter.java:116)
+  	at org.gradle.api.internal.tasks.execution.ProblemsTaskPathTrackingTaskExecuter.execute(ProblemsTaskPathTrackingTaskExecuter.java:40)
+  	at org.gradle.api.internal.tasks.execution.FinalizePropertiesTaskExecuter.execute(FinalizePropertiesTaskExecuter.java:46)
+  	at org.gradle.api.internal.tasks.execution.ResolveTaskExecutionModeExecuter.execute(ResolveTaskExecutionModeExecuter.java:51)
+  	at org.gradle.api.internal.tasks.execution.SkipTaskWithNoActionsExecuter.execute(SkipTaskWithNoActionsExecuter.java:57)
+  	at org.gradle.api.internal.tasks.execution.SkipOnlyIfTaskExecuter.execute(SkipOnlyIfTaskExecuter.java:74)
+  	at org.gradle.api.internal.tasks.execution.CatchExceptionTaskExecuter.execute(CatchExceptionTaskExecuter.java:36)
+  	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.executeTask(EventFiringTaskExecuter.java:77)
+  	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:55)
+  	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:52)
+  	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:210)
+  	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:205)
+  	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:67)
+  	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:60)
+  	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:167)
+  	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:60)
+  	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:54)
+  	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter.execute(EventFiringTaskExecuter.java:52)
+  	at org.gradle.execution.plan.LocalTaskNodeExecutor.execute(LocalTaskNodeExecutor.java:42)
+  	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:331)
+  	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:318)
+  	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.lambda$execute$0(DefaultTaskExecutionGraph.java:314)
+  	at org.gradle.internal.operations.CurrentBuildOperationRef.with(CurrentBuildOperationRef.java:85)
+node.exe : [31m[1merr
+or[22m[39m 
+[0mFailed to install 
+the app. Command 
+failed with exit code 
+1: gradlew.bat 
+app:installDebug -Preac
+tNativeDevServerPort=80
+81 FAILURE: Build 
+failed with an 
+exception. * What went 
+wrong: Execution 
+failed for task ':app:c
+onfigureCMakeDebug[arm6
+4-v8a]'. > [CXX1429] 
+error when building 
+with cmake using C:\Esc
+rowITX\Solution\EscrowI
+TXMob\EscrowITXMobile\n
+ode_modules\react-nativ
+e\ReactAndroid\cmake-ut
+ils\default-app-setup\C
+MakeLists.txt: -- The 
+C compiler 
+identification is 
+Clang 18.0.2 -- The 
+CXX compiler 
+identification is 
+Clang 18.0.2 -- 
+Detecting C compiler 
+ABI info -- Detecting 
+C compiler ABI info - 
+done -- Check for 
+working C compiler: C:/
+Users/anaka/AppData/Loc
+al/Android/Sdk/ndk/27.1
+.12297006/toolchains/ll
+vm/prebuilt/windows-x86
+_64/bin/clang.exe - 
+skipped -- Detecting C 
+compile features -- 
+Detecting C compile 
+features - done -- 
+Detecting CXX compiler 
+ABI info -- Detecting 
+CXX compiler ABI info 
+- done -- Check for 
+working CXX compiler: C
+:/Users/anaka/AppData/L
+ocal/Android/Sdk/ndk/27
+.1.12297006/toolchains/
+llvm/prebuilt/windows-x
+86_64/bin/clang++.exe 
+- skipped -- Detecting 
+CXX compile features 
+-- Detecting CXX 
+compile features - 
+done -- Configuring 
+incomplete, errors 
+occurred! See also "C:/
+EscrowITX/Solution/Escr
+owITXMob/EscrowITXMobil
+e/android/app/.cxx/Debu
+g/5r4y1s1n/arm64-v8a/CM
+akeFiles/CMakeOutput.lo
+g". See also "C:/Escrow
+ITX/Solution/EscrowITXM
+ob/EscrowITXMobile/andr
+oid/app/.cxx/Debug/5r4y
+1s1n/arm64-v8a/CMakeFil
+es/CMakeError.log". 
+C++ build system 
+[configure] failed 
+while executing: @echo 
+off "C:\\Users\\anaka\\
+AppData\\Local\\Android
+\\Sdk\\cmake\\3.22.1\\b
+in\\cmake.exe" ^ "-HC:\
+\EscrowITX\\Solution\\E
+scrowITXMob\\EscrowITXM
+obile\\node_modules\\re
+act-native\\ReactAndroi
+d\\cmake-utils\\default
+-app-setup" ^ "-DCMAKE_
+SYSTEM_NAME=Android" ^ 
+"-DCMAKE_EXPORT_COMPILE
+_COMMANDS=ON" ^ "-DCMAK
+E_SYSTEM_VERSION=24" ^ 
+"-DANDROID_PLATFORM=and
+roid-24" ^ "-DANDROID_A
+BI=arm64-v8a" ^ "-DCMAK
+E_ANDROID_ARCH_ABI=arm6
+4-v8a" ^ "-DANDROID_NDK
+=C:\\Users\\anaka\\AppD
+ata\\Local\\Android\\Sd
+k\\ndk\\27.1.12297006" 
+^ "-DCMAKE_ANDROID_NDK=
+C:\\Users\\anaka\\AppDa
+ta\\Local\\Android\\Sdk
+\\ndk\\27.1.12297006" 
+^ "-DCMAKE_TOOLCHAIN_FI
+LE=C:\\Users\\anaka\\Ap
+pData\\Local\\Android\\
+Sdk\\ndk\\27.1.12297006
+\\build\\cmake\\android
+.toolchain.cmake" ^ "-D
+CMAKE_MAKE_PROGRAM=C:\\
+Users\\anaka\\AppData\\
+Local\\Android\\Sdk\\cm
+ake\\3.22.1\\bin\\ninja
+.exe" ^ "-DCMAKE_LIBRAR
+Y_OUTPUT_DIRECTORY=C:\\
+EscrowITX\\Solution\\Es
+crowITXMob\\EscrowITXMo
+bile\\android\\app\\bui
+ld\\intermediates\\cxx\
+\Debug\\5r4y1s1n\\obj\\
+arm64-v8a" ^ "-DCMAKE_R
+UNTIME_OUTPUT_DIRECTORY
+=C:\\EscrowITX\\Solutio
+n\\EscrowITXMob\\Escrow
+ITXMobile\\android\\app
+\\build\\intermediates\
+\cxx\\Debug\\5r4y1s1n\\
+obj\\arm64-v8a" ^ "-DCM
+AKE_BUILD_TYPE=Debug" 
+^ "-DCMAKE_FIND_ROOT_PA
+TH=C:\\EscrowITX\\Solut
+ion\\EscrowITXMob\\Escr
+owITXMobile\\android\\a
+pp\\.cxx\\Debug\\5r4y1s
+1n\\prefab\\arm64-v8a\\
+prefab" ^ "-BC:\\Escrow
+ITX\\Solution\\EscrowIT
+XMob\\EscrowITXMobile\\
+android\\app\\.cxx\\Deb
+ug\\5r4y1s1n\\arm64-v8a
+" ^ -GNinja ^ "-DPROJEC
+T_BUILD_DIR=C:\\EscrowI
+TX\\Solution\\EscrowITX
+Mob\\EscrowITXMobile\\a
+ndroid\\app\\build" ^ "
+-DPROJECT_ROOT_DIR=C:\\
+EscrowITX\\Solution\\Es
+crowITXMob\\EscrowITXMo
+bile\\android" ^ "-DREA
+CT_ANDROID_DIR=C:\\Escr
+owITX\\Solution\\Escrow
+ITXMob\\EscrowITXMobile
+\\node_modules\\react-n
+ative\\ReactAndroid" ^ 
+"-DANDROID_STL=c++_shar
+ed" ^ "-DANDROID_SUPPOR
+T_FLEXIBLE_PAGE_SIZES=O
+N" from C:\EscrowITX\So
+lution\EscrowITXMob\Esc
+rowITXMobile\android\ap
+p CMake Error at C:/Esc
+rowITX/Solution/EscrowI
+TXMob/EscrowITXMobile/a
+ndroid/app/build/genera
+ted/autolinking/src/mai
+n/jni/Android-autolinki
+ng.cmake:20 
+(add_subdirectory): 
+add_subdirectory given 
+source "C:/EscrowITX/So
+lution/EscrowITXMob/Esc
+rowITXMobile/node_modul
+es/react-native-worklet
+s-core/android/build/ge
+nerated/source/codegen/
+jni/" which is not an 
+existing directory. 
+Call Stack (most 
+recent call first): C:/
+EscrowITX/Solution/Escr
+owITXMob/EscrowITXMobil
+e/node_modules/react-na
+tive/ReactAndroid/cmake
+-utils/ReactNative-appl
+ication.cmake:94 
+(include) 
+CMakeLists.txt:31 
+(include) CMake Error 
+at C:/EscrowITX/Solutio
+n/EscrowITXMob/EscrowIT
+XMobile/node_modules/re
+act-native/ReactAndroid
+/cmake-utils/ReactNativ
+e-application.cmake:97 
+(target_link_libraries)
+: Cannot specify link 
+libraries for target "r
+eact_codegen_RNWorklets
+Spec" which is not 
+built by this project. 
+Call Stack (most 
+recent call first): 
+CMakeLists.txt:31 
+(include) : com.android
+.ide.common.process.Pro
+cessException: -- The 
+C compiler 
+identification is 
+Clang 18.0.2 -- The 
+CXX compiler 
+identification is 
+Clang 18.0.2 -- 
+Detecting C compiler 
+ABI info -- Detecting 
+C compiler ABI info - 
+done -- Check for 
+working C compiler: C:/
+Users/anaka/AppData/Loc
+al/Android/Sdk/ndk/27.1
+.12297006/toolchains/ll
+vm/prebuilt/windows-x86
+_64/bin/clang.exe - 
+skipped -- Detecting C 
+compile features -- 
+Detecting C compile 
+features - done -- 
+Detecting CXX compiler 
+ABI info -- Detecting 
+CXX compiler ABI info 
+- done -- Check for 
+working CXX compiler: C
+:/Users/anaka/AppData/L
+ocal/Android/Sdk/ndk/27
+.1.12297006/toolchains/
+llvm/prebuilt/windows-x
+86_64/bin/clang++.exe 
+- skipped -- Detecting 
+CXX compile features 
+-- Detecting CXX 
+compile features - 
+done -- Configuring 
+incomplete, errors 
+occurred! See also "C:/
+EscrowITX/Solution/Escr
+owITXMob/EscrowITXMobil
+e/android/app/.cxx/Debu
+g/5r4y1s1n/arm64-v8a/CM
+akeFiles/CMakeOutput.lo
+g". See also "C:/Escrow
+ITX/Solution/EscrowITXM
+ob/EscrowITXMobile/andr
+oid/app/.cxx/Debug/5r4y
+1s1n/arm64-v8a/CMakeFil
+es/CMakeError.log". 
+C++ build system 
+[configure] failed 
+while executing: @echo 
+off "C:\\Users\\anaka\\
+AppData\\Local\\Android
+\\Sdk\\cmake\\3.22.1\\b
+in\\cmake.exe" ^ "-HC:\
+\EscrowITX\\Solution\\E
+scrowITXMob\\EscrowITXM
+obile\\node_modules\\re
+act-native\\ReactAndroi
+d\\cmake-utils\\default
+-app-setup" ^ "-DCMAKE_
+SYSTEM_NAME=Android" ^ 
+"-DCMAKE_EXPORT_COMPILE
+_COMMANDS=ON" ^ "-DCMAK
+E_SYSTEM_VERSION=24" ^ 
+"-DANDROID_PLATFORM=and
+roid-24" ^ "-DANDROID_A
+BI=arm64-v8a" ^ "-DCMAK
+E_ANDROID_ARCH_ABI=arm6
+4-v8a" ^ "-DANDROID_NDK
+=C:\\Users\\anaka\\AppD
+ata\\Local\\Android\\Sd
+k\\ndk\\27.1.12297006" 
+^ "-DCMAKE_ANDROID_NDK=
+C:\\Users\\anaka\\AppDa
+ta\\Local\\Android\\Sdk
+\\ndk\\27.1.12297006" 
+^ "-DCMAKE_TOOLCHAIN_FI
+LE=C:\\Users\\anaka\\Ap
+pData\\Local\\Android\\
+Sdk\\ndk\\27.1.12297006
+\\build\\cmake\\android
+.toolchain.cmake" ^ "-D
+CMAKE_MAKE_PROGRAM=C:\\
+Users\\anaka\\AppData\\
+Local\\Android\\Sdk\\cm
+ake\\3.22.1\\bin\\ninja
+.exe" ^ "-DCMAKE_LIBRAR
+Y_OUTPUT_DIRECTORY=C:\\
+EscrowITX\\Solution\\Es
+crowITXMob\\EscrowITXMo
+bile\\android\\app\\bui
+ld\\intermediates\\cxx\
+\Debug\\5r4y1s1n\\obj\\
+arm64-v8a" ^ "-DCMAKE_R
+UNTIME_OUTPUT_DIRECTORY
+=C:\\EscrowITX\\Solutio
+n\\EscrowITXMob\\Escrow
+ITXMobile\\android\\app
+\\build\\intermediates\
+\cxx\\Debug\\5r4y1s1n\\
+obj\\arm64-v8a" ^ "-DCM
+AKE_BUILD_TYPE=Debug" 
+^ "-DCMAKE_FIND_ROOT_PA
+TH=C:\\EscrowITX\\Solut
+ion\\EscrowITXMob\\Escr
+owITXMobile\\android\\a
+pp\\.cxx\\Debug\\5r4y1s
+1n\\prefab\\arm64-v8a\\
+prefab" ^ "-BC:\\Escrow
+ITX\\Solution\\EscrowIT
+XMob\\EscrowITXMobile\\
+android\\app\\.cxx\\Deb
+ug\\5r4y1s1n\\arm64-v8a
+" ^ -GNinja ^ "-DPROJEC
+T_BUILD_DIR=C:\\EscrowI
+TX\\Solution\\EscrowITX
+Mob\\EscrowITXMobile\\a
+ndroid\\app\\build" ^ "
+-DPROJECT_ROOT_DIR=C:\\
+EscrowITX\\Solution\\Es
+crowITXMob\\EscrowITXMo
+bile\\android" ^ "-DREA
+CT_ANDROID_DIR=C:\\Escr
+owITX\\Solution\\Escrow
+ITXMob\\EscrowITXMobile
+\\node_modules\\react-n
+ative\\ReactAndroid" ^ 
+"-DANDROID_STL=c++_shar
+ed" ^ "-DANDROID_SUPPOR
+T_FLEXIBLE_PAGE_SIZES=O
+N" from C:\EscrowITX\So

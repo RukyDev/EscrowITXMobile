@@ -15,14 +15,10 @@ export default function ProfileScreen() {
   const { user, logout } = useAuthStore();
   const [logoutModalVisible, setLogoutModalVisible] = React.useState(false);
 
-  console.log('[ProfileScreen] logoutModalVisible state:', logoutModalVisible);
-
   React.useEffect(() => {
-    console.log('[ProfileScreen] Current User State:', JSON.stringify(user, null, 2));
   }, [user]);
 
   const handleLogout = () => {
-    console.log('[ProfileScreen] Logout button clicked - Attempting DIRECT logout to bypass Modal/Alert issues');
     logout();
   };
 
@@ -52,9 +48,16 @@ export default function ProfileScreen() {
           <View style={s.profileInfo}>
             <Text style={s.profileName}>{user?.userName || user?.name || user?.fullName || 'User'}</Text>
             <Text style={s.profileEmail}>{user?.emailAddress || '---'}</Text>
-            <View style={s.statusBadge}>
-              <Icon name="checkmark-circle" size={12} color={colors.success} style={{ marginRight: 4 }} />
-              <Text style={s.statusText}>Verified Account</Text>
+            <View style={[s.statusBadge, { backgroundColor: user?.isDocumentVerified ? 'rgba(240, 253, 244, 0.2)' : 'rgba(254, 242, 242, 0.2)' }]}>
+              <Icon
+                name={user?.isDocumentVerified ? "checkmark-circle" : "close-circle"}
+                size={12}
+                color={user?.isDocumentVerified ? colors.success : colors.danger}
+                style={{ marginRight: 4 }}
+              />
+              <Text style={[s.statusText, { color: user?.isDocumentVerified ? colors.success : colors.danger }]}>
+                {user?.isDocumentVerified ? 'Verified Account' : 'Inactive / Unverified'}
+              </Text>
             </View>
           </View>
         </View>
@@ -132,13 +135,11 @@ export default function ProfileScreen() {
 
             <View style={s.modalButtons}>
               <TouchableOpacity style={s.cancelBtn} onPress={() => {
-                console.log('[ProfileScreen] Logout Modal - Cancel clicked');
                 setLogoutModalVisible(false);
               }}>
                 <Text style={s.cancelBtnTxt}>Cancel</Text>
               </TouchableOpacity>
               <TouchableOpacity style={s.confirmBtn} onPress={() => {
-                console.log('[ProfileScreen] Logout Modal - Confirm clicked');
                 setLogoutModalVisible(false);
                 logout();
               }}>

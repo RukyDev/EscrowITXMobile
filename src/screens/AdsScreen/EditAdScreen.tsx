@@ -31,7 +31,7 @@ export default function EditAdScreen() {
             const vol = parseFloat(volume);
             const r = parseFloat(rate);
             if (!isNaN(vol) && !isNaN(r)) {
-                adsApi.calculateFee(vol, r).then(setFeeResult).catch(console.error);
+                adsApi.calculateFee(vol, r).then(setFeeResult);
             }
         } else {
             setFeeResult(null);
