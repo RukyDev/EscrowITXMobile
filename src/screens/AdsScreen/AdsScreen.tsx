@@ -54,8 +54,8 @@ export default function AdsScreen() {
         adId: ad.id,
         traderName: ad.traderName || 'Trader',
         rate: ad.rate,
-        minGbp: ad.minAmount || 10,
-        maxGbp: ad.maxAmount || ad.volume,
+        minGbp: ad.minAmount || 0,
+        maxGbp: ad.volume || ad.maxAmount || 0,
         paymentMethod: ad.paymentMethod || 'Bank Transfer'
       });
     } else {
@@ -63,8 +63,8 @@ export default function AdsScreen() {
         adId: ad.id,
         traderName: ad.traderName || 'Trader',
         rate: ad.rate,
-        minGbp: ad.minAmount || 10,
-        maxGbp: ad.maxAmount || ad.volume,
+        minGbp: ad.minAmount || 0,
+        maxGbp: ad.volume || ad.maxAmount || 0,
       });
     }
   };
@@ -131,8 +131,8 @@ export default function AdsScreen() {
               </View>
 
               <View style={s.adLimits}>
-                <Text style={s.limitText}>Limits: £{ad.minAmount || 10} - £{ad.volume || ad.maxAmount}</Text>
-                <Text style={s.methodText}>{ad.paymentMethod || 'Bank Transfer'}</Text>
+                <Text style={s.limitText}>Limits: £{ad.minAmount || 0} - £{ad.volume || ad.maxAmount || 0}</Text>
+                <Text style={s.methodText}>Volume: £{(ad.volume || 0).toLocaleString()}</Text>
               </View>
 
               <TouchableOpacity

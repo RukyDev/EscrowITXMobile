@@ -61,6 +61,9 @@ export default function WalletScreen() {
                 <View style={s.balCard}>
                     <View style={s.balHeader}>
                         <Text style={s.balLabel}>WALLET OVERVIEW</Text>
+                        <TouchableOpacity style={s.addWalletBtnTop} onPress={() => setShowAddPounds(true)}>
+                            <Icon name="plus" size={20} color={colors.white} />
+                        </TouchableOpacity>
                     </View>
 
                     <View style={s.mainBalRow}>
@@ -94,9 +97,6 @@ export default function WalletScreen() {
                         <TouchableOpacity style={s.balBtn} onPress={() => navigation.navigate('Withdraw')}>
                             <Icon name="arrow-up" size={20} color={colors.white} />
                             <Text style={s.balBtnTxt}>Withdraw</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={s.addWalletBtn} onPress={() => setShowAddPounds(true)}>
-                            <Icon name="plus" size={20} color={colors.white} />
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -201,7 +201,7 @@ const s = StyleSheet.create({
     actTitle: { fontSize: 14, fontWeight: '600', color: colors.text, marginBottom: 2 },
     actTime: { fontSize: 11, color: colors.gray },
     actAmnt: { fontSize: 14, fontWeight: '700', color: colors.text },
-    addWalletBtn: { width: 44, height: 44, borderRadius: 12, backgroundColor: 'rgba(255,255,255,0.2)', alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: 'rgba(255,255,255,0.3)' },
+    addWalletBtnTop: { width: 32, height: 32, borderRadius: 8, backgroundColor: 'rgba(255,255,255,0.15)', alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: 'rgba(255,255,255,0.2)' },
     mOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'flex-end' },
     mContainer: { backgroundColor: '#fff', borderTopLeftRadius: 25, borderTopRightRadius: 25, padding: 24, height: '70%' },
     mHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 },

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     View, Text, TextInput, TouchableOpacity, StyleSheet,
     SafeAreaView, ScrollView, ActivityIndicator, Alert, Platform, StatusBar
@@ -16,9 +16,9 @@ export default function SellToTraderScreen() {
     const navigation = useNavigation<Nav>();
     const route = useRoute<any>();
     const params = route.params as MarketStackParamList['SellToTrader'];
-    const { adId, traderName, rate, minGbp, maxGbp } = params;
+    const { adId, traderName = 'Trader', rate = 0, minGbp = 0, maxGbp = 0 } = params || {};
 
-    const [gbpAmount, setGbpAmount] = useState('');
+    const [gbpAmount, setGbpAmount] = useState((maxGbp || 0).toString());
     const [loading, setLoading] = useState(false);
     const [feeCalc, setFeeCalc] = useState<{ fee: number, nairaEq: number, total: number } | null>(null);
 
@@ -26,14 +26,21 @@ export default function SellToTraderScreen() {
     const ngnAmount = parsedGbp * rate;
 
     const calculateFee = async () => {
-        if (parsedGbp <= 0) return;
+        const amt = parseFloat(gbpAmount) || 0;
+        if (amt <= 0) return;
         try {
-            const resp = await escrowApi.calculateFee(parsedGbp, rate);
+            const resp = await escrowApi.calculateFee(amt, rate);
             setFeeCalc({ fee: resp.escrowFee, nairaEq: resp.nairaEquivalent, total: resp.totalPayable });
         } catch {
-            setFeeCalc({ fee: 0, nairaEq: 0, total: ngnAmount });
+            setFeeCalc({ fee: 0, nairaEq: 0, total: amt * rate });
         }
     };
+
+    useEffect(() => {
+        if (maxGbp > 0) {
+            calculateFee();
+        }
+    }, []);
 
     const handleCreateOrder = async () => {
         if (parsedGbp < minGbp || parsedGbp > maxGbp) {
@@ -76,7 +83,7 @@ export default function SellToTraderScreen() {
                     <Text style={s.traderLabel}>Selling to</Text>
                     <Text style={s.traderName}>{traderName}</Text>
                     <View style={[s.rateBadge, { backgroundColor: '#F0FDF4' }]}>
-                        <Text style={[s.rateTxt, { color: colors.success }]}>Rate: ₦{rate.toLocaleString()}/£1</Text>
+                        <Text style={[s.rateTxt, { color: colors.success }]}>Rate: ₦{(rate || 0).toLocaleString()}/£1</Text>
                     </View>
                 </View>
 
@@ -99,7 +106,7 @@ export default function SellToTraderScreen() {
                 <Icon name="swap-vertical" size={24} color={colors.gray} style={s.swapIcon} />
 
                 <View style={s.inputCard}>
-                    <Text style={s.label}>I will receive (NGN)</Text>
+                    <Text style={s.label}>I'm receiving (NGN)</Text>
                     <View style={[s.inputWrap, s.inputWrapDisabled]}>
                         <Text style={s.currencyPrefix}>₦</Text>
                         <TextInput
@@ -114,19 +121,19 @@ export default function SellToTraderScreen() {
                     <Text style={s.summaryTitle}>Transaction Summary</Text>
                     <View style={s.summaryRow}>
                         <Text style={s.summaryLbl}>GBP Amount</Text>
-                        <Text style={s.summaryVal}>£{parsedGbp.toLocaleString()}</Text>
+                        <Text style={s.summaryVal}>£{(parsedGbp || 0).toLocaleString()}</Text>
                     </View>
                     <View style={s.summaryRow}>
                         <Text style={s.summaryLbl}>Exchange Rate</Text>
-                        <Text style={s.summaryVal}>₦{rate.toLocaleString()}</Text>
+                        <Text style={s.summaryVal}>₦{(rate || 0).toLocaleString()}</Text>
                     </View>
                     <View style={s.summaryRow}>
                         <Text style={s.summaryLbl}>Escrow Trust Fee (1.5%)</Text>
-                        <Text style={s.summaryVal}>₦{feeCalc ? feeCalc.nairaEq.toLocaleString() : (ngnAmount * 0.015).toLocaleString()}</Text>
+                        <Text style={s.summaryVal}>₦{feeCalc ? (feeCalc.nairaEq || 0).toLocaleString() : (ngnAmount * 0.015).toLocaleString()}</Text>
                     </View>
                     <View style={[s.summaryRow, s.totalRow]}>
                         <Text style={s.totalLbl}>Total to Receive</Text>
-                        <Text style={[s.totalVal, { color: colors.success }]}>₦{feeCalc ? (ngnAmount - feeCalc.nairaEq).toLocaleString() : (ngnAmount * 0.985).toLocaleString()}</Text>
+                        <Text style={[s.totalVal, { color: colors.success }]}>₦{feeCalc ? (ngnAmount - (feeCalc.nairaEq || 0)).toLocaleString() : (ngnAmount * 0.985).toLocaleString()}</Text>
                     </View>
                 </View>
 
@@ -140,7 +147,7 @@ export default function SellToTraderScreen() {
 
                 <View style={s.secureNote}>
                     <Icon name="lock-closed" size={12} color={colors.success} />
-                    <Text style={s.secureTxt}>Your GBP will be locked in escrow until the trader pays NGN.</Text>
+                    <Text style={s.secureTxt}>The Naira will be locked in escrow until the trader confirms the GBP you sent.</Text>
                 </View>
 
                 <View style={{ height: 40 }} />

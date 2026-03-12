@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     View, Text, TextInput, TouchableOpacity, StyleSheet,
     SafeAreaView, ScrollView, ActivityIndicator, Alert, Platform, StatusBar
@@ -21,9 +21,9 @@ export default function BuyFromTraderScreen() {
     const navigation = useNavigation<Nav>();
     const route = useRoute<any>(); // useRoute generic is also being picky, casting to any for safety
     const params = route.params as MarketStackParamList['BuyFromTrader'];
-    const { adId, traderName, rate, minGbp, maxGbp } = params;
+    const { adId, traderName = 'Trader', rate = 0, minGbp = 0, maxGbp = 0 } = params || {};
 
-    const [gbpAmount, setGbpAmount] = useState('');
+    const [gbpAmount, setGbpAmount] = useState((maxGbp || 0).toString());
     const [loading, setLoading] = useState(false);
     const [feeCalc, setFeeCalc] = useState<{ fee: number, nairaEq: number, total: number } | null>(null);
 
@@ -31,15 +31,22 @@ export default function BuyFromTraderScreen() {
     const ngnAmount = parsedGbp * rate;
 
     const calculateFee = async () => {
-        if (parsedGbp <= 0) return;
+        const amt = parseFloat(gbpAmount) || 0;
+        if (amt <= 0) return;
         try {
-            const resp = await escrowApi.calculateFee(parsedGbp, rate);
+            const resp = await escrowApi.calculateFee(amt, rate);
             setFeeCalc({ fee: resp.escrowFee, nairaEq: resp.nairaEquivalent, total: resp.totalPayable });
         } catch {
             // API might fail if not fully implemented yet
-            setFeeCalc({ fee: 0, nairaEq: 0, total: ngnAmount });
+            setFeeCalc({ fee: 0, nairaEq: 0, total: amt * rate });
         }
     };
+
+    useEffect(() => {
+        if (maxGbp > 0) {
+            calculateFee();
+        }
+    }, []);
 
     const handleCreateOrder = async () => {
         if (parsedGbp < minGbp || parsedGbp > maxGbp) {
@@ -82,7 +89,7 @@ export default function BuyFromTraderScreen() {
                     <Text style={s.traderLabel}>Trading with</Text>
                     <Text style={s.traderName}>{traderName}</Text>
                     <View style={s.rateBadge}>
-                        <Text style={s.rateTxt}>Rate: ₦{rate.toLocaleString()}/£1</Text>
+                        <Text style={s.rateTxt}>Rate: ₦{(rate || 0).toLocaleString()}/£1</Text>
                     </View>
                 </View>
 
@@ -105,7 +112,7 @@ export default function BuyFromTraderScreen() {
                 <Icon name="swap-vertical" size={24} color={colors.gray} style={s.swapIcon} />
 
                 <View style={s.inputCard}>
-                    <Text style={s.label}>I will pay (NGN)</Text>
+                    <Text style={s.label}>I'm paying (NGN)</Text>
                     <View style={[s.inputWrap, s.inputWrapDisabled]}>
                         <Text style={s.currencyPrefix}>₦</Text>
                         <TextInput
@@ -120,19 +127,19 @@ export default function BuyFromTraderScreen() {
                     <Text style={s.summaryTitle}>Transaction Summary</Text>
                     <View style={s.summaryRow}>
                         <Text style={s.summaryLbl}>GBP Amount</Text>
-                        <Text style={s.summaryVal}>£{parsedGbp.toLocaleString()}</Text>
+                        <Text style={s.summaryVal}>£{(parsedGbp || 0).toLocaleString()}</Text>
                     </View>
                     <View style={s.summaryRow}>
                         <Text style={s.summaryLbl}>Exchange Rate</Text>
-                        <Text style={s.summaryVal}>₦{rate.toLocaleString()}</Text>
+                        <Text style={s.summaryVal}>₦{(rate || 0).toLocaleString()}</Text>
                     </View>
                     <View style={s.summaryRow}>
                         <Text style={s.summaryLbl}>Escrow Trust Fee (1.5%)</Text>
-                        <Text style={s.summaryVal}>₦{feeCalc ? feeCalc.nairaEq.toLocaleString() : (ngnAmount * 0.015).toLocaleString()}</Text>
+                        <Text style={s.summaryVal}>₦{feeCalc ? (feeCalc.nairaEq || 0).toLocaleString() : (ngnAmount * 0.015).toLocaleString()}</Text>
                     </View>
                     <View style={[s.summaryRow, s.totalRow]}>
                         <Text style={s.totalLbl}>Total to Pay</Text>
-                        <Text style={s.totalVal}>₦{feeCalc ? feeCalc.total.toLocaleString() : (ngnAmount * 1.015).toLocaleString()}</Text>
+                        <Text style={s.totalVal}>₦{feeCalc ? (feeCalc.total || 0).toLocaleString() : (ngnAmount * 1.015).toLocaleString()}</Text>
                     </View>
                 </View>
 
