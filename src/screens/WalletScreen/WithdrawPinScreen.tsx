@@ -28,13 +28,7 @@ export default function WithdrawPinScreen() {
             }
 
             // 2. Perform withdrawal
-            const res = await walletApi.withdraw({ ...data, pin });
-
-            if (res && res.isSuccessful === false) {
-                Alert.alert('Withdrawal Failed', res.message || 'The transaction could not be processed.');
-                setPin('');
-                return;
-            }
+            await walletApi.withdraw({ ...data, pin });
 
             navigation.navigate('WithdrawSuccess', { amount: data.amount });
         } catch (e: any) {

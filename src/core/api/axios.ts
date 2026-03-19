@@ -15,9 +15,9 @@ export const apiClient = axios.create({
 });
 
 // If API_BASE_URL is undefined in standalone, this helps find out
-if (!API_BASE_URL && __DEV__ === false) {
-  Alert.alert('Configuration Error', 'API_BASE_URL is not defined in this build.');
-}
+// if (!API_BASE_URL && __DEV__ === false) {
+//   Alert.alert('Configuration Error', 'API_BASE_URL is not defined in this build.');
+// }
 
 // Attach JWT
 apiClient.interceptors.request.use(async (config) => {
@@ -32,18 +32,24 @@ apiClient.interceptors.request.use(async (config) => {
 apiClient.interceptors.response.use(
   (response) => {
     const data = response.data;
-    const url = response.config.url;
 
-    if (data && data.success === false) {
-      throw new Error(data.error?.message || 'Request failed');
+    // Check for success flags (old ABP 'success' or new 'isSuccessful')
+    if (data && (data.success === false || data.isSuccessful === false)) {
+      const errorMsg = data.message || data.error?.message || 'Request failed';
+      throw new Error(errorMsg);
     }
 
+    // New structure uses 'payload' for the data
+    if (data && data.payload !== undefined) {
+      return data.payload;
+    }
+
+    // Legacy ABP uses 'result'
     const result = data?.result !== undefined ? data.result : data;
 
-    // Handle nested collections or payloads
-    if (result && typeof result === 'object') {
-      if (result.payload !== undefined) return result.payload;
-      if (result.data !== undefined) return result.data;
+    // Handle generic 'data' field used by some APIs
+    if (result && typeof result === 'object' && result.data !== undefined) {
+      return result.data;
     }
 
     return result;
@@ -59,9 +65,9 @@ apiClient.interceptors.response.use(
       logout();
     }
 
-    if (__DEV__ === false && status !== 401) {
-      Alert.alert('Connection Error', `Status: ${status}\nMessage: ${error.message}\nURL: ${error.config?.url}`);
-    }
+    // if (__DEV__ === false && status !== 401) {
+    //   Alert.alert('Connection Error', `Status: ${status}\nMessage: ${error.message}\nURL: ${error.config?.url}`);
+    // }
     return Promise.reject(error);
   }
 );

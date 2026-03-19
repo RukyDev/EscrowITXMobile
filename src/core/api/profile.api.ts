@@ -32,11 +32,7 @@ export const profileApi = {
         return await apiClient.post(USER_ENDPOINTS.editInfo, payload);
     },
 
-    async changePassword(payload: ChangePasswordPayload): Promise<any> {
-        const resp: any = await apiClient.post(USER_ENDPOINTS.changePassword, payload);
-        if (resp && resp.statusCode === 400) {
-            throw new Error(resp.message || 'Failed to change password');
-        }
-        return resp;
+    async changePassword(payload: ChangePasswordPayload): Promise<void> {
+        await apiClient.post(USER_ENDPOINTS.changePassword, payload);
     }
 };
