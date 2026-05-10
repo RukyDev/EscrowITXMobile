@@ -98,8 +98,10 @@ export const walletApi = {
     },
 
     async validatePin(pin: string): Promise<boolean> {
-        // Interceptor already unwraps the response
+        // Interceptor already unwraps the response payload.
+        // Backend returns a boolean (or truthy value) — use loose check to handle
+        // true / 1 / "true" etc.
         const res = await apiClient.post(`${SECURITY_ENDPOINTS.validatePin}?pin=${pin}`) as any;
-        return res === true;
+        return !!res;
     },
 };

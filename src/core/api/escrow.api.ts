@@ -72,11 +72,11 @@ export interface ReleaseResult {
 }
 
 export const escrowApi = {
-    async buyEscrow(payload: EscrowBuySellPayload): Promise<EscrowCreatedResult> {
+    async buyEscrow(payload: EscrowBuySellPayload): Promise<number> {
         return await apiClient.post(ESCROW_ENDPOINTS.buy, payload);
     },
 
-    async sellEscrow(payload: EscrowBuySellPayload): Promise<EscrowCreatedResult> {
+    async sellEscrow(payload: EscrowBuySellPayload): Promise<number> {
         return await apiClient.post(ESCROW_ENDPOINTS.sell, payload);
     },
 

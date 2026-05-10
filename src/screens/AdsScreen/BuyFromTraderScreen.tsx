@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
     View, Text, TextInput, TouchableOpacity, StyleSheet,
-    SafeAreaView, ScrollView, ActivityIndicator, Alert, Platform, StatusBar
+    SafeAreaView, ScrollView, ActivityIndicator, Alert, Platform, StatusBar, Modal
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -9,23 +9,24 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { colors } from '../../theme/colors';
 import { MarketStackParamList } from '../../navigation/types';
 import { escrowApi } from '../../core/api/escrow.api';
+import { useAuthStore } from '../../store/auth.store';
+import { walletApi, WalletBalance } from '../../core/api/wallet.api';
 
 type Nav = NativeStackNavigationProp<MarketStackParamList, 'BuyFromTrader'>;
-type Route = {
-    params: MarketStackParamList['BuyFromTrader'];
-    name: 'BuyFromTrader';
-    key: string;
-};
 
 export default function BuyFromTraderScreen() {
     const navigation = useNavigation<Nav>();
-    const route = useRoute<any>(); // useRoute generic is also being picky, casting to any for safety
+    const route = useRoute<any>();
     const params = route.params as MarketStackParamList['BuyFromTrader'];
     const { adId, traderName = 'Trader', rate = 0, minGbp = 0, maxGbp = 0 } = params || {};
 
     const [gbpAmount, setGbpAmount] = useState((maxGbp || 0).toString());
     const [loading, setLoading] = useState(false);
     const [feeCalc, setFeeCalc] = useState<{ fee: number, nairaEq: number, total: number } | null>(null);
+    const [wallets, setWallets] = useState<WalletBalance[]>([]);
+    const [selectedWalletId, setSelectedWalletId] = useState<number | null>(null);
+    const [showWalletModal, setShowWalletModal] = useState(false);
+    const [fetchingWallets, setFetchingWallets] = useState(false);
 
     const parsedGbp = parseFloat(gbpAmount) || 0;
     const ngnAmount = parsedGbp * rate;
@@ -37,20 +38,39 @@ export default function BuyFromTraderScreen() {
             const resp = await escrowApi.calculateFee(amt, rate);
             setFeeCalc({ fee: resp.escrowFee, nairaEq: resp.nairaEquivalent, total: resp.totalPayable });
         } catch {
-            // API might fail if not fully implemented yet
             setFeeCalc({ fee: 0, nairaEq: 0, total: amt * rate });
         }
     };
 
     useEffect(() => {
-        if (maxGbp > 0) {
-            calculateFee();
-        }
+        const init = async () => {
+            if (maxGbp > 0) {
+                calculateFee();
+            }
+            try {
+                setFetchingWallets(true);
+                const walletData = await walletApi.getBeneficiaryWallets();
+                setWallets(walletData || []);
+                if (walletData?.length > 0) {
+                    setSelectedWalletId(walletData[0].id);
+                }
+            } catch (e) {
+                console.log('Error loading wallets', e);
+            } finally {
+                setFetchingWallets(false);
+            }
+        };
+        init();
     }, []);
 
     const handleCreateOrder = async () => {
         if (parsedGbp < minGbp || parsedGbp > maxGbp) {
             Alert.alert('Invalid Amount', `Amount must be between £${minGbp} and £${maxGbp}`);
+            return;
+        }
+
+        if (!selectedWalletId) {
+            Alert.alert('Selection Required', 'Please select a GBP account to receive your funds.');
             return;
         }
 
@@ -60,12 +80,12 @@ export default function BuyFromTraderScreen() {
                 adID: adId,
                 volumToBuy: parsedGbp,
                 rate: rate,
-                accountId: 0 // Would come from auth/user store in real app
+                accountId: selectedWalletId
             });
 
             navigation.navigate('EscrowCreated', {
-                orderId: resp.escrowReference || `ESC-${Date.now()}`,
-                amountLocked: resp.amountLocked || parsedGbp,
+                orderId: resp.toString(),
+                amountLocked: ngnAmount,
                 gbpAmount: parsedGbp
             });
         } catch (e: any) {
@@ -74,6 +94,8 @@ export default function BuyFromTraderScreen() {
             setLoading(false);
         }
     };
+
+    const selectedWallet = wallets.find(w => w.id === selectedWalletId);
 
     return (
         <SafeAreaView style={s.root}>
@@ -123,6 +145,24 @@ export default function BuyFromTraderScreen() {
                     </View>
                 </View>
 
+                <Text style={[s.label, { marginTop: 24 }]}>Select Receiving GBP Account</Text>
+                <TouchableOpacity style={s.dropdown} onPress={() => setShowWalletModal(true)}>
+                    {fetchingWallets ? (
+                        <ActivityIndicator size="small" color={colors.blue} />
+                    ) : selectedWallet ? (
+                        <View style={s.dropdownSelected}>
+                            <Icon name="business-outline" size={20} color={colors.blue} />
+                            <View style={{ marginLeft: 10 }}>
+                                <Text style={s.dropdownTitle}>{selectedWallet.accountName}</Text>
+                                <Text style={s.dropdownSub}>{selectedWallet.accountNumber} • {selectedWallet.bankName}</Text>
+                            </View>
+                        </View>
+                    ) : (
+                        <Text style={s.dropdownPlaceholder}>Select GBP Beneficiary Account</Text>
+                    )}
+                    <Icon name="chevron-down" size={20} color={colors.gray} />
+                </TouchableOpacity>
+
                 <View style={s.summaryCard}>
                     <Text style={s.summaryTitle}>Transaction Summary</Text>
                     <View style={s.summaryRow}>
@@ -134,19 +174,19 @@ export default function BuyFromTraderScreen() {
                         <Text style={s.summaryVal}>₦{(rate || 0).toLocaleString()}</Text>
                     </View>
                     <View style={s.summaryRow}>
-                        <Text style={s.summaryLbl}>Escrow Trust Fee (1.5%)</Text>
-                        <Text style={s.summaryVal}>₦{feeCalc ? (feeCalc.nairaEq || 0).toLocaleString() : (ngnAmount * 0.015).toLocaleString()}</Text>
+                        <Text style={s.summaryLbl}>Escrow Fee (5%)</Text>
+                        <Text style={s.summaryVal}>₦{feeCalc ? (feeCalc.nairaEq || 0).toLocaleString() : (ngnAmount * 0.05).toLocaleString()}</Text>
                     </View>
                     <View style={[s.summaryRow, s.totalRow]}>
                         <Text style={s.totalLbl}>Total to Pay</Text>
-                        <Text style={s.totalVal}>₦{feeCalc ? (feeCalc.total || 0).toLocaleString() : (ngnAmount * 1.015).toLocaleString()}</Text>
+                        <Text style={s.totalVal}>₦{feeCalc ? (feeCalc.total || 0).toLocaleString() : (ngnAmount * 1.05).toLocaleString()}</Text>
                     </View>
                 </View>
 
                 <TouchableOpacity
-                    style={[s.btn, (!parsedGbp || parsedGbp < minGbp || parsedGbp > maxGbp) && s.btnDisabled]}
+                    style={[s.btn, (!parsedGbp || parsedGbp < minGbp || parsedGbp > maxGbp || !selectedWalletId) && s.btnDisabled]}
                     onPress={handleCreateOrder}
-                    disabled={loading || !parsedGbp || parsedGbp < minGbp || parsedGbp > maxGbp}
+                    disabled={loading || !parsedGbp || parsedGbp < minGbp || parsedGbp > maxGbp || !selectedWalletId}
                 >
                     {loading ? <ActivityIndicator color="#fff" /> : <Text style={s.btnTxt}>Open Escrow Trade</Text>}
                 </TouchableOpacity>
@@ -158,6 +198,44 @@ export default function BuyFromTraderScreen() {
 
                 <View style={{ height: 40 }} />
             </ScrollView>
+
+            <Modal visible={showWalletModal} transparent animationType="slide">
+                <View style={s.modalOverlay}>
+                    <View style={s.modalContentBottom}>
+                        <View style={s.modalHeader}>
+                            <Text style={s.modalTitle}>Select GBP Account</Text>
+                            <TouchableOpacity onPress={() => setShowWalletModal(false)}>
+                                <Icon name="close" size={24} color={colors.text} />
+                            </TouchableOpacity>
+                        </View>
+                        <ScrollView>
+                            {wallets.length > 0 ? wallets.map(w => (
+                                <TouchableOpacity
+                                    key={w.id}
+                                    style={[s.walletOption, selectedWalletId === w.id && s.walletOptionActive]}
+                                    onPress={() => {
+                                        setSelectedWalletId(w.id);
+                                        setShowWalletModal(false);
+                                    }}
+                                >
+                                    <View style={s.walletOptionInfo}>
+                                        <Icon name="business" size={24} color={selectedWalletId === w.id ? colors.white : colors.blue} />
+                                        <View style={{ marginLeft: 12 }}>
+                                            <Text style={[s.walletOptionTitle, selectedWalletId === w.id && s.walletOptionTitleActive]}>{w.accountName}</Text>
+                                            <Text style={[s.walletOptionSub, selectedWalletId === w.id && s.walletOptionSubActive]}>{w.accountNumber} • {w.bankName || 'Beneficiary'}</Text>
+                                        </View>
+                                    </View>
+                                    {selectedWalletId === w.id && <Icon name="checkmark-circle" size={20} color={colors.white} />}
+                                </TouchableOpacity>
+                            )) : (
+                                <View style={{ padding: 40, alignItems: 'center' }}>
+                                    <Text style={{ color: colors.gray, textAlign: 'center' }}>No beneficiary accounts found. Please add a GBP account in your profile.</Text>
+                                </View>
+                            )}
+                        </ScrollView>
+                    </View>
+                </View>
+            </Modal>
         </SafeAreaView>
     );
 }
@@ -188,6 +266,11 @@ const s = StyleSheet.create({
     amountInput: { flex: 1, fontSize: 24, fontWeight: '700', color: colors.text, paddingVertical: 12 },
     limitText: { fontSize: 11, color: colors.gray, marginTop: 8, textAlign: 'right' },
     swapIcon: { alignSelf: 'center', marginVertical: -12, zIndex: 10, backgroundColor: colors.background, padding: 4 },
+    dropdown: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderWidth: 1.5, borderColor: colors.grayLight, borderRadius: 12, padding: 14, backgroundColor: '#F9FAFB', marginTop: 8 },
+    dropdownPlaceholder: { color: colors.gray, fontSize: 14 },
+    dropdownSelected: { flexDirection: 'row', alignItems: 'center' },
+    dropdownTitle: { fontSize: 14, fontWeight: '700', color: colors.text },
+    dropdownSub: { fontSize: 12, color: colors.gray, marginTop: 2 },
     summaryCard: { backgroundColor: colors.white, padding: 16, borderRadius: 12, marginTop: 24, marginBottom: 24 },
     summaryTitle: { fontSize: 14, fontWeight: '700', color: colors.text, marginBottom: 12 },
     summaryRow: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 },
@@ -200,5 +283,16 @@ const s = StyleSheet.create({
     btnDisabled: { backgroundColor: '#A5B4FC' },
     btnTxt: { color: colors.white, fontSize: 16, fontWeight: '700' },
     secureNote: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, marginTop: 16 },
-    secureTxt: { fontSize: 11, color: colors.success, fontWeight: '500' }
+    secureTxt: { fontSize: 11, color: colors.success, fontWeight: '500' },
+    modalOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'flex-end' },
+    modalContentBottom: { backgroundColor: colors.white, borderTopLeftRadius: 24, borderTopRightRadius: 24, padding: 24, maxHeight: '70%' },
+    modalHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 },
+    modalTitle: { fontSize: 18, fontWeight: '800', color: colors.text },
+    walletOption: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', padding: 16, borderRadius: 12, marginBottom: 8, backgroundColor: '#F9FAFB' },
+    walletOptionActive: { backgroundColor: colors.blue },
+    walletOptionInfo: { flexDirection: 'row', alignItems: 'center' },
+    walletOptionTitle: { fontSize: 15, fontWeight: '700', color: colors.text },
+    walletOptionTitleActive: { color: colors.white },
+    walletOptionSub: { fontSize: 12, color: colors.gray, marginTop: 2 },
+    walletOptionSubActive: { color: 'rgba(255,255,255,0.7)' }
 });

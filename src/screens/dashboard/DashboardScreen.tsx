@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import {
   View, Text, StyleSheet, ScrollView, TouchableOpacity,
   ActivityIndicator, SafeAreaView, StatusBar, Platform
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useDashboardStore } from '../../store/dashboard.store';
 import { useAuthStore } from '../../store/auth.store';
@@ -34,9 +34,14 @@ export default function DashboardScreen() {
       StatusBar.setTranslucent(true);
       StatusBar.setBackgroundColor('transparent');
     }
-    fetchDashboard();
-    fetchBalance();
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchDashboard();
+      fetchBalance();
+    }, [])
+  );
 
   const userName = dashboard?.userFirstName || user?.name || 'User';
   const initials = userName.slice(0, 2).toUpperCase();

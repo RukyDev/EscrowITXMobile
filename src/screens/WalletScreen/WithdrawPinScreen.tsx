@@ -4,12 +4,14 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { colors } from '../../theme/colors';
 import { walletApi } from '../../core/api/wallet.api';
+import { useWalletStore } from '../../store/wallet.store';
 
 export default function WithdrawPinScreen() {
     const navigation = useNavigation<any>();
     const route = useRoute<any>();
     const { data } = route.params;
 
+    const { fetchBalance, fetchActivities } = useWalletStore();
     const [pin, setPin] = useState('');
     const [loading, setLoading] = useState(false);
 
@@ -29,6 +31,10 @@ export default function WithdrawPinScreen() {
 
             // 2. Perform withdrawal
             await walletApi.withdraw({ ...data, pin });
+
+            // 3. Refresh wallet state so balance/activities update immediately
+            fetchBalance();
+            fetchActivities();
 
             navigation.navigate('WithdrawSuccess', { amount: data.amount });
         } catch (e: any) {

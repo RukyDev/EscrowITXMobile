@@ -26,7 +26,7 @@ export default function EscrowCreatedScreen() {
                 <View style={s.card}>
                     <View style={s.row}>
                         <Text style={s.lbl}>Order ID</Text>
-                        <Text style={s.val}>{orderId}</Text>
+                        <Text style={s.val}>ESC-{orderId}</Text>
                     </View>
                     <View style={s.row}>
                         <Text style={s.lbl}>GBP Amount</Text>

@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { tokenService } from '../core/storage/token.service';
-import { authApi, SessionUser } from '../core/api/auth.api';
+import { authApi, SessionUser, KYCStatus } from '../core/api/auth.api';
 
 interface AuthState {
   user: SessionUser | null;
@@ -39,9 +39,13 @@ export const useAuthStore = create<AuthState>((set) => ({
 
       let userData = null;
       try {
-        userData = session?.userDetails || session?.user || session?.result?.user || session?.data?.result?.user || session?.result || session;
-        if (userData && userData.result) userData = userData.result;
-        if (userData && userData.user) userData = userData.user;
+        // session is now the result.payload (if it exists) or result due to axios interceptor
+        userData = session?.userDetails || session?.user || session;
+        const rawKycStatus = (session?.userDetails?.kycStatus ?? session?.kycStatus ?? userData?.kycStatus);
+        
+        if (userData) {
+          userData.kycStatus = rawKycStatus !== undefined ? Number(rawKycStatus) : KYCStatus.Unverified;
+        }
       } catch (e) { }
 
       set({
@@ -80,9 +84,13 @@ export const useAuthStore = create<AuthState>((set) => ({
 
       let userData = null;
       try {
-        userData = session?.userDetails || session?.user || session?.result?.user || session?.data?.result?.user || session?.result || session;
-        if (userData && userData.result) userData = userData.result;
-        if (userData && userData.user) userData = userData.user;
+        // session is now the result.payload (if it exists) or result due to axios interceptor
+        userData = session?.userDetails || session?.user || session;
+        const rawKycStatus = (session?.userDetails?.kycStatus ?? session?.kycStatus ?? userData?.kycStatus);
+        
+        if (userData) {
+          userData.kycStatus = rawKycStatus !== undefined ? Number(rawKycStatus) : KYCStatus.Unverified;
+        }
       } catch (e) { }
 
       set({

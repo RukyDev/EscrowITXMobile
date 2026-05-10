@@ -1,7 +1,8 @@
 import { apiClient } from './axios';
-import { DOCUMENT_ENDPOINTS, USER_ENDPOINTS } from './endpoints';
+import { DOCUMENT_ENDPOINTS, USER_ENDPOINTS, KYC_ENDPOINTS } from './endpoints';
 
 export enum DocumentUploadStatus {
+    None = 0,
     Uploaded = 1,
     AllApproved = 2,
     AllDeclined = 3,
@@ -26,10 +27,37 @@ export interface KYCPayload {
     occupation: number;
 }
 
+export interface UserProfilePayload {
+    nationality: string;
+    dateOfBirth: string; // ISO string
+    residentialAddress: string;
+    gender: number;
+    occupation: number;
+}
+
 export const documentApi = {
     async getStatus(): Promise<DocumentUploadStatus> {
         const res = await apiClient.get(USER_ENDPOINTS.getKYCStatus);
         return res as any as DocumentUploadStatus;
+    },
+
+    /** Save personal info (Tab 1) to the backend before launching Prembly */
+    async updateUserProfile(payload: UserProfilePayload): Promise<void> {
+        return await apiClient.post(USER_ENDPOINTS.updateUserProfile, payload);
+    },
+
+    /** Call Prembly to start a KYC session; returns the session payload */
+    async initiateKycSession(): Promise<{ session_id: string }> {
+        // The axios interceptor already throws on failure and returns data.payload directly
+        const res: any = await apiClient.post(KYC_ENDPOINTS.initiateKycSession, {});
+        return res;
+    },
+
+    /** Load the current Prembly KYC status for the user */
+    async getUserKycStatus(): Promise<'Pending' | 'Verified' | 'Rejected' | null> {
+        // Interceptor already unwraps data.payload — res IS the status value
+        const res: any = await apiClient.get(USER_ENDPOINTS.getUserKycStatus);
+        return res ?? null;
     },
 
     async uploadKYC(payload: KYCPayload): Promise<void> {

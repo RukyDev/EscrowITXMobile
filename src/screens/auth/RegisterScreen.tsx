@@ -31,6 +31,9 @@ export default function RegisterScreen() {
         if (!form.firstName || !form.lastName || !form.email || !form.phone || !form.password) {
             setError('Please fill in all fields'); return;
         }
+        if (form.phone.trim().length < 11 || form.phone.trim().length > 15 || !form.phone.trim().startsWith('+')) {
+            setError('Phone number must include country code (e.g. +234) and be 11-15 characters'); return;
+        }
         if (form.password !== form.confirmPassword) {
             setError('Passwords do not match'); return;
         }

@@ -6,6 +6,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { colors } from '../../theme/colors';
 import { useAuthStore } from '../../store/auth.store';
 import { ProfileStackParamList } from '../../navigation/types';
+import { KYCStatus } from '../../core/api/auth.api';
 import LinearGradient from 'react-native-linear-gradient';
 
 type Nav = NativeStackNavigationProp<ProfileStackParamList, 'ProfileHome'>;
@@ -48,15 +49,27 @@ export default function ProfileScreen() {
           <View style={s.profileInfo}>
             <Text style={s.profileName}>{user?.userName || user?.name || user?.fullName || 'User'}</Text>
             <Text style={s.profileEmail}>{user?.emailAddress || '---'}</Text>
-            <View style={[s.statusBadge, { backgroundColor: user?.isDocumentVerified ? 'rgba(240, 253, 244, 0.2)' : 'rgba(254, 242, 242, 0.2)' }]}>
+            <View style={[
+              s.statusBadge,
+              {
+                backgroundColor: Number(user?.kycStatus) === KYCStatus.Verified
+                  ? 'rgba(240, 253, 244, 0.2)'
+                  : Number(user?.kycStatus) === KYCStatus.Pending
+                    ? 'rgba(255, 251, 235, 0.2)'
+                    : 'rgba(254, 242, 242, 0.2)'
+              }
+            ]}>
               <Icon
-                name={user?.isDocumentVerified ? "checkmark-circle" : "close-circle"}
+                name={Number(user?.kycStatus) === KYCStatus.Verified ? "checkmark-circle" : Number(user?.kycStatus) === KYCStatus.Pending ? "time" : "close-circle"}
                 size={12}
-                color={user?.isDocumentVerified ? colors.success : colors.danger}
+                color={Number(user?.kycStatus) === KYCStatus.Verified ? colors.success : Number(user?.kycStatus) === KYCStatus.Pending ? colors.warn : colors.danger}
                 style={{ marginRight: 4 }}
               />
-              <Text style={[s.statusText, { color: user?.isDocumentVerified ? colors.success : colors.danger }]}>
-                {user?.isDocumentVerified ? 'Verified Account' : 'Inactive / Unverified'}
+              <Text style={[
+                s.statusText,
+                { color: Number(user?.kycStatus) === KYCStatus.Verified ? colors.success : Number(user?.kycStatus) === KYCStatus.Pending ? colors.warn : colors.danger }
+              ]}>
+                {Number(user?.kycStatus) === KYCStatus.Verified ? 'Verified Account' : Number(user?.kycStatus) === KYCStatus.Pending ? 'Pending Review' : 'Unverified Account'}
               </Text>
             </View>
           </View>

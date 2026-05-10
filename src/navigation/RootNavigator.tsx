@@ -50,6 +50,8 @@ import ProfileScreen from './../screens/ProfileScreen/ProfileScreen';
 import EditProfileScreen from './../screens/ProfileScreen/EditProfileScreen';
 import ChangePasswordScreen from './../screens/ProfileScreen/ChangePasswordScreen';
 import SecurityScreen from './../screens/ProfileScreen/SecurityScreen';
+import KYCScreen from '../screens/KYCScreen';
+import { KYCStatus } from '../core/api/auth.api';
 
 import {
   AuthStackParamList,
@@ -179,7 +181,7 @@ function MainTabs() {
 }
 
 export default function RootNavigator() {
-  const { isAuthenticated, bootstrap, isLoading } = useAuthStore();
+  const { isAuthenticated, bootstrap, isLoading, user } = useAuthStore();
 
   useEffect(() => { bootstrap(); }, []);
 
@@ -193,7 +195,11 @@ export default function RootNavigator() {
 
   return (
     <NavigationContainer>
-      {isAuthenticated ? <MainTabs /> : <AuthNavigator />}
+      {isAuthenticated ? (
+        Number(user?.kycStatus) === KYCStatus.Verified ? <MainTabs /> : <KYCScreen />
+      ) : (
+        <AuthNavigator />
+      )}
     </NavigationContainer>
   );
 }

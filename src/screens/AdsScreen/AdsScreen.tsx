@@ -88,10 +88,10 @@ export default function AdsScreen() {
       <View style={s.tabsWrap}>
         <View style={s.tabs}>
           <TouchableOpacity style={[s.tab, activeTab === 'Buy' && s.tabActive]} onPress={() => setActiveTab('Buy')}>
-            <Text style={[s.tabTxt, activeTab === 'Buy' && s.tabTxtActive]}>Buy GBP</Text>
+            <Text style={[s.tabTxt, activeTab === 'Buy' && s.tabTxtActive]}>Buy Ads</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[s.tab, activeTab === 'Sell' && s.tabActive]} onPress={() => setActiveTab('Sell')}>
-            <Text style={[s.tabTxt, activeTab === 'Sell' && s.tabTxtActive]}>Sell GBP</Text>
+            <Text style={[s.tabTxt, activeTab === 'Sell' && s.tabTxtActive]}>Sell Ads</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -121,7 +121,7 @@ export default function AdsScreen() {
                       <Text style={s.traderName}>{ad.traderName || 'Trader'}</Text>
                       <Icon name="check-circle" size={14} color={colors.success} />
                     </View>
-                    <Text style={s.traderStats}>{ad.tradeCount || 0} trades | {ad.rating || 100}%</Text>
+                    <Text style={s.traderStats}>Rating: {ad.rating || 100}%</Text>
                   </View>
                 </View>
                 <View style={s.priceBox}>
@@ -139,7 +139,7 @@ export default function AdsScreen() {
                 style={[s.actionBtn, { backgroundColor: activeTab === 'Buy' ? colors.blue : colors.success }]}
                 onPress={() => handleAction(ad)}
               >
-                <Text style={s.actionBtnTxt}>{activeTab === 'Buy' ? 'Buy' : 'Sell'} GBP</Text>
+                <Text style={s.actionBtnTxt}>{activeTab === 'Buy' ? 'Sell' : 'Buy'} </Text>
               </TouchableOpacity>
             </View>
           ))

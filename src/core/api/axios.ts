@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { API_BASE_URL as ENV_BASE } from '@env';
 
-const API_BASE_URL = ENV_BASE || 'https://escrowitx.runasp.net/';
+const API_BASE_URL = ENV_BASE || 'https://web.escrowitx.com/';
 import { tokenService } from '../storage/token.service';
 import { useAuthStore } from '../../store/auth.store';
 
@@ -47,6 +47,11 @@ apiClient.interceptors.response.use(
     // Legacy ABP uses 'result'
     const result = data?.result !== undefined ? data.result : data;
 
+    // If result contains a payload, use it (new BaseResponse pattern)
+    if (result && typeof result === 'object' && result.payload !== undefined) {
+      return result.payload;
+    }
+
     // Handle generic 'data' field used by some APIs
     if (result && typeof result === 'object' && result.data !== undefined) {
       return result.data;
@@ -56,18 +61,24 @@ apiClient.interceptors.response.use(
   },
   async (error) => {
     const status = error?.response?.status;
+    const errorData = error?.response?.data;
+
+    // Check for error message from backend
+    if (errorData && (errorData.message || errorData.error?.message)) {
+      error.message = errorData.message || errorData.error?.message;
+    } else if (status === 401) {
+      error.message = 'Invalid email or password';
+    }
 
     // 🔴 TOKEN EXPIRED / UNAUTHORIZED
     if (status === 401) {
-      await tokenService.clear();
-
-      const logout = useAuthStore.getState().logout;
-      logout();
+      const isLoginRequest = error.config?.url?.includes('Authenticate');
+      if (!isLoginRequest) {
+        await tokenService.clear();
+        const logout = useAuthStore.getState().logout;
+        logout();
+      }
     }
-
-    // if (__DEV__ === false && status !== 401) {
-    //   Alert.alert('Connection Error', `Status: ${status}\nMessage: ${error.message}\nURL: ${error.config?.url}`);
-    // }
     return Promise.reject(error);
   }
 );

@@ -9,6 +9,7 @@ export type AuthStackParamList = {
 export type HomeStackParamList = {
     Dashboard: undefined;
     Notifications: undefined;
+    KYC: undefined;
 };
 
 export type MarketStackParamList = {

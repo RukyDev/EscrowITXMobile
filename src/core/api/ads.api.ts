@@ -73,9 +73,9 @@ export const adsApi = {
             ...item,
             id: item.adID,
             traderName: item.userName,
-            traderInitials: (item.userName || 'TR').slice(0, 2).toUpperCase(),
-            tradeCount: item.totalCompletedEscrowCount || 0,
-            rating: 100, // Default to 100% for now
+            traderInitials: item.userName ? item.userName.substring(0, 2).toUpperCase() : '',
+            tradeCount: item.completedEscrowCount || 0,
+            rating: (!item.totalEscrowTransCount || item.totalEscrowTransCount === 0) ? 0 : Math.round(((item.completedEscrowCount || 0) / item.totalEscrowTransCount) * 100),
             status: item.adsStatus?.toLowerCase().trim() === 'open' ? 1 : 0,
             minAmount: item.minLimit || 0
         }));
@@ -114,9 +114,9 @@ export const adsApi = {
             ...item,
             id: item.adID,
             traderName: item.userName,
-            traderInitials: (item.userName || 'TR').slice(0, 2).toUpperCase(),
-            tradeCount: item.totalCompletedEscrowCount || 0,
-            rating: 100,
+            traderInitials: item.userName ? item.userName.substring(0, 2).toUpperCase() : '',
+            tradeCount: item.completedEscrowCount || 0,
+            rating: (!item.totalEscrowTransCount || item.totalEscrowTransCount === 0) ? 0 : Math.round(((item.completedEscrowCount || 0) / item.totalEscrowTransCount) * 100),
             status: item.adsStatus?.toLowerCase().trim() === 'open' ? 1 : 0,
             minAmount: item.minLimit || 0
         }));
@@ -127,9 +127,9 @@ export const adsApi = {
             ...item,
             id: item.adID,
             traderName: item.userName,
-            traderInitials: (item.userName || 'TR').slice(0, 2).toUpperCase(),
-            tradeCount: item.totalCompletedEscrowCount || 0,
-            rating: 100,
+            traderInitials: item.userName ? item.userName.substring(0, 2).toUpperCase() : '',
+            tradeCount: item.completedEscrowCount || 0,
+            rating: (!item.totalEscrowTransCount || item.totalEscrowTransCount === 0) ? 0 : Math.round(((item.completedEscrowCount || 0) / item.totalEscrowTransCount) * 100),
             status: item.adsStatus?.toLowerCase().trim() === 'open' ? 1 : 0,
             minAmount: item.minLimit || 0
         }));

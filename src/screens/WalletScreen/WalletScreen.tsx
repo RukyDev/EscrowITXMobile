@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, ActivityIndicator, Modal, TextInput, Alert } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Platform, StatusBar } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { colors } from '../../theme/colors';
 import { WalletStackParamList } from '../../navigation/types';
@@ -18,10 +18,12 @@ export default function WalletScreen() {
     const { balance, fetchBalance, activities, fetchActivities, isLoading } = useWalletStore();
     const user = useAuthStore(state => state.user);
 
-    useEffect(() => {
-        fetchBalance();
-        fetchActivities();
-    }, []);
+    useFocusEffect(
+        useCallback(() => {
+            fetchBalance();
+            fetchActivities();
+        }, [])
+    );
 
     const [showAddPounds, setShowAddPounds] = useState(false);
     const [isAdding, setIsAdding] = useState(false);

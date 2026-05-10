@@ -72,6 +72,12 @@ export const USER_ENDPOINTS = {
   editInfo: `${API_APP_PATH}/User/EditInfo`,
   changePassword: `${API_APP_PATH}/User/ChangePassword`,
   getKYCStatus: `${API_APP_PATH}/User/GetDocumentUploadStatus`,
+  updateUserProfile: `${API_APP_PATH}/User/UpdateUserProfile`,
+  getUserKycStatus: `${API_APP_PATH}/User/GetUserKYCStatus`,
+};
+
+export const KYC_ENDPOINTS = {
+  initiateKycSession: `${API_APP_PATH}/UserKycVerificationService/InitiateKycSession`,
 };
 
 export const DOCUMENT_ENDPOINTS = {

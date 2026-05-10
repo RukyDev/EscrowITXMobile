@@ -31,8 +31,10 @@ export default function LoginScreen() {
       setError(null);
       await login(email, password);
     } catch (err: any) {
-      setError(err.message || 'Login failed. Please try again.');
-      Alert.alert('Login Error', `URL: ${AUTH_ENDPOINTS.login}\nError: ${err.message}`);
+      // Axios interceptor now provides a friendly message
+      const errorMsg = err.message || 'Login failed. Please check your credentials and try again.';
+      setError(errorMsg);
+      Alert.alert('Login Failed', errorMsg);
     }
   };
 

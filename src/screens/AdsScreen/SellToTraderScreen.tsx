@@ -9,6 +9,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { colors } from '../../theme/colors';
 import { MarketStackParamList } from '../../navigation/types';
 import { escrowApi } from '../../core/api/escrow.api';
+import { useAuthStore } from '../../store/auth.store';
 
 type Nav = NativeStackNavigationProp<MarketStackParamList, 'SellToTrader'>;
 
@@ -24,6 +25,8 @@ export default function SellToTraderScreen() {
 
     const parsedGbp = parseFloat(gbpAmount) || 0;
     const ngnAmount = parsedGbp * rate;
+
+    const user = useAuthStore(s => s.user);
 
     const calculateFee = async () => {
         const amt = parseFloat(gbpAmount) || 0;
@@ -58,8 +61,8 @@ export default function SellToTraderScreen() {
             });
 
             navigation.navigate('EscrowCreated', {
-                orderId: resp.escrowReference || `ESC-${Date.now()}`,
-                amountLocked: resp.amountLocked || parsedGbp,
+                orderId: resp,
+                amountLocked: ngnAmount,
                 gbpAmount: parsedGbp
             });
         } catch (e: any) {
@@ -128,12 +131,12 @@ export default function SellToTraderScreen() {
                         <Text style={s.summaryVal}>₦{(rate || 0).toLocaleString()}</Text>
                     </View>
                     <View style={s.summaryRow}>
-                        <Text style={s.summaryLbl}>Escrow Trust Fee (1.5%)</Text>
-                        <Text style={s.summaryVal}>₦{feeCalc ? (feeCalc.nairaEq || 0).toLocaleString() : (ngnAmount * 0.015).toLocaleString()}</Text>
+                        <Text style={s.summaryLbl}>Escrow Fee (5%)</Text>
+                        <Text style={s.summaryVal}>₦{feeCalc ? (feeCalc.nairaEq || 0).toLocaleString() : (ngnAmount * 0.05).toLocaleString()}</Text>
                     </View>
                     <View style={[s.summaryRow, s.totalRow]}>
                         <Text style={s.totalLbl}>Total to Receive</Text>
-                        <Text style={[s.totalVal, { color: colors.success }]}>₦{feeCalc ? (ngnAmount - (feeCalc.nairaEq || 0)).toLocaleString() : (ngnAmount * 0.985).toLocaleString()}</Text>
+                        <Text style={[s.totalVal, { color: colors.success }]}>₦{feeCalc ? (ngnAmount - (feeCalc.nairaEq || 0)).toLocaleString() : (ngnAmount * 1.05).toLocaleString()}</Text>
                     </View>
                 </View>
 

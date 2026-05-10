@@ -7,6 +7,12 @@ interface LoginRequest {
   rememberClient: boolean;
 }
 
+export enum KYCStatus {
+  Verified = 1,
+  Pending = 2,
+  Unverified = 3,
+}
+
 interface LoginResponse {
   accessToken: string;
   encryptedAccessToken: string;
@@ -30,6 +36,7 @@ export interface SessionUser {
   isVerified?: boolean;
   isDocumentVerified?: boolean;
   isDocumentUploaded?: boolean;
+  kycStatus?: KYCStatus;
 }
 
 export interface RegisterRequest {
