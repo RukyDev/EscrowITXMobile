@@ -26,6 +26,7 @@ export interface Ad {
     totalCompletedEscrowCount: number;
     minAmount: number;      // Compatibility
     currency?: string;
+    isExpired: boolean;
 }
 
 export interface Currency {
@@ -43,8 +44,12 @@ export interface ExternalRate {
 }
 
 export interface CalculateFeeResult {
-    tradersProfit: number;
-    escrowItxProfit: number;
+    tradeAmount: number;
+    platformFee: number;
+    estimatedPayout: number;
+    feePercentage: number;
+    minimumFee: number;
+    maximumFee: number;
 }
 
 export interface CreateAdPayload {
@@ -54,6 +59,7 @@ export interface CreateAdPayload {
     volume: number;
     tradeTerms: string;
     allowPartSales: boolean;
+    minVolume: number;
 }
 
 export interface UpdateAdPayload {
@@ -90,7 +96,8 @@ export const adsApi = {
     },
 
     async calculateFee(volume: number, rate: number): Promise<CalculateFeeResult> {
-        return await apiClient.post(`${ESCROW_ENDPOINTS.calculateFee}?volumetobuy=${volume}&userrate=${rate}`, {});
+        const amountEquivalent = volume * rate;
+        return await apiClient.post(`${ESCROW_ENDPOINTS.calculateFee}?amountEquivalent=${amountEquivalent}`);
     },
 
     async createBuyAd(payload: CreateAdPayload): Promise<void> {
@@ -107,6 +114,14 @@ export const adsApi = {
 
     async deleteAd(adId: number): Promise<void> {
         return await apiClient.post(`${ADS_ENDPOINTS.delete}?adId=${adId}`);
+    },
+
+    async closeAd(adId: number): Promise<void> {
+        return await apiClient.post(`${ADS_ENDPOINTS.closeAd}?adId=${adId}`);
+    },
+
+    async openAd(adId: number): Promise<void> {
+        return await apiClient.post(`${ADS_ENDPOINTS.openAd}?adId=${adId}`);
     },
     async getAllPersonalBuyAds(): Promise<Ad[]> {
         const data = await apiClient.get(ADS_ENDPOINTS.getAllPersonalBuy) as any;

@@ -9,6 +9,7 @@ import { Alert } from 'react-native';
 
 export const apiClient = axios.create({
   baseURL: API_BASE_URL,
+  timeout: 15000,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -47,6 +48,12 @@ apiClient.interceptors.response.use(
     // Legacy ABP uses 'result'
     const result = data?.result !== undefined ? data.result : data;
 
+    // Check nested BaseResponse IsSuccessful flag before unwrapping payload
+    if (result && typeof result === 'object' && result.isSuccessful === false) {
+      const errorMsg = result.message || 'Request failed';
+      throw new Error(errorMsg);
+    }
+
     // If result contains a payload, use it (new BaseResponse pattern)
     if (result && typeof result === 'object' && result.payload !== undefined) {
       return result.payload;
@@ -63,11 +70,21 @@ apiClient.interceptors.response.use(
     const status = error?.response?.status;
     const errorData = error?.response?.data;
 
-    // Check for error message from backend
-    if (errorData && (errorData.message || errorData.error?.message)) {
-      error.message = errorData.message || errorData.error?.message;
+    // Check for error message from backend. ABP wraps thrown UserFriendlyExceptions as
+    // { error: { message: "Login Failed", details: "<specific reason>" } } — details (when
+    // present) is the actual human-readable reason and must be preferred over the generic
+    // message, otherwise every failed login looks like "Login Failed".
+    const backendMessage = errorData?.error?.details || errorData?.error?.message || errorData?.message;
+    if (backendMessage) {
+      error.message = backendMessage;
     } else if (status === 401) {
       error.message = 'Invalid email or password';
+    } else if (!error?.response) {
+      error.message = 'Unable to reach the server. Please check your connection and try again.';
+    } else {
+      // No structured error body from the server (e.g. a raw HTTP-level rejection) —
+      // never surface axios's default "Request failed with status code X" to the user.
+      error.message = 'Something went wrong. Please try again.';
     }
 
     // 🔴 TOKEN EXPIRED / UNAUTHORIZED

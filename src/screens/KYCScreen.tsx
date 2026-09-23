@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import {
     View, Text, StyleSheet, TouchableOpacity, TextInput,
-    ScrollView, ActivityIndicator, Alert, Platform, SafeAreaView,
-    StatusBar, Linking,
+    ScrollView, ActivityIndicator, Alert, Platform,
+    StatusBar, Linking, Modal,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import moment from 'moment';
 import { colors } from '../theme/colors';
@@ -25,6 +27,11 @@ export default function KYCScreen() {
     const [address, setAddress] = useState(user?.residentialAddress || '');
     const [gender, setGender] = useState<number | null>(user?.gender || null);
     const [occupation, setOccupation] = useState<number | null>(user?.occupation || null);
+
+    const [showDatePicker, setShowDatePicker] = useState(false);
+    const [dobDate, setDobDate] = useState<Date | null>(
+        user?.dateOfBirth ? new Date(user.dateOfBirth) : null
+    );
 
     // Prembly KYC status (separate from document upload status)
     const [kycStatus, setKycStatus] = useState<'Pending' | 'Verified' | 'Rejected' | null>(null);
@@ -120,16 +127,71 @@ export default function KYCScreen() {
                 placeholderTextColor={colors.gray}
             />
 
-            <Text style={styles.label}>Date of Birth (YYYY-MM-DD) *</Text>
-            <TextInput
-                style={styles.input}
-                value={dob}
-                onChangeText={setDob}
-                placeholder={`e.g. ${maxDob}`}
-                keyboardType="numeric"
-                placeholderTextColor={colors.gray}
-                maxLength={10}
-            />
+            <Text style={styles.label}>Date of Birth *</Text>
+            <TouchableOpacity
+                style={[styles.input, styles.dobButton]}
+                onPress={() => setShowDatePicker(true)}
+                activeOpacity={0.7}
+            >
+                <Text style={dob ? styles.dobText : styles.dobPlaceholder}>
+                    {dob || 'Select date of birth'}
+                </Text>
+                <Icon name="calendar" size={20} color={colors.gray} />
+            </TouchableOpacity>
+
+            {Platform.OS === 'android' && showDatePicker && (
+                <DateTimePicker
+                    value={dobDate || new Date(maxDob)}
+                    mode="date"
+                    display="calendar"
+                    maximumDate={new Date(maxDob)}
+                    minimumDate={new Date('1900-01-01')}
+                    onChange={(_, selected) => {
+                        setShowDatePicker(false);
+                        if (selected) {
+                            setDobDate(selected);
+                            setDob(moment(selected).format('YYYY-MM-DD'));
+                        }
+                    }}
+                />
+            )}
+
+            {Platform.OS === 'ios' && (
+                <Modal
+                    visible={showDatePicker}
+                    transparent
+                    animationType="slide"
+                    onRequestClose={() => setShowDatePicker(false)}
+                >
+                    <View style={styles.dateModalOverlay}>
+                        <View style={styles.dateModalCard}>
+                            <View style={styles.dateModalHeader}>
+                                <TouchableOpacity onPress={() => setShowDatePicker(false)}>
+                                    <Text style={styles.dateModalCancel}>Cancel</Text>
+                                </TouchableOpacity>
+                                <Text style={styles.dateModalTitle}>Date of Birth</Text>
+                                <TouchableOpacity onPress={() => setShowDatePicker(false)}>
+                                    <Text style={styles.dateModalDone}>Done</Text>
+                                </TouchableOpacity>
+                            </View>
+                            <DateTimePicker
+                                value={dobDate || new Date(maxDob)}
+                                mode="date"
+                                display="spinner"
+                                maximumDate={new Date(maxDob)}
+                                minimumDate={new Date('1900-01-01')}
+                                onChange={(_, selected) => {
+                                    if (selected) {
+                                        setDobDate(selected);
+                                        setDob(moment(selected).format('YYYY-MM-DD'));
+                                    }
+                                }}
+                                style={{ width: '100%' }}
+                            />
+                        </View>
+                    </View>
+                </Modal>
+            )}
 
             <Text style={styles.label}>Residential Address *</Text>
             <TextInput
@@ -237,7 +299,7 @@ export default function KYCScreen() {
 
     return (
         <View style={{ flex: 1, backgroundColor: '#0D1B40' }}>
-            <StatusBar barStyle="light-content" translucent backgroundColor="transparent" />
+            <StatusBar barStyle="light-content" />
             <LinearGradient colors={['#0D1B40', '#1A3FD8']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.bgGradient}>
                 <SafeAreaView style={{ flex: 1 }}>
                     {/* Header */}
@@ -331,7 +393,7 @@ const styles = StyleSheet.create({
     bgGradient: { flex: 1 },
     mockHeader: {
         paddingHorizontal: 20,
-        paddingTop: Platform.OS === 'android' ? 40 : 20,
+        paddingTop: 20,
         paddingBottom: 20,
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -393,6 +455,27 @@ const styles = StyleSheet.create({
     chipTxt: { fontSize: 13, color: colors.gray, fontWeight: '600' },
     chipTxtActive: { color: colors.blue },
     hintText: { fontSize: 12, color: colors.gray, marginTop: 20, textAlign: 'right' },
+    dobButton: {
+        flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
+    },
+    dobText: { fontSize: 15, color: colors.text },
+    dobPlaceholder: { fontSize: 15, color: colors.gray },
+    dateModalOverlay: {
+        flex: 1, backgroundColor: 'rgba(0,0,0,0.4)',
+        justifyContent: 'flex-end',
+    },
+    dateModalCard: {
+        backgroundColor: '#fff', borderTopLeftRadius: 24, borderTopRightRadius: 24,
+        paddingBottom: 32,
+    },
+    dateModalHeader: {
+        flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
+        paddingHorizontal: 20, paddingVertical: 16,
+        borderBottomWidth: 1, borderBottomColor: '#eee',
+    },
+    dateModalTitle: { fontSize: 16, fontWeight: '700', color: colors.text },
+    dateModalCancel: { fontSize: 15, color: colors.gray },
+    dateModalDone: { fontSize: 15, color: colors.blue, fontWeight: '700' },
 
     // Verification tab
     sectionTitle: { fontSize: 15, fontWeight: '800', color: colors.text, marginBottom: 8, marginTop: 4 },

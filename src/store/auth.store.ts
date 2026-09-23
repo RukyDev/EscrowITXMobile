@@ -7,6 +7,12 @@ interface AuthState {
   accessToken: string | null;
   isAuthenticated: boolean;
   isLoading: boolean;
+  // Only true while the initial session check (bootstrap) is running. Kept separate from
+  // isLoading (which also covers the login/register button spinners) because RootNavigator
+  // unmounts its whole navigation tree while this is true — doing that on every login
+  // attempt would silently discard any in-flight navigation.navigate() call and reset
+  // screen state, since isLoading toggles on every login attempt too.
+  isBootstrapping: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   bootstrap: () => Promise<void>;
@@ -19,6 +25,7 @@ export const useAuthStore = create<AuthState>((set) => ({
   accessToken: null,
   isAuthenticated: false,
   isLoading: false,
+  isBootstrapping: true,
 
   setUser: (user) => set({ user }),
   setTokens: (accessToken) => set({ accessToken, isAuthenticated: !!accessToken }),
@@ -70,13 +77,13 @@ export const useAuthStore = create<AuthState>((set) => ({
   },
 
   bootstrap: async () => {
-    set({ isLoading: true });
+    set({ isBootstrapping: true });
 
     try {
       const token = await tokenService.get();
 
       if (!token) {
-        set({ isLoading: false });
+        set({ isBootstrapping: false });
         return;
       }
 
@@ -87,7 +94,7 @@ export const useAuthStore = create<AuthState>((set) => ({
         // session is now the result.payload (if it exists) or result due to axios interceptor
         userData = session?.userDetails || session?.user || session;
         const rawKycStatus = (session?.userDetails?.kycStatus ?? session?.kycStatus ?? userData?.kycStatus);
-        
+
         if (userData) {
           userData.kycStatus = rawKycStatus !== undefined ? Number(rawKycStatus) : KYCStatus.Unverified;
         }
@@ -97,7 +104,7 @@ export const useAuthStore = create<AuthState>((set) => ({
         user: userData,
         accessToken: token,
         isAuthenticated: true,
-        isLoading: false,
+        isBootstrapping: false,
       });
 
     } catch (error) {
@@ -106,7 +113,7 @@ export const useAuthStore = create<AuthState>((set) => ({
         user: null,
         accessToken: null,
         isAuthenticated: false,
-        isLoading: false,
+        isBootstrapping: false,
       });
     }
   },

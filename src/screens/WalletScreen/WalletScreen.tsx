@@ -1,8 +1,8 @@
 import React, { useState, useCallback } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, ActivityIndicator, Modal, TextInput, Alert } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, ActivityIndicator, Modal, TextInput, Alert, StatusBar } from 'react-native';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Platform, StatusBar } from 'react-native';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { colors } from '../../theme/colors';
@@ -17,6 +17,7 @@ export default function WalletScreen() {
     const navigation = useNavigation<Nav>();
     const { balance, fetchBalance, activities, fetchActivities, isLoading } = useWalletStore();
     const user = useAuthStore(state => state.user);
+    const insets = useSafeAreaInsets();
 
     useFocusEffect(
         useCallback(() => {
@@ -52,9 +53,9 @@ export default function WalletScreen() {
     const ngnWallet = balance.find(w => w.currency === 'NGN');
 
     return (
-        <SafeAreaView style={s.root}>
-            <StatusBar barStyle="light-content" translucent backgroundColor="transparent" />
-            <LinearGradient colors={['#0D1B40', '#1A3FD8']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={s.header}>
+        <SafeAreaView style={s.root} edges={['bottom', 'left', 'right']}>
+            <StatusBar barStyle="light-content" />
+            <LinearGradient colors={['#0D1B40', '#1A3FD8']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={[s.header, { paddingTop: insets.top + 24 }]}>
                 <View style={s.topRow}>
                     <Text style={s.headerTitle}>Wallet</Text>
                 </View>
@@ -175,7 +176,6 @@ const s = StyleSheet.create({
     root: { flex: 1, backgroundColor: colors.background },
     header: {
         paddingHorizontal: 16,
-        paddingTop: Platform.OS === 'android' ? (StatusBar.currentHeight || 24) + 24 : 16,
         paddingBottom: 40,
     },
     topRow: { marginBottom: 16 },

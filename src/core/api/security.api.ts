@@ -40,7 +40,7 @@ export const securityApi = {
     },
 
     async validatePin(pin: string): Promise<boolean> {
-        const res = await apiClient.post(`${SECURITY_ENDPOINTS.validatePin}?pin=${pin}`) as any;
+        const res = await apiClient.post(SECURITY_ENDPOINTS.validatePin, { pin }) as any;
         return res === true;
     },
 };

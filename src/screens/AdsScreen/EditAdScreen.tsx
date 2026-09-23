@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import {
     View, Text, TextInput, TouchableOpacity, StyleSheet,
-    SafeAreaView, ScrollView, ActivityIndicator, Alert, Switch, Platform, StatusBar
+    ScrollView, ActivityIndicator, Alert, Switch
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -25,13 +26,17 @@ export default function EditAdScreen() {
 
     const [updating, setUpdating] = useState(false);
     const [feeResult, setFeeResult] = useState<CalculateFeeResult | null>(null);
+    const [togglingStatus, setTogglingStatus] = useState(false);
+
+    const adsStatus = (ad.adsStatus || '').toLowerCase();
+    const canToggleStatus = adsStatus === 'open' || adsStatus === 'closed';
 
     useEffect(() => {
         if (volume && rate) {
             const vol = parseFloat(volume);
             const r = parseFloat(rate);
-            if (!isNaN(vol) && !isNaN(r)) {
-                adsApi.calculateFee(vol, r).then(setFeeResult);
+            if (!isNaN(vol) && !isNaN(r) && vol > 0 && r > 0) {
+                adsApi.calculateFee(vol, r).then(setFeeResult).catch(() => setFeeResult(null));
             }
         } else {
             setFeeResult(null);
@@ -63,6 +68,28 @@ export default function EditAdScreen() {
         }
     };
 
+    const handleToggleStatus = async () => {
+        const adId = ad.adID || ad.id;
+        setTogglingStatus(true);
+        try {
+            if (adsStatus === 'open') {
+                await adsApi.closeAd(adId);
+                Alert.alert('Success', 'Ad closed successfully', [
+                    { text: 'OK', onPress: () => navigation.goBack() }
+                ]);
+            } else {
+                await adsApi.openAd(adId);
+                Alert.alert('Success', 'Ad reopened successfully', [
+                    { text: 'OK', onPress: () => navigation.goBack() }
+                ]);
+            }
+        } catch (e: any) {
+            Alert.alert('Error', e.message || 'Unable to update ad status');
+        } finally {
+            setTogglingStatus(false);
+        }
+    };
+
     const equivalentAmount = (parseFloat(rate) || 0) * (parseFloat(volume) || 0);
 
     return (
@@ -75,6 +102,15 @@ export default function EditAdScreen() {
             </View>
 
             <ScrollView style={s.body} keyboardShouldPersistTaps="handled">
+                {ad.isExpired && (
+                    <View style={s.expiredBanner}>
+                        <Icon name="alert-circle-outline" size={16} color="#92400E" />
+                        <Text style={s.expiredBannerTxt}>
+                            This ad was automatically closed after 72 hours with no trades. Reopen it below if it's still available.
+                        </Text>
+                    </View>
+                )}
+
                 <View style={s.card}>
                     <Text style={s.label}>Currency (Read-only)</Text>
                     <View style={[s.inputWrap, s.disabledInput]}>
@@ -108,9 +144,20 @@ export default function EditAdScreen() {
                         <Text style={[s.input, { flex: 0 }]}>₦{equivalentAmount.toLocaleString()}</Text>
                         <Text style={s.suffix}>NGN</Text>
                     </View>
-                    <Text style={s.profitNote}>
-                        Note: we charge 1.5% of your profit only. (you profit {feeResult?.tradersProfit || 0} and we take {feeResult?.escrowItxProfit || 0})
-                    </Text>
+                    {feeResult && (
+                        <View style={s.feeBreakdown}>
+                            <View style={s.feeRow}>
+                                <Text style={s.feeLbl}>Escrow Protection Fee ({feeResult.feePercentage}%)</Text>
+                                <Text style={s.feeValNeg}>-₦{feeResult.platformFee.toLocaleString()}</Text>
+                            </View>
+                            <Text style={s.feeCapNote}>Min ₦{feeResult.minimumFee.toLocaleString()} · Max ₦{feeResult.maximumFee.toLocaleString()}</Text>
+                            <View style={[s.feeRow, s.feeTotalRow]}>
+                                <Text style={s.feeTotalLbl}>Estimated Payout</Text>
+                                <Text style={s.feeTotalVal}>₦{feeResult.estimatedPayout.toLocaleString()}</Text>
+                            </View>
+                            <Text style={s.feeFootnote}>Fees are charged only after a successful trade.</Text>
+                        </View>
+                    )}
 
                     <Text style={[s.label, { marginTop: 20 }]}>Trade Terms</Text>
                     <TextInput
@@ -138,6 +185,22 @@ export default function EditAdScreen() {
                     {updating ? <ActivityIndicator color="#fff" /> : <Text style={s.btnTxt}>Save Changes</Text>}
                 </TouchableOpacity>
 
+                {canToggleStatus && (
+                    <TouchableOpacity
+                        style={[s.btn, adsStatus === 'open' ? s.btnCloseOutline : s.btnOpenOutline]}
+                        onPress={handleToggleStatus}
+                        disabled={togglingStatus}
+                    >
+                        {togglingStatus ? (
+                            <ActivityIndicator color={adsStatus === 'open' ? colors.danger : colors.success} />
+                        ) : (
+                            <Text style={[s.btnTxt, { color: adsStatus === 'open' ? colors.danger : colors.success }]}>
+                                {adsStatus === 'open' ? 'Close Ad' : 'Open Ad'}
+                            </Text>
+                        )}
+                    </TouchableOpacity>
+                )}
+
                 <View style={{ height: 40 }} />
             </ScrollView>
         </SafeAreaView>
@@ -150,7 +213,7 @@ const s = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 16,
-        paddingTop: Platform.OS === 'android' ? (StatusBar.currentHeight || 24) + 16 : 16,
+        paddingTop: 16,
         paddingBottom: 16,
         backgroundColor: colors.white,
         elevation: 2
@@ -167,10 +230,23 @@ const s = StyleSheet.create({
     disabledInput: { backgroundColor: '#F3F4F6', opacity: 0.7 },
     disabledTxt: { paddingVertical: 12, fontSize: 16, color: colors.gray, fontWeight: '600' },
     profitNote: { fontSize: 11, color: colors.gray, marginTop: 8, fontStyle: 'italic' },
+    feeBreakdown: { marginTop: 12, padding: 12, backgroundColor: '#F9FAFB', borderRadius: 10, borderWidth: 1, borderColor: colors.grayLight },
+    feeRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+    feeLbl: { fontSize: 12, color: colors.text2, flex: 1, paddingRight: 8 },
+    feeValNeg: { fontSize: 12, fontWeight: '700', color: colors.danger },
+    feeCapNote: { fontSize: 10, color: colors.gray, marginTop: 4 },
+    feeTotalRow: { marginTop: 10, paddingTop: 10, borderTopWidth: 1, borderTopColor: colors.grayLight },
+    feeTotalLbl: { fontSize: 13, fontWeight: '700', color: colors.text },
+    feeTotalVal: { fontSize: 14, fontWeight: '800', color: colors.blue },
+    feeFootnote: { fontSize: 10, color: colors.gray, marginTop: 8, fontStyle: 'italic' },
     textArea: { paddingVertical: 12, minHeight: 100, alignItems: 'flex-start', textAlignVertical: 'top' },
     switchRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 20, borderTopWidth: 1, borderTopColor: colors.grayLight, paddingTop: 16 },
     switchLabel: { fontSize: 14, fontWeight: '700', color: colors.text, marginBottom: 4 },
     switchSub: { fontSize: 11, color: colors.gray, lineHeight: 16 },
     btn: { backgroundColor: colors.blue, paddingVertical: 16, borderRadius: 12, alignItems: 'center', elevation: 3 },
     btnTxt: { color: colors.white, fontSize: 16, fontWeight: '700' },
+    btnCloseOutline: { backgroundColor: colors.white, borderWidth: 1.5, borderColor: colors.danger, elevation: 0, marginTop: 12 },
+    btnOpenOutline: { backgroundColor: colors.white, borderWidth: 1.5, borderColor: colors.success, elevation: 0, marginTop: 12 },
+    expiredBanner: { flexDirection: 'row', alignItems: 'flex-start', gap: 8, backgroundColor: '#FFFBEB', borderWidth: 1, borderColor: '#FDE68A', borderRadius: 12, padding: 12, marginBottom: 16 },
+    expiredBannerTxt: { flex: 1, fontSize: 12, color: '#92400E', lineHeight: 17 },
 });

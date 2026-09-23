@@ -5,6 +5,7 @@ import {
 } from 'react-native';
 import { pick, types, isErrorWithCode, errorCodes } from '@react-native-documents/picker';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 import { colors } from '../theme/colors';
 import { documentApi, DocumentUploadStatus } from '../core/api/document.api';
@@ -36,6 +37,14 @@ export default function KYCModal({ visible, onComplete }: KYCModalProps) {
     const [proofOfAddress, setProofOfAddress] = useState<any>(null);
 
     const [status, setStatus] = useState<DocumentUploadStatus | null>(null);
+
+    const [showDatePicker, setShowDatePicker] = useState(false);
+    const [dobDate, setDobDate] = useState<Date | null>(
+        user?.dateOfBirth ? new Date(user.dateOfBirth) : null
+    );
+
+    // Max date of birth: must be at least 16 years old
+    const maxDob = moment().subtract(16, 'years').format('YYYY-MM-DD');
 
     useEffect(() => {
         if (visible) {
@@ -125,15 +134,72 @@ export default function KYCModal({ visible, onComplete }: KYCModalProps) {
                 editable={!isUploaded}
             />
 
-            <Text style={styles.label}>Date of Birth (YYYY-MM-DD) *</Text>
-            <TextInput
-                style={[styles.input, isUploaded && styles.btnDisabled]}
-                value={dob}
-                onChangeText={setDob}
-                placeholder="1990-01-01"
-                keyboardType="numeric"
-                editable={!isUploaded}
-            />
+            <Text style={styles.label}>Date of Birth *</Text>
+            <TouchableOpacity
+                style={[styles.input, styles.dobButton, isUploaded && styles.btnDisabled]}
+                onPress={() => !isUploaded && setShowDatePicker(true)}
+                activeOpacity={0.7}
+                disabled={isUploaded}
+            >
+                <Text style={dob ? styles.dobText : styles.dobPlaceholder}>
+                    {dob || 'Select date of birth'}
+                </Text>
+                <Icon name="calendar" size={20} color={colors.gray} />
+            </TouchableOpacity>
+
+            {Platform.OS === 'android' && showDatePicker && (
+                <DateTimePicker
+                    value={dobDate || new Date(maxDob)}
+                    mode="date"
+                    display="calendar"
+                    maximumDate={new Date(maxDob)}
+                    minimumDate={new Date('1900-01-01')}
+                    onChange={(_, selected) => {
+                        setShowDatePicker(false);
+                        if (selected) {
+                            setDobDate(selected);
+                            setDob(moment(selected).format('YYYY-MM-DD'));
+                        }
+                    }}
+                />
+            )}
+
+            {Platform.OS === 'ios' && (
+                <Modal
+                    visible={showDatePicker}
+                    transparent
+                    animationType="slide"
+                    onRequestClose={() => setShowDatePicker(false)}
+                >
+                    <View style={styles.dateModalOverlay}>
+                        <View style={styles.dateModalCard}>
+                            <View style={styles.dateModalHeader}>
+                                <TouchableOpacity onPress={() => setShowDatePicker(false)}>
+                                    <Text style={styles.dateModalCancel}>Cancel</Text>
+                                </TouchableOpacity>
+                                <Text style={styles.dateModalTitle}>Date of Birth</Text>
+                                <TouchableOpacity onPress={() => setShowDatePicker(false)}>
+                                    <Text style={styles.dateModalDone}>Done</Text>
+                                </TouchableOpacity>
+                            </View>
+                            <DateTimePicker
+                                value={dobDate || new Date(maxDob)}
+                                mode="date"
+                                display="spinner"
+                                maximumDate={new Date(maxDob)}
+                                minimumDate={new Date('1900-01-01')}
+                                onChange={(_, selected) => {
+                                    if (selected) {
+                                        setDobDate(selected);
+                                        setDob(moment(selected).format('YYYY-MM-DD'));
+                                    }
+                                }}
+                                style={{ width: '100%' }}
+                            />
+                        </View>
+                    </View>
+                </Modal>
+            )}
 
             <Text style={styles.label}>Residential Address *</Text>
             <TextInput
@@ -305,6 +371,15 @@ const styles = StyleSheet.create({
     chipActive: { backgroundColor: '#EEF2FF', borderColor: colors.blue },
     chipTxt: { fontSize: 13, color: colors.gray, fontWeight: '600' },
     chipTxtActive: { color: colors.blue },
+    dobButton: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+    dobText: { fontSize: 15, color: colors.text },
+    dobPlaceholder: { fontSize: 15, color: colors.gray },
+    dateModalOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.4)', justifyContent: 'flex-end' },
+    dateModalCard: { backgroundColor: '#fff', borderTopLeftRadius: 24, borderTopRightRadius: 24, paddingBottom: 32 },
+    dateModalHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20, paddingVertical: 16, borderBottomWidth: 1, borderBottomColor: '#eee' },
+    dateModalTitle: { fontSize: 16, fontWeight: '700', color: colors.text },
+    dateModalCancel: { fontSize: 15, color: colors.gray },
+    dateModalDone: { fontSize: 15, color: colors.blue, fontWeight: '700' },
     uploadBtn: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#F9FAFB', borderWidth: 1, borderStyle: 'dashed', borderColor: colors.blue, borderRadius: 12, padding: 16, marginTop: 12, gap: 12 },
     uploadBtnTxt: { fontSize: 13, fontWeight: '600', color: colors.text2, flex: 1 },
     statusBox: { marginTop: 20, padding: 16, backgroundColor: '#FFFBEB', borderRadius: 12, borderWidth: 1, borderColor: '#FEF3C7' },

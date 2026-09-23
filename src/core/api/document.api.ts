@@ -48,8 +48,10 @@ export const documentApi = {
 
     /** Call Prembly to start a KYC session; returns the session payload */
     async initiateKycSession(): Promise<{ session_id: string }> {
-        // The axios interceptor already throws on failure and returns data.payload directly
         const res: any = await apiClient.post(KYC_ENDPOINTS.initiateKycSession, {});
+        if (!res || !res.session_id) {
+            throw new Error('Failed to start verification session. Please try again.');
+        }
         return res;
     },
 

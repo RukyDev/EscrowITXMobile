@@ -28,12 +28,14 @@ export const ADS_ENDPOINTS = {
   delete: `${API_APP_PATH}/AdsService/HardDeleteAds`,
   getAllPersonalBuy: `${API_APP_PATH}/AdsService/GetAllPerseonalBuyAds`,
   getAllPersonalSell: `${API_APP_PATH}/AdsService/GetAllPersonalSellAds`,
+  closeAd: `${API_APP_PATH}/AdsService/CloseAd`,
+  openAd: `${API_APP_PATH}/AdsService/OpenAd`,
 };
 
 export const ESCROW_ENDPOINTS = {
   buy: `${API_APP_PATH}/EscrowTransactionService/Buy`,
   sell: `${API_APP_PATH}/EscrowTransactionService/Sell`,
-  calculateFee: `${API_APP_PATH}/EscrowTransactionService/CalculateBuyEscrowFee`,
+  calculateFee: `${API_APP_PATH}/EscrowCommon/CalculateEscrowFee`,
   getByUser: `${API_APP_PATH}/EscrowTransactionService/GetEscrowByUserID`,
   release: `${API_APP_PATH}/EscrowTransactionService/ReleaseEscrowTransaction`,
   getHistory: `${API_APP_PATH}/EscrowTransactionService/GetEscrowTransaction`,

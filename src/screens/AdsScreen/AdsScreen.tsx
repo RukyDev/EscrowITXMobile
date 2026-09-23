@@ -49,22 +49,28 @@ export default function AdsScreen() {
   );
 
   const handleAction = (ad: Ad) => {
+    const maxGbp = ad.volume || ad.maxAmount || 0;
+    // When partial trades aren't allowed, the only valid amount is the full volume.
+    const minGbp = ad.allowPartSales ? (ad.minAmount || 0) : maxGbp;
+
     if (activeTab === 'Buy') {
       navigation.navigate('BuyFromTrader', {
         adId: ad.id,
         traderName: ad.traderName || 'Trader',
         rate: ad.rate,
-        minGbp: ad.minAmount || 0,
-        maxGbp: ad.volume || ad.maxAmount || 0,
-        paymentMethod: ad.paymentMethod || 'Bank Transfer'
+        minGbp,
+        maxGbp,
+        paymentMethod: ad.paymentMethod || 'Bank Transfer',
+        allowPartSales: ad.allowPartSales,
       });
     } else {
       navigation.navigate('SellToTrader', {
         adId: ad.id,
         traderName: ad.traderName || 'Trader',
         rate: ad.rate,
-        minGbp: ad.minAmount || 0,
-        maxGbp: ad.volume || ad.maxAmount || 0,
+        minGbp,
+        maxGbp,
+        allowPartSales: ad.allowPartSales,
       });
     }
   };

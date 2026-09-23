@@ -15,8 +15,8 @@ export type HomeStackParamList = {
 export type MarketStackParamList = {
     Marketplace: undefined;
     PersonalAds: undefined;
-    BuyFromTrader: { adId: number; traderName: string; rate: number; minGbp: number; maxGbp: number; paymentMethod: string };
-    SellToTrader: { adId: number; traderName: string; rate: number; minGbp: number; maxGbp: number };
+    BuyFromTrader: { adId: number; traderName: string; rate: number; minGbp: number; maxGbp: number; paymentMethod: string; allowPartSales: boolean };
+    SellToTrader: { adId: number; traderName: string; rate: number; minGbp: number; maxGbp: number; allowPartSales: boolean };
     CreateBuyAd: undefined;
     CreateSellAd: undefined;
     EditAd: { ad: any };

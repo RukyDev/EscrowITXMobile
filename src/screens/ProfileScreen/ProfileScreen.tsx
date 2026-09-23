@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, Linking, Platform, StatusBar, Modal } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Linking, StatusBar, Modal } from 'react-native';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -15,6 +16,7 @@ export default function ProfileScreen() {
   const navigation = useNavigation<Nav>();
   const { user, logout } = useAuthStore();
   const [logoutModalVisible, setLogoutModalVisible] = React.useState(false);
+  const insets = useSafeAreaInsets();
 
   React.useEffect(() => {
   }, [user]);
@@ -33,11 +35,11 @@ export default function ProfileScreen() {
   };
 
   return (
-    <SafeAreaView style={s.root}>
-      <StatusBar barStyle="light-content" translucent backgroundColor="transparent" />
+    <SafeAreaView style={s.root} edges={['bottom', 'left', 'right']}>
+      <StatusBar barStyle="light-content" />
 
       {/* Premium Header */}
-      <LinearGradient colors={['#0D1B40', '#1A3FD8']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={s.header}>
+      <LinearGradient colors={['#0D1B40', '#1A3FD8']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={[s.header, { paddingTop: insets.top + 20 }]}>
         <View style={s.headerTop}>
           <Text style={s.headerTitle}>Profile</Text>
         </View>
@@ -170,7 +172,6 @@ const s = StyleSheet.create({
   root: { flex: 1, backgroundColor: colors.background },
   header: {
     paddingHorizontal: 20,
-    paddingTop: Platform.OS === 'android' ? (StatusBar.currentHeight || 24) + 20 : 20,
     paddingBottom: 30,
     borderBottomLeftRadius: 30,
     borderBottomRightRadius: 30,

@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, Alert, Platform, StatusBar } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -105,6 +106,14 @@ export default function EscrowDetailScreen() {
                     )}
                 </View>
 
+                {/* Trade Terms */}
+                {e.tradeTerms ? (
+                    <View style={s.cpCard}>
+                        <Text style={s.sectionTitle}>Trade Terms</Text>
+                        <Text style={s.termsTxt}>{e.tradeTerms}</Text>
+                    </View>
+                ) : null}
+
                 {/* Escrow Rule alert */}
                 <View style={s.note}>
                     <Icon name="lock-closed" size={16} color={colors.success} />
@@ -141,7 +150,7 @@ const s = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 16,
-        paddingTop: Platform.OS === 'android' ? (StatusBar.currentHeight || 24) + 16 : 16,
+        paddingTop: 16,
         paddingBottom: 16,
         backgroundColor: colors.white
     },
@@ -181,6 +190,7 @@ const s = StyleSheet.create({
     bdRow: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 6 },
     bdLbl: { fontSize: 12, color: colors.gray },
     bdVal: { fontSize: 12, fontWeight: '600', color: colors.text },
+    termsTxt: { fontSize: 13, color: colors.text2, lineHeight: 19 },
     note: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#F0FDF4', padding: 12, borderRadius: 10, gap: 10 },
     noteTxt: { fontSize: 12, color: colors.success, flex: 1 },
     footer: { padding: 16, backgroundColor: colors.white, borderTopWidth: 1, borderTopColor: colors.grayLight },

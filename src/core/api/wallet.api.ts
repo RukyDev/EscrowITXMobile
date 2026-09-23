@@ -56,8 +56,9 @@ export interface WalletActivity {
 }
 
 export interface WithdrawPayload {
-    bankUuid: string;
-    accountNumber: string;
+    destinationBankUUID: string;
+    destinationBankAccountNumber: string;
+    bankName?: string;
     amount: number;
     accountName: string;
     narration?: string;
@@ -101,7 +102,7 @@ export const walletApi = {
         // Interceptor already unwraps the response payload.
         // Backend returns a boolean (or truthy value) — use loose check to handle
         // true / 1 / "true" etc.
-        const res = await apiClient.post(`${SECURITY_ENDPOINTS.validatePin}?pin=${pin}`) as any;
+        const res = await apiClient.post(SECURITY_ENDPOINTS.validatePin, { pin }) as any;
         return !!res;
     },
 };

@@ -35,8 +35,8 @@ export default function PersonalAdsScreen() {
         if (editVolume && editRate && editModalVisible) {
             const vol = parseFloat(editVolume);
             const r = parseFloat(editRate);
-            if (!isNaN(vol) && !isNaN(r)) {
-                adsApi.calculateFee(vol, r).then(setFeeResult);
+            if (!isNaN(vol) && !isNaN(r) && vol > 0 && r > 0) {
+                adsApi.calculateFee(vol, r).then(setFeeResult).catch(() => setFeeResult(null));
             }
         } else {
             setFeeResult(null);
@@ -147,9 +147,9 @@ export default function PersonalAdsScreen() {
                                     <Text style={s.rateText}>Rate: ₦{ad.rate.toLocaleString()}</Text>
                                     <Text style={s.volumeText}>Vol: {ad.volume.toLocaleString()}</Text>
                                 </View>
-                                <View style={[s.statusBadge, { backgroundColor: ad.adsStatus?.toLowerCase() === 'open' ? '#F0FDF4' : '#F3F4F6' }]}>
-                                    <Text style={[s.statusTxt, { color: ad.adsStatus?.toLowerCase() === 'open' ? colors.success : colors.gray }]}>
-                                        {(ad.adsStatus || '').toUpperCase()}
+                                <View style={[s.statusBadge, { backgroundColor: ad.isExpired ? '#FFFBEB' : ad.adsStatus?.toLowerCase() === 'open' ? '#F0FDF4' : '#F3F4F6' }]}>
+                                    <Text style={[s.statusTxt, { color: ad.isExpired ? '#92400E' : ad.adsStatus?.toLowerCase() === 'open' ? colors.success : colors.gray }]}>
+                                        {ad.isExpired ? 'EXPIRED' : (ad.adsStatus || '').toUpperCase()}
                                     </Text>
                                 </View>
                             </View>
@@ -160,13 +160,13 @@ export default function PersonalAdsScreen() {
                                     style={[
                                         s.actionBtn,
                                         s.editBtn,
-                                        ad.adsStatus?.toLowerCase() !== 'open' && s.btnDisabled
+                                        !['open', 'closed'].includes(ad.adsStatus?.toLowerCase()) && s.btnDisabled
                                     ]}
                                     onPress={() => handleEdit(ad)}
                                     hitSlop={{ top: 15, bottom: 15, left: 15, right: 15 }}
                                 >
-                                    <Icon name="pencil-outline" size={18} color={ad.adsStatus?.toLowerCase() === 'open' ? colors.blue : colors.gray} />
-                                    <Text style={[s.actionTxt, { color: ad.adsStatus?.toLowerCase() === 'open' ? colors.blue : colors.gray }]}>Edit</Text>
+                                    <Icon name="pencil-outline" size={18} color={['open', 'closed'].includes(ad.adsStatus?.toLowerCase()) ? colors.blue : colors.gray} />
+                                    <Text style={[s.actionTxt, { color: ['open', 'closed'].includes(ad.adsStatus?.toLowerCase()) ? colors.blue : colors.gray }]}>Edit</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                     activeOpacity={0.7}

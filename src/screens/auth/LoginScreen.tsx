@@ -11,7 +11,8 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useAuthStore } from '../../store/auth.store';
 import { colors } from '../../theme/colors';
-import { AUTH_ENDPOINTS } from '../../core/api/endpoints';
+import { AUTH_ENDPOINTS, ACCOUNT_ENDPOINTS } from '../../core/api/endpoints';
+import { apiClient } from '../../core/api/axios';
 import { AuthStackParamList } from '../../navigation/types';
 
 type Nav = NativeStackNavigationProp<AuthStackParamList, 'Login'>;
@@ -33,6 +34,16 @@ export default function LoginScreen() {
     } catch (err: any) {
       // Axios interceptor now provides a friendly message
       const errorMsg = err.message || 'Login failed. Please check your credentials and try again.';
+
+      if (errorMsg.toLowerCase().includes('not confirmed')) {
+        try {
+          await apiClient.post(ACCOUNT_ENDPOINTS.resendConfirmation, { email });
+        } catch { /* OTP screen's own Resend Code button covers this if it fails */ }
+        Alert.alert('Email Not Confirmed', "We just sent a new code to your email. Enter it below to continue.");
+        navigation.navigate('OTP', { email });
+        return;
+      }
+
       setError(errorMsg);
       Alert.alert('Login Failed', errorMsg);
     }

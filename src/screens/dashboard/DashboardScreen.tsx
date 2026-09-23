@@ -1,8 +1,9 @@
 import React, { useEffect, useCallback } from 'react';
 import {
   View, Text, StyleSheet, ScrollView, TouchableOpacity,
-  ActivityIndicator, SafeAreaView, StatusBar, Platform
+  ActivityIndicator
 } from 'react-native';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
@@ -28,13 +29,7 @@ export default function DashboardScreen() {
   const { dashboard, isLoading: isDashboardLoading, fetchDashboard } = useDashboardStore();
   const { balance, isLoading: isWalletLoading, fetchBalance } = useWalletStore();
   const { user } = useAuthStore();
-
-  useEffect(() => {
-    if (Platform.OS === 'android') {
-      StatusBar.setTranslucent(true);
-      StatusBar.setBackgroundColor('transparent');
-    }
-  }, []);
+  const insets = useSafeAreaInsets();
 
   useFocusEffect(
     useCallback(() => {
@@ -65,13 +60,13 @@ export default function DashboardScreen() {
   }, [user]);
 
   return (
-    <SafeAreaView style={s.root}>
+    <SafeAreaView style={s.root} edges={['bottom', 'left', 'right']}>
       <KYCModal visible={showKYC} onComplete={() => {
         setShowKYC(false);
         fetchDashboard();
       }} />
       {/* Gradient Header */}
-      <LinearGradient colors={['#0D1B40', '#1A3FD8']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={s.header}>
+      <LinearGradient colors={['#0D1B40', '#1A3FD8']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={[s.header, { paddingTop: insets.top + 24 }]}>
         <View style={s.topRow}>
           <View style={s.userRow}>
             <View style={s.avatar}><Text style={s.avatarTxt}>{initials}</Text></View>
@@ -225,7 +220,7 @@ export default function DashboardScreen() {
 
 const s = StyleSheet.create({
   root: { flex: 1, backgroundColor: colors.background },
-  header: { paddingHorizontal: 18, paddingTop: Platform.OS === 'android' ? (StatusBar.currentHeight || 24) + 24 : 16, paddingBottom: 52 },
+  header: { paddingHorizontal: 18, paddingBottom: 52 },
   topRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 18 },
   userRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },
   avatar: { width: 36, height: 36, borderRadius: 18, backgroundColor: colors.accent, justifyContent: 'center', alignItems: 'center', borderWidth: 2, borderColor: 'rgba(255,255,255,0.3)' },

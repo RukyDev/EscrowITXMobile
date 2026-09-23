@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import {
     View, Text, TextInput, TouchableOpacity, StyleSheet,
-    SafeAreaView, ScrollView, ActivityIndicator, Alert, Switch, Modal, FlatList, Platform, StatusBar
+    ScrollView, ActivityIndicator, Alert, Switch, Modal, FlatList
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -22,6 +23,7 @@ export default function CreateSellAdScreen() {
     const [volume, setVolume] = useState('');
     const [terms, setTerms] = useState('');
     const [allowPartSales, setAllowPartSales] = useState(true);
+    const [minVolume, setMinVolume] = useState('');
 
     const [loading, setLoading] = useState(true);
     const [publishing, setPublishing] = useState(false);
@@ -50,8 +52,8 @@ export default function CreateSellAdScreen() {
         if (volume && rate) {
             const vol = parseFloat(volume);
             const r = parseFloat(rate);
-            if (!isNaN(vol) && !isNaN(r)) {
-                adsApi.calculateFee(vol, r).then(setFeeResult);
+            if (!isNaN(vol) && !isNaN(r) && vol > 0 && r > 0) {
+                adsApi.calculateFee(vol, r).then(setFeeResult).catch(() => setFeeResult(null));
             }
         } else {
             setFeeResult(null);
@@ -72,7 +74,8 @@ export default function CreateSellAdScreen() {
                 rate: parseFloat(rate),
                 volume: parseFloat(volume),
                 tradeTerms: terms,
-                allowPartSales
+                allowPartSales,
+                minVolume: allowPartSales ? (parseFloat(minVolume) || 0) : 0
             });
             navigation.navigate('AdSuccess', { type: 'sell' });
         } catch (e: any) {
@@ -165,14 +168,25 @@ export default function CreateSellAdScreen() {
                         <Text style={[s.input, { flex: 0 }]}>₦{equivalentAmount.toLocaleString()}</Text>
                         <Text style={s.suffix}>NGN</Text>
                     </View>
-                    <Text style={s.profitNote}>
-                        Note: we charge 1.5% of your profit only. (you profit {feeResult?.tradersProfit || 0} and we take {feeResult?.escrowItxProfit || 0})
-                    </Text>
+                    {feeResult && (
+                        <View style={s.feeBreakdown}>
+                            <View style={s.feeRow}>
+                                <Text style={s.feeLbl}>Escrow Protection Fee ({feeResult.feePercentage}%)</Text>
+                                <Text style={s.feeValNeg}>-₦{feeResult.platformFee.toLocaleString()}</Text>
+                            </View>
+                            <Text style={s.feeCapNote}>Min ₦{feeResult.minimumFee.toLocaleString()} · Max ₦{feeResult.maximumFee.toLocaleString()}</Text>
+                            <View style={[s.feeRow, s.feeTotalRow]}>
+                                <Text style={s.feeTotalLbl}>Estimated Payout</Text>
+                                <Text style={[s.feeTotalVal, { color: colors.success }]}>₦{feeResult.estimatedPayout.toLocaleString()}</Text>
+                            </View>
+                            <Text style={s.feeFootnote}>Fees are charged only after a successful trade.</Text>
+                        </View>
+                    )}
 
                     <Text style={[s.label, { marginTop: 20 }]}>Trade Terms</Text>
                     <TextInput
                         style={[s.inputWrap, s.textArea]}
-                        placeholder="e.g. Please release funds quickly, bank transfer only..."
+                        placeholder="Please include your phone number or email so buyer/seller can reach you when engaging this ad."
                         multiline
                         numberOfLines={4}
                         value={terms}
@@ -190,6 +204,23 @@ export default function CreateSellAdScreen() {
                             trackColor={{ false: colors.grayLight, true: colors.success }}
                         />
                     </View>
+
+                    {allowPartSales && (
+                        <>
+                            <Text style={[s.label, { marginTop: 20 }]}>Minimum Trade Amount</Text>
+                            <View style={s.inputWrap}>
+                                <TextInput
+                                    style={s.input}
+                                    placeholder="e.g. 50"
+                                    keyboardType="numeric"
+                                    value={minVolume}
+                                    onChangeText={setMinVolume}
+                                />
+                                <Text style={s.suffix}>£ GBP</Text>
+                            </View>
+                            <Text style={s.profitNote}>The smallest amount a trader is allowed to buy from this ad. Leave blank to allow any amount.</Text>
+                        </>
+                    )}
                 </View>
 
                 <TouchableOpacity style={[s.btn, { backgroundColor: colors.success }]} onPress={handlePublish} disabled={publishing}>
@@ -238,7 +269,7 @@ const s = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 16,
-        paddingTop: Platform.OS === 'android' ? (StatusBar.currentHeight || 24) + 16 : 16,
+        paddingTop: 16,
         paddingBottom: 16,
         backgroundColor: colors.white,
         elevation: 2
@@ -262,6 +293,15 @@ const s = StyleSheet.create({
     viewRatesBtn: { flexDirection: 'row', alignItems: 'center', gap: 4, marginTop: 8 },
     viewRatesTxt: { fontSize: 12, color: colors.blue, fontWeight: '600', textDecorationLine: 'underline' },
     profitNote: { fontSize: 11, color: colors.gray, marginTop: 8, fontStyle: 'italic' },
+    feeBreakdown: { marginTop: 12, padding: 12, backgroundColor: '#F9FAFB', borderRadius: 10, borderWidth: 1, borderColor: colors.grayLight },
+    feeRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+    feeLbl: { fontSize: 12, color: colors.text2, flex: 1, paddingRight: 8 },
+    feeValNeg: { fontSize: 12, fontWeight: '700', color: colors.danger },
+    feeCapNote: { fontSize: 10, color: colors.gray, marginTop: 4 },
+    feeTotalRow: { marginTop: 10, paddingTop: 10, borderTopWidth: 1, borderTopColor: colors.grayLight },
+    feeTotalLbl: { fontSize: 13, fontWeight: '700', color: colors.text },
+    feeTotalVal: { fontSize: 14, fontWeight: '800', color: colors.blue },
+    feeFootnote: { fontSize: 10, color: colors.gray, marginTop: 8, fontStyle: 'italic' },
     textArea: { paddingVertical: 12, minHeight: 100, alignItems: 'flex-start', textAlignVertical: 'top' },
     switchRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 20, borderTopWidth: 1, borderTopColor: colors.grayLight, paddingTop: 16 },
     switchLabel: { fontSize: 14, fontWeight: '700', color: colors.text, marginBottom: 4 },

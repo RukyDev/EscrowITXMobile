@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, TextInput, ActivityIndicator, Alert, Modal } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput, ActivityIndicator, Alert, Modal } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import { colors } from '../../theme/colors';
 import { walletApi, Bank } from '../../core/api/wallet.api';
 import { useWalletStore } from '../../store/wallet.store';
-import { Platform, StatusBar } from 'react-native';
 
 
 export default function WithdrawScreen() {
@@ -20,6 +20,9 @@ export default function WithdrawScreen() {
 
     const [loadingName, setLoadingName] = useState(false);
     const [showBankModal, setShowBankModal] = useState(false);
+    const [bankSearch, setBankSearch] = useState('');
+
+    const filteredBanks = banks.filter(b => b.name.toLowerCase().includes(bankSearch.trim().toLowerCase()));
 
     useEffect(() => {
         if (banks.length === 0) fetchBanks();
@@ -70,7 +73,7 @@ export default function WithdrawScreen() {
                     )}
 
                     <Text style={s.lbl}>Destination Bank</Text>
-                    <TouchableOpacity style={s.pickerBtn} onPress={() => setShowBankModal(true)}>
+                    <TouchableOpacity style={s.pickerBtn} onPress={() => { setBankSearch(''); setShowBankModal(true); }}>
                         <Text style={[s.pickerTxt, !selectedBank && { color: colors.gray }]}>
                             {selectedBank ? selectedBank.name : 'Select Bank'}
                         </Text>
@@ -132,8 +135,9 @@ export default function WithdrawScreen() {
                         navigation.navigate('WithdrawPin', {
                             data: {
                                 amount: parseFloat(amount),
-                                bankUuid: selectedBank?.uuid,
-                                accountNumber: acctNumber,
+                                destinationBankUUID: selectedBank?.uuid,
+                                destinationBankAccountNumber: acctNumber,
+                                bankName: selectedBank?.name,
                                 accountName: acctName,
                                 narration: narration || 'Withdrawal from EscrowITX'
                             }
@@ -153,13 +157,34 @@ export default function WithdrawScreen() {
                             <Text style={s.modalTitle}>Select Bank</Text>
                             <TouchableOpacity onPress={() => setShowBankModal(false)}><Icon name="close" size={24} color={colors.text} /></TouchableOpacity>
                         </View>
-                        <ScrollView>
+                        {banks.length > 0 && (
+                            <View style={s.bankSearchWrap}>
+                                <Icon name="search" size={18} color={colors.gray} />
+                                <TextInput
+                                    style={s.bankSearchInput}
+                                    placeholder="Search bank name..."
+                                    value={bankSearch}
+                                    onChangeText={setBankSearch}
+                                    autoCorrect={false}
+                                />
+                                {!!bankSearch && (
+                                    <TouchableOpacity onPress={() => setBankSearch('')}>
+                                        <Icon name="close-circle" size={18} color={colors.gray} />
+                                    </TouchableOpacity>
+                                )}
+                            </View>
+                        )}
+                        <ScrollView keyboardShouldPersistTaps="handled">
                             {banks.length === 0 ? (
                                 <View style={{ padding: 40, alignItems: 'center' }}>
                                     <ActivityIndicator color={colors.blue} />
                                     <Text style={{ marginTop: 10, color: colors.gray }}>Loading banks...</Text>
                                 </View>
-                            ) : banks.map(b => (
+                            ) : filteredBanks.length === 0 ? (
+                                <View style={{ padding: 40, alignItems: 'center' }}>
+                                    <Text style={{ color: colors.gray }}>No banks found matching "{bankSearch}"</Text>
+                                </View>
+                            ) : filteredBanks.map(b => (
                                 <TouchableOpacity
                                     key={b.uuid}
                                     style={[s.bankOption, selectedBank?.uuid === b.uuid && s.bankOptionSelected]}
@@ -188,7 +213,7 @@ const s = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 16,
-        paddingTop: Platform.OS === 'android' ? (StatusBar.currentHeight || 24) + 16 : 16,
+        paddingTop: 16,
         paddingBottom: 16,
         backgroundColor: colors.white
     },
@@ -213,6 +238,8 @@ const s = StyleSheet.create({
     modalOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'flex-end' },
     modalContent: { backgroundColor: colors.white, borderTopLeftRadius: 24, borderTopRightRadius: 24, padding: 24, maxHeight: '70%' },
     modalHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 },
+    bankSearchWrap: { flexDirection: 'row', alignItems: 'center', gap: 8, backgroundColor: '#F9FAFB', borderWidth: 1, borderColor: colors.grayLight, borderRadius: 12, paddingHorizontal: 14, marginBottom: 12 },
+    bankSearchInput: { flex: 1, paddingVertical: 12, fontSize: 14, color: colors.text },
     modalTitle: { fontSize: 18, fontWeight: '700', color: colors.text },
     bankOption: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 16, borderBottomWidth: 1, borderBottomColor: colors.grayLight },
     bankOptionSelected: { backgroundColor: '#F8FAFF' },

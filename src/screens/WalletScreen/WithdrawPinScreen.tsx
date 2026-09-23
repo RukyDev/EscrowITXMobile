@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, TextInput, ActivityIndicator, Alert, Platform, StatusBar } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, ActivityIndicator, Alert } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import moment from 'moment';
 import { colors } from '../../theme/colors';
 import { walletApi } from '../../core/api/wallet.api';
 import { useWalletStore } from '../../store/wallet.store';
+import { useAuthStore } from '../../store/auth.store';
 
 export default function WithdrawPinScreen() {
     const navigation = useNavigation<any>();
@@ -12,6 +15,7 @@ export default function WithdrawPinScreen() {
     const { data } = route.params;
 
     const { fetchBalance, fetchActivities } = useWalletStore();
+    const { user } = useAuthStore();
     const [pin, setPin] = useState('');
     const [loading, setLoading] = useState(false);
 
@@ -30,13 +34,26 @@ export default function WithdrawPinScreen() {
             }
 
             // 2. Perform withdrawal
-            await walletApi.withdraw({ ...data, pin });
+            const txn = await walletApi.withdraw({ ...data, pin }) as any;
 
             // 3. Refresh wallet state so balance/activities update immediately
             fetchBalance();
             fetchActivities();
 
-            navigation.navigate('WithdrawSuccess', { amount: data.amount });
+            navigation.navigate('WithdrawSuccess', {
+                amount: data.amount,
+                receipt: {
+                    amount: data.amount,
+                    beneficiaryName: data.accountName,
+                    senderName: user?.fullName || `${user?.name || ''} ${user?.surname || ''}`.trim(),
+                    status: txn?.status || 'Processing',
+                    reference: txn?.transactionReference,
+                    date: moment(txn?.settledAt || txn?.transactionDate || undefined).format('MMM D, YYYY, h:mm A'),
+                    bankName: data.bankName,
+                    accountNumber: data.destinationBankAccountNumber,
+                    currency: txn?.currency || 'NGN',
+                },
+            });
         } catch (e: any) {
             Alert.alert('Withdrawal Failed', e.message || 'An error occurred during withdrawal');
             setPin('');
@@ -93,7 +110,7 @@ const s = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 16,
-        paddingTop: Platform.OS === 'android' ? (StatusBar.currentHeight || 24) + 16 : 16,
+        paddingTop: 16,
         paddingBottom: 16,
         backgroundColor: colors.white
     },

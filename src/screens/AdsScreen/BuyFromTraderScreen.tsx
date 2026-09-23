@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import {
     View, Text, TextInput, TouchableOpacity, StyleSheet,
-    SafeAreaView, ScrollView, ActivityIndicator, Alert, Platform, StatusBar, Modal
+    ScrollView, ActivityIndicator, Alert, Modal
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { colors } from '../../theme/colors';
 import { MarketStackParamList } from '../../navigation/types';
-import { escrowApi } from '../../core/api/escrow.api';
+import { escrowApi, EscrowFeeResult } from '../../core/api/escrow.api';
 import { useAuthStore } from '../../store/auth.store';
 import { walletApi, WalletBalance } from '../../core/api/wallet.api';
 
@@ -18,11 +19,11 @@ export default function BuyFromTraderScreen() {
     const navigation = useNavigation<Nav>();
     const route = useRoute<any>();
     const params = route.params as MarketStackParamList['BuyFromTrader'];
-    const { adId, traderName = 'Trader', rate = 0, minGbp = 0, maxGbp = 0 } = params || {};
+    const { adId, traderName = 'Trader', rate = 0, minGbp = 0, maxGbp = 0, allowPartSales = false } = params || {};
 
     const [gbpAmount, setGbpAmount] = useState((maxGbp || 0).toString());
     const [loading, setLoading] = useState(false);
-    const [feeCalc, setFeeCalc] = useState<{ fee: number, nairaEq: number, total: number } | null>(null);
+    const [feeCalc, setFeeCalc] = useState<EscrowFeeResult | null>(null);
     const [wallets, setWallets] = useState<WalletBalance[]>([]);
     const [selectedWalletId, setSelectedWalletId] = useState<number | null>(null);
     const [showWalletModal, setShowWalletModal] = useState(false);
@@ -35,10 +36,10 @@ export default function BuyFromTraderScreen() {
         const amt = parseFloat(gbpAmount) || 0;
         if (amt <= 0) return;
         try {
-            const resp = await escrowApi.calculateFee(amt, rate);
-            setFeeCalc({ fee: resp.escrowFee, nairaEq: resp.nairaEquivalent, total: resp.totalPayable });
+            const resp = await escrowApi.calculateFee(amt * rate);
+            setFeeCalc(resp);
         } catch {
-            setFeeCalc({ fee: 0, nairaEq: 0, total: amt * rate });
+            setFeeCalc(null);
         }
     };
 
@@ -64,7 +65,11 @@ export default function BuyFromTraderScreen() {
     }, []);
 
     const handleCreateOrder = async () => {
-        if (parsedGbp < minGbp || parsedGbp > maxGbp) {
+        // If the ad doesn't allow partial trades, always trade the full volume,
+        // regardless of what the (readonly) input currently holds.
+        const finalGbp = allowPartSales ? parsedGbp : maxGbp;
+
+        if (finalGbp < minGbp || finalGbp > maxGbp) {
             Alert.alert('Invalid Amount', `Amount must be between £${minGbp} and £${maxGbp}`);
             return;
         }
@@ -78,15 +83,15 @@ export default function BuyFromTraderScreen() {
         try {
             const resp = await escrowApi.buyEscrow({
                 adID: adId,
-                volumToBuy: parsedGbp,
+                volumToBuy: finalGbp,
                 rate: rate,
                 accountId: selectedWalletId
             });
 
             navigation.navigate('EscrowCreated', {
                 orderId: resp.toString(),
-                amountLocked: ngnAmount,
-                gbpAmount: parsedGbp
+                amountLocked: finalGbp * rate,
+                gbpAmount: finalGbp
             });
         } catch (e: any) {
             Alert.alert('Error', e.message || 'Failed to create escrow order');
@@ -117,7 +122,7 @@ export default function BuyFromTraderScreen() {
 
                 <View style={s.inputCard}>
                     <Text style={s.label}>I want to buy (GBP)</Text>
-                    <View style={s.inputWrap}>
+                    <View style={[s.inputWrap, !allowPartSales && s.inputWrapDisabled]}>
                         <Text style={s.currencyPrefix}>£</Text>
                         <TextInput
                             style={s.amountInput}
@@ -126,9 +131,14 @@ export default function BuyFromTraderScreen() {
                             keyboardType="numeric"
                             placeholder="0.00"
                             onBlur={calculateFee}
+                            editable={allowPartSales}
                         />
                     </View>
-                    <Text style={s.limitText}>Limits: £{minGbp} - £{maxGbp}</Text>
+                    {allowPartSales ? (
+                        <Text style={s.limitText}>Limits: £{minGbp} - £{maxGbp}</Text>
+                    ) : (
+                        <Text style={s.limitText}>This ad does not allow partial trades — you must take the full £{maxGbp} volume.</Text>
+                    )}
                 </View>
 
                 <Icon name="swap-vertical" size={24} color={colors.gray} style={s.swapIcon} />
@@ -174,13 +184,18 @@ export default function BuyFromTraderScreen() {
                         <Text style={s.summaryVal}>₦{(rate || 0).toLocaleString()}</Text>
                     </View>
                     <View style={s.summaryRow}>
-                        <Text style={s.summaryLbl}>Escrow Fee (5%)</Text>
-                        <Text style={s.summaryVal}>₦{feeCalc ? (feeCalc.nairaEq || 0).toLocaleString() : (ngnAmount * 0.05).toLocaleString()}</Text>
+                        <Text style={s.summaryLbl}>Escrow Protection Fee {feeCalc ? `(${feeCalc.feePercentage}%)` : ''}</Text>
+                        <Text style={s.summaryVal}>-₦{feeCalc ? feeCalc.platformFee.toLocaleString() : '0.00'}</Text>
+                    </View>
+                    <View style={s.summaryRow}>
+                        <Text style={s.summaryLbl}>Seller Receives</Text>
+                        <Text style={s.summaryVal}>₦{feeCalc ? feeCalc.estimatedPayout.toLocaleString() : ngnAmount.toLocaleString()}</Text>
                     </View>
                     <View style={[s.summaryRow, s.totalRow]}>
                         <Text style={s.totalLbl}>Total to Pay</Text>
-                        <Text style={s.totalVal}>₦{feeCalc ? (feeCalc.total || 0).toLocaleString() : (ngnAmount * 1.05).toLocaleString()}</Text>
+                        <Text style={s.totalVal}>₦{ngnAmount.toLocaleString()}</Text>
                     </View>
+                    <Text style={s.feeFootnote}>Fees are charged only after a successful trade.</Text>
                 </View>
 
                 <TouchableOpacity
@@ -246,7 +261,7 @@ const s = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 16,
-        paddingTop: Platform.OS === 'android' ? (StatusBar.currentHeight || 24) + 16 : 16,
+        paddingTop: 16,
         paddingBottom: 16,
         backgroundColor: colors.white
     },
@@ -279,6 +294,7 @@ const s = StyleSheet.create({
     totalRow: { borderTopWidth: 1, borderTopColor: colors.grayLight, paddingTop: 12, marginTop: 4, marginBottom: 0 },
     totalLbl: { fontSize: 15, fontWeight: '700', color: colors.text },
     totalVal: { fontSize: 18, fontWeight: '800', color: colors.blue },
+    feeFootnote: { fontSize: 10, color: colors.gray, marginTop: 8, fontStyle: 'italic', textAlign: 'center' },
     btn: { backgroundColor: colors.blue, paddingVertical: 16, borderRadius: 12, alignItems: 'center' },
     btnDisabled: { backgroundColor: '#A5B4FC' },
     btnTxt: { color: colors.white, fontSize: 16, fontWeight: '700' },

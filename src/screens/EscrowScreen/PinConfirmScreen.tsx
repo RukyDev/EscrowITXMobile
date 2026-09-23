@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { colors } from '../../theme/colors';
 import { EscrowStackParamList } from '../../navigation/types';
 import { escrowApi } from '../../core/api/escrow.api';
-import { Platform, StatusBar } from 'react-native';
 
 type Nav = NativeStackNavigationProp<EscrowStackParamList, 'PinConfirm'>;
 
@@ -36,13 +36,8 @@ export default function PinConfirmScreen() {
 
         setLoading(true);
         try {
-            const res = await escrowApi.release(escrowId, parseInt(pin));
-            if (res.isSuccssful) {
-                navigation.navigate('EscrowSuccess');
-            } else {
-                Alert.alert('Failed', res.message || 'The transaction could not be released.');
-                setPin('');
-            }
+            await escrowApi.release(escrowId, parseInt(pin));
+            navigation.navigate('EscrowSuccess');
         } catch (e: any) {
             Alert.alert('Confirmation Failed', e.message || 'Incorrect PIN or action not allowed.');
             setPin('');
@@ -110,7 +105,7 @@ const s = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 16,
-        paddingTop: Platform.OS === 'android' ? (StatusBar.currentHeight || 24) + 16 : 16,
+        paddingTop: 16,
         paddingBottom: 16,
         justifyContent: 'space-between'
     },

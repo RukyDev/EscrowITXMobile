@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import {
-  View, Text, StyleSheet, SafeAreaView, ScrollView,
-  TouchableOpacity, ActivityIndicator, RefreshControl, Platform, StatusBar
+  View, Text, StyleSheet, ScrollView,
+  TouchableOpacity, ActivityIndicator, RefreshControl
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -165,7 +166,7 @@ const s = StyleSheet.create({
   root: { flex: 1, backgroundColor: colors.background },
   header: {
     paddingHorizontal: 16,
-    paddingTop: Platform.OS === 'android' ? (StatusBar.currentHeight || 24) + 16 : 16,
+    paddingTop: 16,
     paddingBottom: 16,
     backgroundColor: colors.white
   },

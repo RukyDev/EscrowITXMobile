@@ -42,6 +42,7 @@ export interface GetEscrowDto {
     excrowType: number; // 0 = Buy, 1 = Sell
     wallet: WalletDto;
     rating: number;
+    tradeTerms: string;
 }
 
 export interface EscrowBuySellPayload {
@@ -52,9 +53,12 @@ export interface EscrowBuySellPayload {
 }
 
 export interface EscrowFeeResult {
-    escrowFee: number;
-    nairaEquivalent: number;
-    totalPayable: number;
+    tradeAmount: number;
+    platformFee: number;
+    estimatedPayout: number;
+    feePercentage: number;
+    minimumFee: number;
+    maximumFee: number;
 }
 
 export interface EscrowCreatedResult {
@@ -80,10 +84,8 @@ export const escrowApi = {
         return await apiClient.post(ESCROW_ENDPOINTS.sell, payload);
     },
 
-    async calculateFee(volumeToBuy: number, userRate: number): Promise<EscrowFeeResult> {
-        return await apiClient.post(
-            `${ESCROW_ENDPOINTS.calculateFee}?volumeToBuy=${volumeToBuy}&userRate=${userRate}`,
-        );
+    async calculateFee(amountEquivalent: number): Promise<EscrowFeeResult> {
+        return await apiClient.post(`${ESCROW_ENDPOINTS.calculateFee}?amountEquivalent=${amountEquivalent}`);
     },
 
     async getByUser(): Promise<GetEscrowDto[]> {

@@ -47,6 +47,7 @@ export default function RegisterScreen() {
                 emailAddress: form.email,
                 password: form.password,
                 phoneNumber: form.phone,
+                isAcceptTermsOfUse: agreed,
             });
             navigation.navigate('OTP', { email: form.email });
         } catch (err: any) {

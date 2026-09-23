@@ -48,6 +48,7 @@ export interface RegisterRequest {
   password: string;
   phoneNumber: string;
   captchaResponse?: string;
+  isAcceptTermsOfUse: boolean;
 }
 
 export const authApi = {
